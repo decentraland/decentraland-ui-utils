@@ -5,7 +5,7 @@ messageBackground.adaptWidth = true
 messageBackground.width = '40%'
 messageBackground.positionY = 0
 messageBackground.positionX = 0
-messageBackground.color = Color4.fromHex('#e6e0d177')
+messageBackground.color = Color4.FromHexString('#e6e0d177')
 messageBackground.visible = false
 //...
 

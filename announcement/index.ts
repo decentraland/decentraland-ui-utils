@@ -19,14 +19,14 @@ export function displayAnnouncement(
   size?: number
 ) {
 
-messageBackground.visible = true
+//messageBackground.visible = true
   message.visible = true
   message.value = value
 
   message.color = color ? color : Color4.Black()
 
   // background?
-  messageBackground.color = background? Color4.FromHexString("#e6e0d177"): Color4.Clear()
+  //messageBackground.color = background? Color4.FromHexString("#e6e0d177"): Color4.Clear()
 
   message.fontSize = size ? size : 60
 
@@ -40,7 +40,7 @@ messageBackground.visible = true
   dummyEnty.addComponent(
     new Delay(duration ? duration : 3000, () => {
 	  message.visible = false
-	  messageBackground.visible = false
+	  //messageBackground.visible = false
     })
   )
 }

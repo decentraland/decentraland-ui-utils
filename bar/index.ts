@@ -1,7 +1,7 @@
 import { canvas } from 'decentraland-ui-utils/utils/default-ui-comopnents'
 
 
-let backgroundTexture = new Texture("../images/sleekbars.png")
+let backgroundTexture = new Texture("node_modules/decentraland-ui-utils/images/sleekbars.png")
 
 /**
  * Displays a number on the center of the UI
@@ -47,12 +47,12 @@ export class UIBar extends Entity {
 
 	  this.bar = new UIContainerRect(this.background)
 	  this.bar.color = fillColor? fillColor : Color4.Red()
-
 	  this.bar.hAlign = 'left'
 	  this.bar.vAlign = 'center'
+	  this.bar.positionX = 4
 	//   this.bar.positionX = xOffset ? xOffset : 0
 	//   this.bar.positionY = yOffset ? yOffset : 0
-	this.bar.height = this.background.height - 6
+	this.bar.height = height? height - 6 : 32 - 6
 	this.bar.width = this.fullWidth * this.valueAsNum - 6
 
 	}

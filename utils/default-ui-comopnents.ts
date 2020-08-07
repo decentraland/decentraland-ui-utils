@@ -19,7 +19,7 @@ messageBackground.color = Color4.Clear()
 messageBackground.visible = false
 //...
 
-export const message = new UIText(messageBackground)
+export const message = new UIText(canvas)  //messageBackground
 message.vAlign = 'center'
 message.hAlign = 'center'
 message.hTextAlign = 'center'

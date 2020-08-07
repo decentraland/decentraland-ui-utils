@@ -1,11 +1,21 @@
 export const canvas = new UICanvas()
+canvas.visible = true
+
+export let SFFont = new Font(Fonts.SanFrancisco)
+
+export let SFHeavyFont = new Font(Fonts.SanFrancisco_Heavy)
+
+
 
 export const messageBackground = new UIContainerRect(canvas)
 messageBackground.adaptWidth = true
-messageBackground.width = '40%'
-messageBackground.positionY = 0
-messageBackground.positionX = 0
-messageBackground.color = Color4.FromHexString('#e6e0d177')
+messageBackground.adaptHeight = true
+messageBackground.hAlign = 'center'
+messageBackground.vAlign = 'center'
+//messageBackground.width = '40%'
+// messageBackground.positionY = 0
+// messageBackground.positionX = 0
+messageBackground.color = Color4.Clear()
 messageBackground.visible = false
 //...
 
@@ -13,7 +23,9 @@ export const message = new UIText(messageBackground)
 message.vAlign = 'center'
 message.hAlign = 'center'
 message.hTextAlign = 'center'
-message.adaptWidth = true
+message.vTextAlign = 'center'
+message.font = SFFont
+//message.adaptWidth = true
 message.fontSize = 60
 message.color = new Color4(0, 0, 0, 1)
 message.visible = false

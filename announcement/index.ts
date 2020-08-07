@@ -1,5 +1,5 @@
 import { Delay } from '../utils/timerComponents'
-import { message } from '../utils/default-ui-comopnents'
+import { message, messageBackground } from '../utils/default-ui-comopnents'
 
 /**
  * Displays text in the center of the UI for a specific time
@@ -18,21 +18,29 @@ export function displayAnnouncement(
   color?: Color4,
   size?: number
 ) {
+
+messageBackground.visible = true
   message.visible = true
   message.value = value
 
   message.color = color ? color : Color4.Black()
 
   // background?
+  messageBackground.color = background? Color4.FromHexString("#e6e0d177"): Color4.Clear()
 
   message.fontSize = size ? size : 60
+
+
+  message.width = value.length * message.fontSize
+
 
   let dummyEnty = new Entity()
   engine.addEntity(dummyEnty)
 
   dummyEnty.addComponent(
     new Delay(duration ? duration : 3000, () => {
-      message.visible = false
+	  message.visible = false
+	  messageBackground.visible = false
     })
   )
 }

@@ -1,3 +1,5 @@
+
+import { TimerSystem } from './timerSystem'
 export interface ITimerComponent {
   elapsedTime: number
   targetTime: number

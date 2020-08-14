@@ -4,6 +4,7 @@ import { UIBar } from './bar/index'
 import { MediumIcon, SmallIcon, LargeIcon, CenterImage } from './ui-images/index'
 import { OkPrompt } from './prompts/okPrompt/index'
 import { OptionPrompt } from './prompts/optionPrompt/index'
+import { DialogWindow } from './uiDialog/index'
 
 export {
   displayAnnouncement,
@@ -14,5 +15,6 @@ export {
   LargeIcon,
   CenterImage,
   OkPrompt,
-  OptionPrompt
+  OptionPrompt,
+  DialogWindow
 }

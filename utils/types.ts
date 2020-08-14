@@ -11,16 +11,16 @@ export enum PromptStyles {
   LIGHTLARGE = `lightlarge`,
   DARKLARGE = `darklarge`,
   LIGHTSLANTED = `lightslanted`,
-  DARKSLANTED = `darkslanted`,
+  DARKSLANTED = `darkslanted`
 }
 
 export enum BarStyles {
-  'RoundBlack' = 0,
-  'RoundGrey' = 1,
-  'RoundSilver' = 2,
-  'RoundGold' = 3,
-  'SquareBlack' = 4,
-  'SquareGrey' = 5,
-  'SquareSilver' = 6,
-  'SquareGold' = 7,
+  ROUNDBLACK = `roundblack`,
+  ROUNDWHITE = `roundwhite`,
+  ROUNDSILVER = `roundsilver`,
+  ROUNDGOLD = `roundgold`,
+  SQUAREBLACK = `squareblack`,
+  SQUAREWHITE = `squarewhite`,
+  SQUARESILVER = `squaresilver`,
+  SQUAREGOLD = `squaregold`
 }

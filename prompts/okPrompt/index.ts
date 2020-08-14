@@ -72,15 +72,16 @@ export class OkPrompt extends Entity {
     this.text.hAlign = 'center'
     this.text.vAlign = 'top'
     this.text.positionX = 0
-    this.text.positionY = -70
+    this.text.positionY = -65
     this.text.fontSize = 24
+    this.text.font = SFFont
     this.text.vTextAlign = 'center'
     this.text.hTextAlign = 'center'
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
 
     this.button = new UIImage(promptBackground, uiTheme)
     this.button.positionX = 0
-    this.button.positionY = -50
+    this.button.positionY = -60
     this.button.width = 174
     this.button.height = 46
     this.button.sourceWidth = 174

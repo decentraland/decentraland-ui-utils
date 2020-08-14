@@ -3,6 +3,7 @@ import { UICounter } from './counter/index'
 import { UIBar } from './bar/index'
 import { MediumIcon, SmallIcon, LargeIcon, CenterImage } from './ui-images/index'
 import { OkPrompt } from './prompts/okPrompt/index'
+import { OptionPrompt } from './prompts/optionPrompt/index'
 
 export {
   displayAnnouncement,
@@ -12,5 +13,6 @@ export {
   SmallIcon,
   LargeIcon,
   CenterImage,
-  OkPrompt
+  OkPrompt,
+  OptionPrompt
 }

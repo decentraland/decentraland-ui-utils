@@ -21,11 +21,10 @@ export class TimerSystem implements ISystem {
     TimerSystem._instance = this
     //this._components.push(Interval)
     this._components.push(Delay)
-    //this._components.push(ExpireIn)
   }
 
   update(dt: number) {
-    this._components.forEach(component => {
+    this._components.forEach((component) => {
       this.updateComponent(dt, component)
     })
   }

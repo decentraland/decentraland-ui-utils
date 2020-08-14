@@ -5,43 +5,49 @@ export let SFFont = new Font(Fonts.SanFrancisco)
 
 export let SFHeavyFont = new Font(Fonts.SanFrancisco_Heavy)
 
+export let lightTheme = new Texture('node_modules/decentraland-ui-utils/images/LightAtlas.png')
+export let darkTheme = new Texture('node_modules/decentraland-ui-utils/images/DarkAtlas.png')
 
-
-export const messageBackground = new UIContainerRect(canvas)
-messageBackground.adaptWidth = true
-messageBackground.adaptHeight = true
-messageBackground.hAlign = 'center'
-messageBackground.vAlign = 'center'
-//messageBackground.width = '40%'
-// messageBackground.positionY = 0
-// messageBackground.positionX = 0
-messageBackground.color = Color4.Clear()
-messageBackground.visible = false
-//...
-
-export const message = new UIText(canvas)  //messageBackground
+export const message = new UIText(canvas) //messageBackground
 message.vAlign = 'center'
 message.hAlign = 'center'
 message.hTextAlign = 'center'
 message.vTextAlign = 'center'
 message.font = SFFont
-//message.adaptWidth = true
 message.fontSize = 60
 message.color = new Color4(0, 0, 0, 1)
 message.visible = false
+message.positionY = 80
 
-// button ok
+export const promptBackground = new UIImage(canvas, new Texture(''))
+promptBackground.hAlign = 'center'
+promptBackground.vAlign = 'center'
+promptBackground.width = 400
+promptBackground.height = 250
+promptBackground.visible = false
 
-// button yes
+// Open dialog sound
+export const openDialogSound = new Entity()
+openDialogSound.addComponent(new Transform())
+openDialogSound.getComponent(Transform).position = Camera.instance.position
+openDialogSound.addComponent(
+  new AudioSource(new AudioClip('node_modules/decentraland-ui-utils/sounds/navigationForward.mp3'))
+)
+engine.addEntity(openDialogSound)
 
-// button no
+// Close dialog sound
+export const closeDialogSound = new Entity()
+closeDialogSound.addComponent(new Transform())
+closeDialogSound.getComponent(Transform).position = Camera.instance.position
+closeDialogSound.addComponent(
+  new AudioSource(new AudioClip('node_modules/decentraland-ui-utils/sounds/navigationBackward.mp3'))
+)
+engine.addEntity(closeDialogSound)
 
-// input text
+export function PlayOpenSound() {
+  openDialogSound.getComponent(AudioSource).playOnce()
+}
 
-// counter type?
-
-// bar type?
-
-// icon type?
-
-// center image
+export function PlayCloseSound() {
+  closeDialogSound.getComponent(AudioSource).playOnce()
+}

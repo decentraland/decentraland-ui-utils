@@ -1,4 +1,4 @@
-import { canvas } from 'decentraland-ui-utils/utils/default-ui-comopnents'
+import { canvas, SFFont } from 'decentraland-ui-utils/utils/default-ui-comopnents'
 
 /**
  * Displays a number on the center of the UI
@@ -10,7 +10,6 @@ import { canvas } from 'decentraland-ui-utils/utils/default-ui-comopnents'
  * @param size text size
  *
  */
-
 export class UICounter extends Entity {
   valueAsNum: number
   uiText: UIText
@@ -26,9 +25,13 @@ export class UICounter extends Entity {
     this.uiText.positionX = xOffset ? xOffset : 0
     this.uiText.positionY = yOffset ? yOffset : 0
     this.uiText.fontSize = size ? size : 25
+    this.uiText.font = SFFont
     this.uiText.vTextAlign = 'center'
     this.uiText.hTextAlign = 'center'
-    this.uiText.color = color ? color : Color4.FromHexString('#53508F88')
+    this.uiText.color = color ? color : Color4.White()
+
+    this.uiText.outlineColor = Color4.Black()
+    this.uiText.outlineWidth = 0.1
   }
 
   public read(): number {

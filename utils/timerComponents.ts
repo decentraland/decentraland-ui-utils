@@ -1,4 +1,3 @@
-
 import { TimerSystem } from './timerSystem'
 export interface ITimerComponent {
   elapsedTime: number
@@ -18,16 +17,16 @@ export class Delay implements ITimerComponent {
   private onTimeReachedCallback?: () => void
 
   /**
-   * @param millisecs amount of time in milliseconds
+   * @param seconds amount of time in seconds
    * @param onTimeReachedCallback callback for when time is reached
    */
-  constructor(millisecs: number, onTimeReachedCallback?: () => void) {
+  constructor(seconds: number, onTimeReachedCallback?: () => void) {
     TimerSystem.createAndAddToEngine()
 
     this.elapsedTime = 0
-    this.targetTime = millisecs / 1000
+    this.targetTime = seconds
     this.onTimeReachedCallback = onTimeReachedCallback
-    this.onTargetTimeReached = entity => {
+    this.onTargetTimeReached = (entity) => {
       if (this.onTimeReachedCallback) this.onTimeReachedCallback()
       entity.removeComponent(this)
     }

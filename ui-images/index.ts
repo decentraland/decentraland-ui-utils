@@ -5,7 +5,7 @@ import { Delay } from '../utils/timerComponents'
 /**
  * Displays an icon of 64x64 on the bottom-left corner
  *
- * @param value starting value
+ * @param image path to image file
  * @param xOffset position on X, to enable fitting several counters
  * @param yOffset position on Y, to enable fitting several counters
  * @param width image width
@@ -53,7 +53,7 @@ export class MediumIcon extends Entity {
 /**
  * Displays an icon of 64x64 on the bottom-left corner
  *
- * @param value starting value
+ * @param image path to image file
  * @param xOffset position on X, to enable fitting several counters
  * @param yOffset position on Y, to enable fitting several counters
  * @param width image width
@@ -101,7 +101,7 @@ export class SmallIcon extends Entity {
 /**
  * Displays an icon of 64x64 on the bottom-left corner
  *
- * @param value starting value
+ * @param image path to image file
  * @param xOffset position on X, to enable fitting several counters
  * @param yOffset position on Y, to enable fitting several counters
  * @param width image width (128 by default)
@@ -191,7 +191,7 @@ export class CenterImage extends Entity {
     this.image.visible = startHidden ? false : true
 
     // TODO: IMAGE NOT GOING AWAY
-    if (duration != 0) {
+    if (duration && duration != 0) {
       let dummyEnty = new Entity()
       engine.addEntity(dummyEnty)
 

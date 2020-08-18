@@ -109,7 +109,7 @@ export class FillInPrompt extends Entity {
     this.fillInBox.width = 312
     this.fillInBox.height = 46
     this.fillInBox.positionX = 0
-    this.fillInBox.positionY = 0
+    this.fillInBox.positionY = 15
     this.fillInBox.placeholder = placeholder ? placeholder : 'Fill in'
     this.fillInBox.hTextAlign = 'center'
     this.fillInBox.vTextAlign = 'center'
@@ -122,7 +122,8 @@ export class FillInPrompt extends Entity {
     })
 
     this.fillInBox.onTextSubmit = new OnTextSubmit(x => {
-      submittedText = x.text
+      //submittedText = x.text
+      this.accept(submittedText)
     })
 
     this.button.onClick = new OnClick(() => {

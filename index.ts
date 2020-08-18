@@ -6,6 +6,7 @@ import { OkPrompt } from './prompts/okPrompt/index'
 import { OptionPrompt } from './prompts/optionPrompt/index'
 import { FillInPrompt } from './prompts/fillInPrompt/index'
 import { DialogWindow } from './uiDialog/index'
+import { LoadingIcon } from './loading/index'
 
 export {
   displayAnnouncement,
@@ -18,5 +19,6 @@ export {
   OkPrompt,
   OptionPrompt,
   FillInPrompt,
-  DialogWindow
+  DialogWindow,
+  LoadingIcon
 }

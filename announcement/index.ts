@@ -6,7 +6,7 @@ import { message, PlayOpenSound, SFHeavyFont } from '../utils/default-ui-comopne
  *
  * @param value string to display
  * @param duration time to keep the text visible (in seconds). Default: 3 seconds.
- * @silent if true, no sound is played when the announcement pops up
+ * @param silent if true, no sound is played when the announcement pops up
  * @param color text color, as a Color4. Default: black
  * @param size font size, default 60
  *

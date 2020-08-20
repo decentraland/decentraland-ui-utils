@@ -44,9 +44,11 @@ export function displayAnnouncement(
   let dummyEnty = new Entity()
   engine.addEntity(dummyEnty)
 
-  dummyEnty.addComponentOrReplace(
-    new Delay(duration ? duration : 3, () => {
-      message.visible = false
-    })
-  )
+  if (duration != -1) {
+    dummyEnty.addComponentOrReplace(
+      new Delay(duration ? duration : 3, () => {
+        message.visible = false
+      })
+    )
+  }
 }

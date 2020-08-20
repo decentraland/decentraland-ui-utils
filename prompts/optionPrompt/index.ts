@@ -113,7 +113,7 @@ export class OptionPrompt extends Entity {
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
 
     this.buttonE = new UIImage(promptBackground, uiTheme)
-    this.buttonE.positionX = 90
+    this.buttonE.positionX = -100
     this.buttonE.positionY = -120
     this.buttonE.width = 174
     this.buttonE.height = 46
@@ -140,7 +140,7 @@ export class OptionPrompt extends Entity {
     })
 
     this.buttonF = new UIImage(promptBackground, uiTheme)
-    this.buttonF.positionX = -90
+    this.buttonF.positionX = 100
     this.buttonF.positionY = -120
     this.buttonF.width = 174
     this.buttonF.height = 46

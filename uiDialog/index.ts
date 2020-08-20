@@ -256,10 +256,16 @@ export class DialogWindow {
 
     if (mode == ConfirmMode.Confirm && currentText.ifPressE) {
       this.activeTextId = currentText.ifPressE
+      if (currentText.triggeredByE) {
+        currentText.triggeredByE()
+      }
     }
 
     if (mode == ConfirmMode.Cancel && currentText.ifPressF) {
       this.activeTextId = currentText.ifPressF
+      if (currentText.triggeredByF) {
+        currentText.triggeredByF()
+      }
     }
 
     // Update active text with new active text

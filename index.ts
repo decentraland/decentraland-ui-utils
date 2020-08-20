@@ -1,4 +1,4 @@
-import { displayAnnouncement } from './announcement/index'
+import { displayAnnouncement, hideAnnouncements } from './announcement/index'
 import { UICounter } from './counter/index'
 import { UIBar } from './bar/index'
 import { MediumIcon, SmallIcon, LargeIcon, CenterImage } from './ui-images/index'
@@ -12,6 +12,7 @@ import { LoadingIcon } from './loading/index'
 
 export {
   displayAnnouncement,
+  hideAnnouncements,
   UICounter,
   UIBar,
   CornerLabel,

@@ -64,6 +64,7 @@ export class Dialog {
     offsetY?: number
   }
   ifPressE?: number
+  triggeredByE?: () => void
   labelF?: {
     label: string
     fontSize?: number
@@ -71,6 +72,7 @@ export class Dialog {
     offset?: number
   }
   ifPressF?: number
+  triggeredByF?: () => void
   isEndOfDialog?: boolean = false
   portrait?: Portrait
 }

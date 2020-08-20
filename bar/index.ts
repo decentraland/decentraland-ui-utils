@@ -92,12 +92,12 @@ export class UIBar extends Entity {
     return this.valueAsNum
   }
   public increase(amount?: number): void {
-    this.valueAsNum += amount ? amount : 1
+    this.valueAsNum += amount ? amount : 0.1
     this.bar.width = this.fullWidth * this.valueAsNum - 6
   }
 
   public decrease(amount?: number): void {
-    this.valueAsNum -= amount ? amount : 1
+    this.valueAsNum -= amount ? amount : 0.1
     this.bar.width = this.fullWidth * this.valueAsNum - 6
   }
 }

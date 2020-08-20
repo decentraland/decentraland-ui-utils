@@ -164,12 +164,12 @@ export class CenterImage extends Entity {
   constructor(
     image: string,
     duration: number,
+    startHidden?: boolean,
     xOffset?: number,
     yOffset?: number,
     width?: number,
     height?: number,
-    section?: ImageSection,
-    startHidden?: boolean
+    section?: ImageSection
   ) {
     super()
 
@@ -190,8 +190,7 @@ export class CenterImage extends Entity {
 
     this.image.visible = startHidden ? false : true
 
-    // TODO: IMAGE NOT GOING AWAY
-    if (duration && duration != 0) {
+    if (duration != -1) {
       let dummyEnty = new Entity()
       engine.addEntity(dummyEnty)
 

@@ -8,12 +8,20 @@ import { canvas, SFFont } from 'decentraland-ui-utils/utils/default-ui-comopnent
  * @param yOffset position on Y, to enable fitting several counters
  * @param color text color
  * @param size text size
+ * @param bordersOff remove black border around text
  *
  */
 export class UICounter extends Entity {
   valueAsNum: number
   uiText: UIText
-  constructor(value: number, xOffset?: number, yOffset?: number, color?: Color4, size?: number) {
+  constructor(
+    value: number,
+    xOffset?: number,
+    yOffset?: number,
+    color?: Color4,
+    size?: number,
+    bordersOff?: boolean
+  ) {
     super()
     this.valueAsNum = value
     this.uiText = new UIText(canvas)
@@ -31,7 +39,7 @@ export class UICounter extends Entity {
     this.uiText.color = color ? color : Color4.White()
 
     this.uiText.outlineColor = Color4.Black()
-    this.uiText.outlineWidth = 0.1
+    this.uiText.outlineWidth = bordersOff ? 0 : 0.1
   }
 
   public read(): number {

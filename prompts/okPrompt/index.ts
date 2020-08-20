@@ -43,6 +43,7 @@ export class OkPrompt extends Entity {
     promptBackground.source = uiTheme
     promptBackground.width = 400
     promptBackground.height = 250
+    promptBackground.positionY = 0
 
     setSection(promptBackground, resources.backgrounds.promptBackground)
 

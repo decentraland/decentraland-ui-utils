@@ -9,6 +9,7 @@ import { message, PlayOpenSound, SFHeavyFont } from '../utils/default-ui-comopne
  * @param silent if true, no sound is played when the announcement pops up
  * @param color text color, as a Color4. Default: black
  * @param size font size, default 60
+ * @param bordersOff if true, text won't have a black margin around it
  *
  */
 export function displayAnnouncement(
@@ -16,7 +17,8 @@ export function displayAnnouncement(
   duration?: number,
   silent?: boolean,
   color?: Color4,
-  size?: number
+  size?: number,
+  bordersOff?: boolean
 ) {
   message.visible = true
   message.value = value
@@ -27,7 +29,8 @@ export function displayAnnouncement(
   message.font = SFHeavyFont
 
   message.outlineColor = Color4.Black()
-  message.outlineWidth = 0.1
+
+  message.outlineWidth = bordersOff ? 0 : 0.1
 
   //message.width = value.length * message.fontSize
   message.adaptWidth = false

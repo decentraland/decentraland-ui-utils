@@ -1,16 +1,6 @@
 import { canvas, lightTheme } from 'decentraland-ui-utils/utils/default-ui-comopnents'
 import { BarStyles } from 'decentraland-ui-utils/utils/types'
-
-// export enum BarStyles {
-// 	ROUNDBLACK = `roundblack`,
-// 	ROUNDGREY = `roundgrey`,
-// 	ROUNDSILVER = `roundsilver`,
-// 	ROUNDGOLD = `roundgold`,
-// 	// "SquareBlack" = 4,
-// 	// "SquareGrey" = 5,
-// 	// "SquareSilver" = 6,
-// 	// "SquareGold" = 7,
-//   }
+import resources, { setSection } from '../utils/resources'
 
 /**
  * Displays a number on the center of the UI
@@ -50,42 +40,32 @@ export class UIBar extends Entity {
     this.background.positionY = yOffset ? yOffset : 0
 
     if (!style) {
-      this.background.sourceLeft = 512
-      this.background.sourceTop = 531
+      setSection(this.background, resources.buttons.roundSilver)
     } else {
       switch (style) {
         case BarStyles.ROUNDBLACK:
-          this.background.sourceLeft = 512
-          this.background.sourceTop = 458
+          setSection(this.background, resources.buttons.roundBlack)
           break
         case BarStyles.ROUNDWHITE:
-          this.background.sourceLeft = 512
-          this.background.sourceTop = 494
+          setSection(this.background, resources.buttons.roundWhite)
           break
         case BarStyles.ROUNDSILVER:
-          this.background.sourceLeft = 512
-          this.background.sourceTop = 531
+          setSection(this.background, resources.buttons.roundSilver)
           break
         case BarStyles.ROUNDGOLD:
-          this.background.sourceLeft = 512
-          this.background.sourceTop = 567
+          setSection(this.background, resources.buttons.roundGold)
           break
-
         case BarStyles.SQUAREBLACK:
-          this.background.sourceLeft = 646
-          this.background.sourceTop = 457
+          setSection(this.background, resources.buttons.squareBlack)
           break
         case BarStyles.SQUAREWHITE:
-          this.background.sourceLeft = 646
-          this.background.sourceTop = 493
+          setSection(this.background, resources.buttons.squareWhite)
           break
         case BarStyles.SQUARESILVER:
-          this.background.sourceLeft = 646
-          this.background.sourceTop = 531
+          setSection(this.background, resources.buttons.squareSilver)
           break
         case BarStyles.SQUAREGOLD:
-          this.background.sourceLeft = 646
-          this.background.sourceTop = 567
+          setSection(this.background, resources.buttons.squareGold)
           break
       }
     }
@@ -100,10 +80,12 @@ export class UIBar extends Entity {
 
     this.bar.hAlign = 'left'
     this.bar.vAlign = 'center'
-    this.bar.positionX = 3
+    this.bar.positionX = scale ? 2.55 * scale : 2.55
     this.bar.positionY = 0
-    this.bar.height = scale ? scale * 32 - 8 : 32 - 8
-    this.bar.width = this.fullWidth * this.valueAsNum - 6
+    this.bar.height = scale ? scale * 32 - scale * 7.5 : 32 - 7.5
+    this.bar.width = scale
+      ? this.fullWidth * this.valueAsNum - 5.1 * scale
+      : this.fullWidth * this.valueAsNum - 5.1
   }
 
   public read(): number {

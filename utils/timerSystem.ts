@@ -24,7 +24,7 @@ export class TimerSystem implements ISystem {
   }
 
   update(dt: number) {
-    this._components.forEach((component) => {
+    this._components.forEach(component => {
       this.updateComponent(dt, component)
     })
   }

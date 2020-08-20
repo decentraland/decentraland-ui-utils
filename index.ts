@@ -5,6 +5,8 @@ import { MediumIcon, SmallIcon, LargeIcon, CenterImage } from './ui-images/index
 import { OkPrompt } from './prompts/okPrompt/index'
 import { OptionPrompt } from './prompts/optionPrompt/index'
 import { FillInPrompt } from './prompts/fillInPrompt/index'
+import { CustomPrompt } from './prompts/customPrompt/index'
+import { CornerLabel } from './cornerLabel/index'
 import { DialogWindow } from './uiDialog/index'
 import { LoadingIcon } from './loading/index'
 
@@ -12,6 +14,7 @@ export {
   displayAnnouncement,
   UICounter,
   UIBar,
+  CornerLabel,
   MediumIcon,
   SmallIcon,
   LargeIcon,
@@ -19,6 +22,7 @@ export {
   OkPrompt,
   OptionPrompt,
   FillInPrompt,
+  CustomPrompt,
   DialogWindow,
   LoadingIcon
 }

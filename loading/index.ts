@@ -1,8 +1,9 @@
 import { lightTheme, canvas } from 'decentraland-ui-utils/utils/default-ui-comopnents'
 import { Delay } from '../utils/timerComponents'
+import resources, { setSection } from '../utils/resources'
 
 /**
- * Displays an icon of 64x64 on the bottom-left corner
+ * Displays a loading icon on the center of the screen
  * @param duration seconds to display the image onscreen. 0 keeps it on till you hide it
  * @param xOffset position on X, to enable fitting several counters
  * @param yOffset position on Y, to enable fitting several counters
@@ -22,10 +23,7 @@ export class LoadingIcon extends Entity {
     this.image.positionY = yOffset ? yOffset + 80 : 80
     this.image.width = scale ? scale * 48 : 48
     this.image.height = scale ? scale * 64 : 64
-    this.image.sourceLeft = 662
-    this.image.sourceTop = 386
-    this.image.sourceWidth = 48
-    this.image.sourceHeight = 64
+    setSection(this.image, resources.icons.TimerLarge)
 
     // TODO: IMAGE NOT GOING AWAY
     if (duration && duration != 0) {

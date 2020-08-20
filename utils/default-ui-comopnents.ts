@@ -19,7 +19,7 @@ message.color = new Color4(0, 0, 0, 1)
 message.visible = false
 message.positionY = 80
 
-export const promptBackground = new UIImage(canvas, new Texture(''))
+export const promptBackground = new UIImage(canvas, lightTheme)
 promptBackground.hAlign = 'center'
 promptBackground.vAlign = 'center'
 promptBackground.width = 400

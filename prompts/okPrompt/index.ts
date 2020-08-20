@@ -4,11 +4,13 @@ import {
   promptBackground,
   SFFont,
   PlayOpenSound,
-  PlayCloseSound
+  PlayCloseSound,
+  setOpenUITime
 } from '../../utils/default-ui-comopnents'
+import resources, { setSection } from '../../utils/resources'
 
 /**
- * Displays a number on the center of the UI
+ * Displays a prompt window with a custom string and an OK button
  *
  * @param instructions: Notification string
  * @param onAccept: Function that gets executed if player clicks button
@@ -23,6 +25,7 @@ export class OkPrompt extends Entity {
   closeIcon: UIImage
   onAccept: () => void
   EButtonAction: () => false | Subscription[]
+  UIOpenTime: number
   constructor(
     instructions: string,
     onAccept: () => void,
@@ -30,6 +33,8 @@ export class OkPrompt extends Entity {
     useDarkTheme?: boolean
   ) {
     super()
+
+    this.UIOpenTime = +Date.now()
 
     this.onAccept = onAccept
 
@@ -39,10 +44,7 @@ export class OkPrompt extends Entity {
     promptBackground.width = 400
     promptBackground.height = 250
 
-    promptBackground.sourceTop = 12
-    promptBackground.sourceLeft = 501
-    promptBackground.sourceWidth = 416
-    promptBackground.sourceHeight = 352
+    setSection(promptBackground, resources.backgrounds.promptBackground)
 
     promptBackground.visible = true
 
@@ -51,10 +53,11 @@ export class OkPrompt extends Entity {
     this.closeIcon.positionY = 100
     this.closeIcon.width = 32
     this.closeIcon.height = 32
-    this.closeIcon.sourceHeight = 32
-    this.closeIcon.sourceWidth = 32
-    this.closeIcon.sourceTop = 306
-    this.closeIcon.sourceLeft = useDarkTheme ? 942 : 986
+    if (useDarkTheme) {
+      setSection(this.closeIcon, resources.icons.closeW)
+    } else {
+      setSection(this.closeIcon, resources.icons.closeD)
+    }
 
     this.closeIcon.onClick = new OnClick(() => {
       PlayCloseSound()
@@ -84,10 +87,7 @@ export class OkPrompt extends Entity {
     this.button.positionY = -60
     this.button.width = 174
     this.button.height = 46
-    this.button.sourceWidth = 174
-    this.button.sourceHeight = 46
-    this.button.sourceTop = 662
-    this.button.sourceLeft = 512
+    setSection(this.button, resources.buttons.buttonE)
 
     this.buttonLabel = new UIText(this.button)
     this.buttonLabel.value = acceptLabel ? acceptLabel : 'Ok'
@@ -104,7 +104,7 @@ export class OkPrompt extends Entity {
     })
 
     this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
-      if (this.button.visible) {
+      if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
         this.accept()
       }
     })

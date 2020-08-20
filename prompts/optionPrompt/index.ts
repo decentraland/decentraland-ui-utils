@@ -5,11 +5,14 @@ import {
   SFFont,
   PlayOpenSound,
   PlayCloseSound,
-  SFHeavyFont
+  SFHeavyFont,
+  setOpenUITime
 } from '../../utils/default-ui-comopnents'
+import resources, { setSection } from '../../utils/resources'
 
 /**
- * Displays a number on the center of the UI
+ * Displays a prompt window with two buttons that perform separate actions
+ *
  * @param title: Header on dialog
  * @param instructions: Smaller print instructions
  * @param onAccept: Function that gets executed if player clicks accept
@@ -31,6 +34,7 @@ export class OptionPrompt extends Entity {
   onReject: () => void
   EButtonAction: () => false | Subscription[]
   FButtonAction: () => false | Subscription[]
+  UIOpenTime: number
   constructor(
     title: string,
     instructions: string,
@@ -42,6 +46,8 @@ export class OptionPrompt extends Entity {
   ) {
     super()
 
+    this.UIOpenTime = +Date.now()
+
     this.onAccept = onAccept
     this.onReject = onReject
 
@@ -51,10 +57,7 @@ export class OptionPrompt extends Entity {
     promptBackground.width = 480
     promptBackground.height = 384
 
-    promptBackground.sourceTop = 12
-    promptBackground.sourceLeft = 7
-    promptBackground.sourceWidth = 480
-    promptBackground.sourceHeight = 384
+    setSection(promptBackground, resources.backgrounds.promptLargeBackground)
 
     promptBackground.visible = true
 
@@ -63,11 +66,11 @@ export class OptionPrompt extends Entity {
     this.closeIcon.positionY = 100 + 64
     this.closeIcon.width = 32
     this.closeIcon.height = 32
-    this.closeIcon.sourceHeight = 32
-    this.closeIcon.sourceWidth = 32
-    this.closeIcon.sourceTop = 306
-    this.closeIcon.sourceLeft = useDarkTheme ? 942 : 986
-
+    if (useDarkTheme) {
+      setSection(this.closeIcon, resources.icons.closeW)
+    } else {
+      setSection(this.closeIcon, resources.icons.closeD)
+    }
     this.closeIcon.onClick = new OnClick(() => {
       PlayCloseSound()
       this.close()
@@ -114,10 +117,7 @@ export class OptionPrompt extends Entity {
     this.buttonE.positionY = -120
     this.buttonE.width = 174
     this.buttonE.height = 46
-    this.buttonE.sourceWidth = 174
-    this.buttonE.sourceHeight = 46
-    this.buttonE.sourceTop = 662
-    this.buttonE.sourceLeft = 512
+    setSection(this.buttonE, resources.buttons.buttonE)
 
     this.buttonELabel = new UIText(this.buttonE)
     this.buttonELabel.value = acceptLabel ? acceptLabel : 'Ok'
@@ -134,7 +134,7 @@ export class OptionPrompt extends Entity {
     })
 
     this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
-      if (this.buttonE.visible) {
+      if (this.buttonE.visible && +Date.now() - this.UIOpenTime > 100) {
         this.accept()
       }
     })
@@ -144,10 +144,7 @@ export class OptionPrompt extends Entity {
     this.buttonF.positionY = -120
     this.buttonF.width = 174
     this.buttonF.height = 46
-    this.buttonF.sourceWidth = 174
-    this.buttonF.sourceHeight = 46
-    this.buttonF.sourceTop = 612
-    this.buttonF.sourceLeft = 512
+    setSection(this.buttonF, resources.buttons.buttonF)
 
     this.buttonFLabel = new UIText(this.buttonF)
     this.buttonFLabel.value = rejectLabel ? rejectLabel : 'Cancel'
@@ -168,7 +165,7 @@ export class OptionPrompt extends Entity {
       ActionButton.SECONDARY,
       false,
       e => {
-        if (this.buttonF.visible) {
+        if (this.buttonF.visible && +Date.now() - this.UIOpenTime > 100) {
           this.reject()
         }
       }

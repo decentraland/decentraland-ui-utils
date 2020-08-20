@@ -51,7 +51,7 @@ export class MediumIcon extends Entity {
 }
 
 /**
- * Displays an icon of 64x64 on the bottom-left corner
+ * Displays an icon of 32x32 on the bottom-left corner
  *
  * @param image path to image file
  * @param xOffset position on X, to enable fitting several counters
@@ -99,7 +99,7 @@ export class SmallIcon extends Entity {
 }
 
 /**
- * Displays an icon of 64x64 on the bottom-left corner
+ * Displays an icon of 128x128 on the bottom-left corner
  *
  * @param image path to image file
  * @param xOffset position on X, to enable fitting several counters

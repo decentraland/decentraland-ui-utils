@@ -55,7 +55,7 @@ To display a number on a corner of the screen that can be easily updated, you ca
 let ammo = new ui.UICounter(30)
 ```
 
-<img src="screenshots/counter.png" width="400">
+<img src="screenshots/counter.png" width="150">
 
 When instancing a new counter you can pass the following parameters:
 
@@ -108,7 +108,7 @@ To display a bar that can be updated to increase or shorten in length, similar t
 let health = new ui.UIBar(0.8)
 ```
 
-<img src="screenshots/bar.png" width="400">
+<img src="screenshots/bar.png" width="150">
 
 When instancing a new bar you can pass the following parameters:
 
@@ -150,7 +150,7 @@ To display an icon of on the bottom-left corner of the screen you can create one
 let healthIcon = new ui.MediumIcon('images/heart64.png')
 ```
 
-<img src="screenshots/icon.png" width="400">
+<img src="screenshots/icon.png" width="200">
 
 When instancing a new icon you can pass the following parameters:
 
@@ -174,7 +174,7 @@ To display a loading icon on the center of the screen for a specified amount of 
 loading = new ui.LoadingIcon(3)
 ```
 
-<img src="screenshots/timer.png" width="400">
+<img src="screenshots/timer.png" width="100">
 
 When instancing a new loading icon, you can pass the following parameters:
 
@@ -301,12 +301,12 @@ When instancing a new Fill-in Prompt, you can pass the following parameters:
 
 ```ts
 let prompt = new ui.FillInPrompt(
-  'Text goes here',
+  'What are you thinking?',
   (e: string) => {
     log(e)
   },
   'Submit!',
-  'What are you thinking?'
+  'Text goes here'
 )
 ```
 
@@ -387,7 +387,7 @@ The `addButton` function can take the following parameters:
 
 > Note: If you pick the `E` or `F` style, the buttons will also be triggered when pressing the E or F keys respectively.
 
-<img src="screenshots/button-styles.png" width="400">
+<img src="screenshots/button-styles.png" width="250">
 
 ### Add a Checkbox
 
@@ -445,7 +445,7 @@ The `addSwitch` function can take the following parameters:
 - `style`: Pick between several sizes, with different colors and rounded or square corners. The value must be from the `SwitchStyles` enum.
 - `startChecked`: If true, the switch starts activated by default.
 
-<img src="screenshots/switch-styles.png" width="400">
+<img src="screenshots/switch-styles.png" width="200">
 
 ### Add an icon
 
@@ -525,7 +525,7 @@ To create a new dialog window, create a new `DialogWindow` object. This will ins
 let dialogWindow = new ui.DialogWindow()
 ```
 
-<img src="screenshots/NPC1.png" width="400">
+<img src="screenshots/NPC1.png" width="500">
 
 When instantiating a new DialogWindow, you can pass the following parameters:
 
@@ -612,7 +612,7 @@ You can set the following fields to change the appearance of a dialog:
 
 The script can include questions that prompt the player to pick between two options. These questions can branch the conversation out and trigger other actions in the scene.
 
-<img src="screenshots/NPC2.png" width="400">
+<img src="screenshots/NPC2.png" width="500">
 
 To make an entry a question, set the `isQuestion` field to _true_. This displays two buttons rather than the click icon. It also disables the click to advance to the next entry.
 

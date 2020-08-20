@@ -104,7 +104,7 @@ export class FillInPrompt extends Entity {
 
     this.fillInBox = new UIInputText(promptBackground)
     this.fillInBox.color = Color4.Black()
-    this.fillInBox.font = SFHeavyFont
+    this.fillInBox.font = SFFont
     this.fillInBox.width = 312
     this.fillInBox.height = 46
     this.fillInBox.positionX = 0

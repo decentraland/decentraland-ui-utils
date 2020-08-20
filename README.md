@@ -26,7 +26,7 @@ To display a text announcement on the center of the screen for a specified amoun
 ui.displayAnnouncement('Hello world')
 ```
 
-SCREEENSHOT
+<img src="screenshots/announcement.png" width="400">
 
 This function can take the following parameters:
 
@@ -55,7 +55,7 @@ To display a number on a corner of the screen that can be easily updated, you ca
 let ammo = new ui.UICounter(30)
 ```
 
-SCREENSHOT
+<img src="screenshots/counter.png" width="400">
 
 When instancing a new counter you can pass the following parameters:
 
@@ -83,6 +83,23 @@ myEntiy.addComponent(new OnPointerDown(e => {
 })
 ```
 
+## Corner Labels
+
+To display text on the bottom-left corner of the screen, you can create a `CornerLabel`.
+
+```ts
+let healthLabel = new ui.CornerLabel('Health:')
+```
+
+When instancing a new corner label you can pass the following parameters:
+
+- `value`: Text to show.
+- `xOffset`: Offset on X, relative to the bottom-right corner.
+- `yOffset`: Offset on Y, relative to the bottom-right corner.
+- `color`: Text color, white by default
+- `size`: Text size, 25 by default
+- `bordersOff`: The text has a thin black margin unless this field is set to _true_.
+
 ## Bar
 
 To display a bar that can be updated to increase or shorten in length, similar to a typical health bar in games, you can create a `UIBar`.
@@ -91,7 +108,7 @@ To display a bar that can be updated to increase or shorten in length, similar t
 let health = new ui.UIBar(0.8)
 ```
 
-SCREENSHOT
+<img src="screenshots/bar.png" width="400">
 
 When instancing a new bar you can pass the following parameters:
 
@@ -133,7 +150,7 @@ To display an icon of on the bottom-left corner of the screen you can create one
 let healthIcon = new ui.MediumIcon('images/heart64.png')
 ```
 
-SCREENSHOT
+<img src="screenshots/icon.png" width="400">
 
 When instancing a new icon you can pass the following parameters:
 
@@ -157,7 +174,7 @@ To display a loading icon on the center of the screen for a specified amount of 
 loading = new ui.LoadingIcon(3)
 ```
 
-SCREENSHOT
+<img src="screenshots/timer.png" width="400">
 
 When instancing a new loading icon, you can pass the following parameters:
 
@@ -233,7 +250,7 @@ let prompt = new ui.OkPrompt(
 )
 ```
 
-SCREENSHOT
+<img src="screenshots/okPrompt.png" width="400">
 
 > Note: If the player closes the window with the close icon, the related function isn't called.
 
@@ -266,6 +283,8 @@ let prompt = new ui.OptionPrompt(
 )
 ```
 
+<img src="screenshots/optionPrompt.png" width="400">
+
 > Note: If the player closes the window with the close icon, neither of the functions are called.
 
 ### Fill in Prompt
@@ -291,7 +310,7 @@ let prompt = new ui.FillInPrompt(
 )
 ```
 
-SCREENSHOT
+<img src="screenshots/fillInPrompt.png" width="400">
 
 > Note: If the player closes the window with the close icon, the related function isn't called.
 
@@ -307,7 +326,7 @@ First create a new `CustomPrompt` object.
 let prompt = new ui.CustomPrompt(PromptStyles.DARKSLANTED)
 ```
 
-SCREENSHOT
+<img src="screenshots/customPrompt1.png" width="400">
 
 When instancing a new loading icon, you can pass the following parameters:
 
@@ -368,6 +387,8 @@ The `addButton` function can take the following parameters:
 
 > Note: If you pick the `E` or `F` style, the buttons will also be triggered when pressing the E or F keys respectively.
 
+<img src="screenshots/button-styles.png" width="400">
+
 ### Add a Checkbox
 
 To add a checkbox to a custom prompt, use the `addCheckbox` function.
@@ -423,6 +444,8 @@ The `addSwitch` function can take the following parameters:
 - `onUncheck`: Function to execute when the switch is deactivated.
 - `style`: Pick between several sizes, with different colors and rounded or square corners. The value must be from the `SwitchStyles` enum.
 - `startChecked`: If true, the switch starts activated by default.
+
+<img src="screenshots/switch-styles.png" width="400">
 
 ### Add an icon
 
@@ -486,7 +509,7 @@ prompt.addButton(
 )
 ```
 
-SCREENSHOT
+<img src="screenshots/customPrompt2.png" width="400">
 
 ## NPC Dialog Window
 
@@ -501,6 +524,8 @@ To create a new dialog window, create a new `DialogWindow` object. This will ins
 ```ts
 let dialogWindow = new ui.DialogWindow()
 ```
+
+<img src="screenshots/NPC1.png" width="400">
 
 When instantiating a new DialogWindow, you can pass the following parameters:
 
@@ -536,7 +561,7 @@ export let NPCTalk: Dialog[] = [
     text: 'Hi there'
   },
   {
-    text: 'It sure is nice takling to you'
+    text: 'It sure is nice talking to you'
   },
   {
     text: 'I must go, my planet needs me',
@@ -586,6 +611,8 @@ You can set the following fields to change the appearance of a dialog:
 #### Questions and conversation trees
 
 The script can include questions that prompt the player to pick between two options. These questions can branch the conversation out and trigger other actions in the scene.
+
+<img src="screenshots/NPC2.png" width="400">
 
 To make an entry a question, set the `isQuestion` field to _true_. This displays two buttons rather than the click icon. It also disables the click to advance to the next entry.
 

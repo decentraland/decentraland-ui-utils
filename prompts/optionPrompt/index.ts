@@ -39,7 +39,7 @@ export class OptionPrompt extends Entity {
     title: string,
     instructions: string,
     onAccept: () => void,
-    onReject: () => void,
+    onReject?: () => void,
     acceptLabel?: string,
     rejectLabel?: string,
     useDarkTheme?: boolean

@@ -73,8 +73,9 @@ let ammo = new ui.UICounter(30, 0, 60, Color4.Yellow(), 30, true)
 Once a `UICounter` object is instanced, you can call the following functions on it:
 
 - `read`: Returns the current value of the counter
-- `increase`: increases the number by a given amount. If no parameters are passed, it raises the value by 1.
-- `decrease`: decreases the number by a given amount. If no parameters are passed, it lowers the value by 1.
+- `increase`: Increases the number by a given amount. If no parameters are passed, it raises the value by 1.
+- `decrease`: Decreases the number by a given amount. If no parameters are passed, it lowers the value by 1.
+- `set`: Sets the number to a given amount, no matter what the previous value was.
 
 ```ts
 myEntiy.addComponent(new OnPointerDown(e => {
@@ -126,8 +127,9 @@ let health = new ui.UIBar(1, -30, 130, Color4.Red(), BarStyles.ROUNDSILVER, 1)
 Once a `UIBar` object is instanced, you can call the following functions on it:
 
 - `read`: Returns the current value of the counter
-- `increase`: increases the number by a given amount. If no parameters are passed, it raises the value by 0.1.
-- `decrease`: decreases the number by a given amount. If no parameters are passed, it lowers the value by 0.1.
+- `increase`: Increases the number by a given amount. If no parameters are passed, it raises the value by 0.1.
+- `decrease`: Secreases the number by a given amount. If no parameters are passed, it lowers the value by 0.1.
+- `set`: Sets the bar to a given value, no matter what the previous value was.
 
 ```ts
 myEntiy.addComponent(new OnPointerDown(e => {

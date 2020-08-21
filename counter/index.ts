@@ -54,4 +54,9 @@ export class UICounter extends Entity {
     this.valueAsNum -= amount ? amount : 1
     this.uiText.value = this.valueAsNum.toString()
   }
+
+  public set(amount: number): void {
+    this.valueAsNum = amount
+    this.uiText.value = this.valueAsNum.toString()
+  }
 }

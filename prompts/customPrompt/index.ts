@@ -218,8 +218,8 @@ export class CustomPrompt extends Entity {
     label: string,
     posX: number,
     posY: number,
-    onCheck: () => void,
-    onUncheck: () => void,
+    onCheck?: () => void,
+    onUncheck?: () => void,
     large?: boolean,
     startChecked?: boolean
   ): void {
@@ -313,8 +313,8 @@ export class CustomPrompt extends Entity {
     label: string,
     posX: number,
     posY: number,
-    onCheck: () => void,
-    onUncheck: () => void,
+    onCheck?: () => void,
+    onUncheck?: () => void,
     style?: SwitchStyles,
     startChecked?: boolean
   ): void {

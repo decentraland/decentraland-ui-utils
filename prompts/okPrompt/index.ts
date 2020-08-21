@@ -28,7 +28,7 @@ export class OkPrompt extends Entity {
   UIOpenTime: number
   constructor(
     instructions: string,
-    onAccept: () => void,
+    onAccept?: () => void,
     acceptLabel?: string,
     useDarkTheme?: boolean
   ) {

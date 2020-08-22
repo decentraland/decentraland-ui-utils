@@ -4,8 +4,7 @@ import {
   lightTheme,
   promptBackground,
   SFFont,
-  PlayCloseSound,
-  setOpenUITime
+  PlayCloseSound
 } from '../../utils/default-ui-comopnents'
 import {
   PromptStyles,
@@ -23,7 +22,14 @@ import {
  *
  */
 export class CustomPrompt extends Entity {
-  elements: (UIText | UIImage)[] = []
+  elements: (
+    | CustomPromptText
+    | CustomPromptIcon
+    | CustomPromptSwitch
+    | CustomPromptCheckBox
+    | CustomPromptButton
+    | CustomPromptTextBox
+  )[] = []
   texture: Texture
   darkTheme: boolean
   closeIcon: UIImage = new UIImage(promptBackground, this.texture)
@@ -102,7 +108,7 @@ export class CustomPrompt extends Entity {
     this.closeIcon.visible = false
 
     for (let element of this.elements) {
-      element.visible = false
+      element.hide()
     }
   }
   public reopen(): void {
@@ -110,20 +116,22 @@ export class CustomPrompt extends Entity {
     this.closeIcon.visible = true
 
     for (let element of this.elements) {
-      element.visible = true
+      element.show()
     }
   }
 
-  public addText(value: string, posX: number, posY: number, color?: Color4, size?: number): void {
-    let text = new UIText(promptBackground)
-    text.value = value
-    text.positionX = posX ? posX : 0
-    text.positionY = posY ? posY : 0
-    text.hTextAlign = 'center'
-    text.color = color ? color : this.darkTheme ? Color4.White() : Color4.Black()
-    text.fontSize = size ? size : 15
+  public addText(value: string, posX: number, posY: number, color?: Color4, size?: number) {
+    let text = new CustomPromptText(
+      value,
+      posX,
+      posY,
+      this.darkTheme,
+      color ? color : null,
+      size ? size : null
+    )
 
     this.elements.push(text)
+    return text
   }
 
   // add button
@@ -134,84 +142,19 @@ export class CustomPrompt extends Entity {
     posY: number,
     onClick: () => void,
     style?: ButtonStyles
-  ): void {
-    let button = new UIImage(promptBackground, this.texture)
-    button.positionX = posX
-    button.positionY = posY
-    button.width = 174
-    button.height = 46
-
-    let buttonLabel = new UIText(button)
-
-    if (style) {
-      switch (style) {
-        case ButtonStyles.E:
-          setSection(button, resources.buttons.buttonE)
-          buttonLabel.positionX = 25
-          break
-        case ButtonStyles.F:
-          setSection(button, resources.buttons.buttonF)
-          buttonLabel.positionX = 25
-          break
-        case ButtonStyles.ROUNDBLACK:
-          setSection(button, resources.buttons.roundBlack)
-          break
-        case ButtonStyles.ROUNDWHITE:
-          setSection(button, resources.buttons.roundWhite)
-          break
-        case ButtonStyles.ROUNDSILVER:
-          setSection(button, resources.buttons.roundSilver)
-          break
-        case ButtonStyles.ROUNDGOLD:
-          setSection(button, resources.buttons.roundGold)
-          break
-        case ButtonStyles.SQUAREBLACK:
-          setSection(button, resources.buttons.squareBlack)
-          break
-        case ButtonStyles.SQUAREWHITE:
-          setSection(button, resources.buttons.squareWhite)
-          break
-        case ButtonStyles.SQUARESILVER:
-          setSection(button, resources.buttons.squareSilver)
-          break
-        case ButtonStyles.SQUAREGOLD:
-          setSection(button, resources.buttons.squareGold)
-          break
-      }
-    } else {
-      setSection(button, resources.buttons.roundSilver)
-    }
-
-    buttonLabel.value = label
-    buttonLabel.hTextAlign = 'center'
-    buttonLabel.vTextAlign = 'center'
-    buttonLabel.fontSize = 20
-    buttonLabel.font = SFFont
-    buttonLabel.color =
-      style == ButtonStyles.ROUNDWHITE || style == ButtonStyles.SQUAREWHITE
-        ? Color4.Black()
-        : Color4.White()
-    buttonLabel.isPointerBlocker = false
-
-    button.onClick = new OnClick(() => {
-      onClick()
-    })
-
-    if (style == ButtonStyles.E) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
-        if (button.visible && +Date.now() - this.UIOpenTime > 100) {
-          onClick()
-        }
-      })
-    } else if (style == ButtonStyles.F) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, e => {
-        if (button.visible && +Date.now() - this.UIOpenTime > 100) {
-          onClick()
-        }
-      })
-    }
+  ) {
+    let button = new CustomPromptButton(
+      this.texture,
+      this.UIOpenTime,
+      label,
+      posX,
+      posY,
+      onClick,
+      style ? style : null
+    )
 
     this.elements.push(button)
+    return button
   }
 
   public addCheckbox(
@@ -222,91 +165,21 @@ export class CustomPrompt extends Entity {
     onUncheck?: () => void,
     large?: boolean,
     startChecked?: boolean
-  ): void {
-    let checked: boolean = startChecked ? true : false
+  ) {
+    let checkBox = new CustomPromptCheckBox(
+      this.texture,
+      this.darkTheme,
+      label,
+      posX,
+      posY,
+      onCheck ? onCheck : null,
+      onUncheck ? onUncheck : null,
+      large ? large : null,
+      startChecked ? startChecked : null
+    )
 
-    let button = new UIImage(promptBackground, this.texture)
-    button.positionX = posX
-    button.positionY = posY
-    button.width = large ? 32 : 24
-    button.height = large ? 32 : 24
-
-    if (checked == false) {
-      if (this.darkTheme) {
-        if (large) {
-          setSection(button, resources.checkboxes.wLargeOff)
-        } else {
-          setSection(button, resources.checkboxes.wOff)
-        }
-      } else {
-        if (large) {
-          setSection(button, resources.checkboxes.dLargeOff)
-        } else {
-          setSection(button, resources.checkboxes.dOff)
-        }
-      }
-    } else {
-      if (this.darkTheme) {
-        if (large) {
-          setSection(button, resources.checkboxes.wLargeOn)
-        } else {
-          setSection(button, resources.checkboxes.wOn)
-        }
-      } else {
-        if (large) {
-          setSection(button, resources.checkboxes.dLargeOn)
-        } else {
-          setSection(button, resources.checkboxes.dOn)
-        }
-      }
-    }
-
-    let buttonLabel = new UIText(button)
-    buttonLabel.positionX = large ? 40 : 30
-    buttonLabel.value = label
-    buttonLabel.hTextAlign = 'left'
-    buttonLabel.vTextAlign = 'center'
-    buttonLabel.fontSize = 20
-    buttonLabel.font = SFFont
-    buttonLabel.color = this.darkTheme ? Color4.White() : Color4.Black()
-    buttonLabel.isPointerBlocker = false
-
-    button.onClick = new OnClick(() => {
-      checked = !checked
-      if (checked == false) {
-        if (this.darkTheme) {
-          if (large) {
-            setSection(button, resources.checkboxes.wLargeOff)
-          } else {
-            setSection(button, resources.checkboxes.wOff)
-          }
-        } else {
-          if (large) {
-            setSection(button, resources.checkboxes.dLargeOff)
-          } else {
-            setSection(button, resources.checkboxes.dOff)
-          }
-        }
-      } else {
-        if (this.darkTheme) {
-          if (large) {
-            setSection(button, resources.checkboxes.wLargeOn)
-          } else {
-            setSection(button, resources.checkboxes.wOn)
-          }
-        } else {
-          if (large) {
-            setSection(button, resources.checkboxes.dLargeOn)
-          } else {
-            setSection(button, resources.checkboxes.dOn)
-          }
-        }
-      }
-
-      checked ? onCheck() : onUncheck()
-    })
-
-    this.elements.push(button)
+    this.elements.push(checkBox)
+    return checkBox
   }
 
   public addSwitch(
@@ -317,79 +190,21 @@ export class CustomPrompt extends Entity {
     onUncheck?: () => void,
     style?: SwitchStyles,
     startChecked?: boolean
-  ): void {
-    let checked: boolean = startChecked ? true : false
+  ) {
+    let uiswitch = new CustomPromptSwitch(
+      this.texture,
+      this.darkTheme,
+      label,
+      posX,
+      posY,
+      onCheck ? onCheck : null,
+      onUncheck ? onUncheck : null,
+      style ? style : null,
+      startChecked ? startChecked : null
+    )
 
-    let button = new UIImage(promptBackground, this.texture)
-    button.positionX = posX
-    button.positionY = posY
-    button.width = 64
-    button.height = 32
-
-    if (style == undefined) style = SwitchStyles.ROUNDGREEN
-
-    if (checked == false) {
-      if (style == SwitchStyles.ROUNDGREEN || style == SwitchStyles.ROUNDRED) {
-        setSection(button, resources.switches.roundOff)
-      } else {
-        setSection(button, resources.switches.squareOff)
-      }
-    } else {
-      switch (style) {
-        case SwitchStyles.ROUNDGREEN:
-          setSection(button, resources.switches.roundGreen)
-          break
-        case SwitchStyles.ROUNDRED:
-          setSection(button, resources.switches.roundRed)
-          break
-        case SwitchStyles.SQUAREGREEN:
-          setSection(button, resources.switches.squareGreen)
-          break
-        case SwitchStyles.SQUARERED:
-          setSection(button, resources.switches.squareRed)
-          break
-      }
-    }
-
-    let buttonLabel = new UIText(button)
-    buttonLabel.positionX = 80
-    buttonLabel.value = label
-    buttonLabel.hTextAlign = 'left'
-    buttonLabel.vTextAlign = 'center'
-    buttonLabel.fontSize = 20
-    buttonLabel.font = SFFont
-    buttonLabel.color = this.darkTheme ? Color4.White() : Color4.Black()
-    buttonLabel.isPointerBlocker = false
-
-    button.onClick = new OnClick(() => {
-      checked = !checked
-      if (checked == false) {
-        if (style == SwitchStyles.ROUNDGREEN || style == SwitchStyles.ROUNDRED) {
-          setSection(button, resources.switches.roundOff)
-        } else {
-          setSection(button, resources.switches.squareOff)
-        }
-      } else {
-        switch (style) {
-          case SwitchStyles.ROUNDGREEN:
-            setSection(button, resources.switches.roundGreen)
-            break
-          case SwitchStyles.ROUNDRED:
-            setSection(button, resources.switches.roundRed)
-            break
-          case SwitchStyles.SQUAREGREEN:
-            setSection(button, resources.switches.squareGreen)
-            break
-          case SwitchStyles.SQUARERED:
-            setSection(button, resources.switches.squareRed)
-            break
-        }
-      }
-
-      checked ? onCheck() : onUncheck()
-    })
-
-    this.elements.push(button)
+    this.elements.push(uiswitch)
+    return uiswitch
   }
 
   public addIcon(
@@ -402,15 +217,444 @@ export class CustomPrompt extends Entity {
   ) {
     let iconTexture = new Texture(image)
 
-    let icon = new UIImage(promptBackground, iconTexture)
+    let icon = new CustomPromptIcon(
+      iconTexture,
+      xOffset,
+      yOffset,
+      width ? width : null,
+      height ? height : null,
+      section ? section : null
+    )
 
-    icon.positionX = xOffset
-    icon.positionY = yOffset
-    icon.width = width ? width : 128
-    icon.height = height ? height : 128
-    icon.sourceLeft = section ? section.sourceLeft : 0
-    icon.sourceTop = section ? section.sourceTop : 0
-    icon.sourceWidth = section ? section.sourceWidth : width ? width : 128
-    icon.sourceHeight = section ? section.sourceHeight : height ? height : 128
+    this.elements.push(icon)
+    return icon
+  }
+
+  public addTextBox(
+    posX: number,
+    posY: number,
+    placeholder?: string,
+    onChange?: (e: string) => void
+  ) {
+    let texBox = new CustomPromptTextBox(
+      posX,
+      posY,
+      placeholder ? placeholder : null,
+      onChange ? onChange : null
+    )
+
+    this.elements.push(texBox)
+    return texBox
+  }
+}
+
+export class CustomPromptButton extends Entity {
+  label: UIText
+  image: UIImage
+  constructor(
+    texture: Texture,
+    UIOpenTime: number,
+    label: string,
+    posX: number,
+    posY: number,
+    onClick: () => void,
+    style?: ButtonStyles
+  ) {
+    super()
+    this.image = new UIImage(promptBackground, texture)
+    this.image.positionX = posX
+    this.image.positionY = posY
+    this.image.width = 174
+    this.image.height = 46
+
+    this.label = new UIText(this.image)
+
+    if (style) {
+      switch (style) {
+        case ButtonStyles.E:
+          setSection(this.image, resources.buttons.buttonE)
+          this.label.positionX = 25
+          break
+        case ButtonStyles.F:
+          setSection(this.image, resources.buttons.buttonF)
+          this.label.positionX = 25
+          break
+        case ButtonStyles.ROUNDBLACK:
+          setSection(this.image, resources.buttons.roundBlack)
+          break
+        case ButtonStyles.ROUNDWHITE:
+          setSection(this.image, resources.buttons.roundWhite)
+          break
+        case ButtonStyles.ROUNDSILVER:
+          setSection(this.image, resources.buttons.roundSilver)
+          break
+        case ButtonStyles.ROUNDGOLD:
+          setSection(this.image, resources.buttons.roundGold)
+          break
+        case ButtonStyles.SQUAREBLACK:
+          setSection(this.image, resources.buttons.squareBlack)
+          break
+        case ButtonStyles.SQUAREWHITE:
+          setSection(this.image, resources.buttons.squareWhite)
+          break
+        case ButtonStyles.SQUARESILVER:
+          setSection(this.image, resources.buttons.squareSilver)
+          break
+        case ButtonStyles.SQUAREGOLD:
+          setSection(this.image, resources.buttons.squareGold)
+          break
+      }
+    } else {
+      setSection(this.image, resources.buttons.roundSilver)
+    }
+
+    this.label.value = label
+    this.label.hTextAlign = 'center'
+    this.label.vTextAlign = 'center'
+    this.label.fontSize = 20
+    this.label.font = SFFont
+    this.label.color =
+      style == ButtonStyles.ROUNDWHITE || style == ButtonStyles.SQUAREWHITE
+        ? Color4.Black()
+        : Color4.White()
+    this.label.isPointerBlocker = false
+
+    this.image.onClick = new OnClick(() => {
+      onClick()
+    })
+
+    if (style == ButtonStyles.E) {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
+        if (this.image.visible && +Date.now() - UIOpenTime > 100) {
+          onClick()
+        }
+      })
+    } else if (style == ButtonStyles.F) {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, e => {
+        if (this.image.visible && +Date.now() - UIOpenTime > 100) {
+          onClick()
+        }
+      })
+    }
+  }
+
+  public hide(): void {
+    this.image.visible = false
+  }
+
+  public show(): void {
+    this.image.visible = true
+  }
+
+  public grayOut(): void {
+    this.label.color = Color4.Gray()
+    this.image.isPointerBlocker = false
+  }
+
+  public enable(): void {
+    this.label.color = Color4.White()
+    this.image.isPointerBlocker = true
+  }
+}
+
+export class CustomPromptCheckBox extends Entity {
+  label: UIText
+  image: UIImage
+  checked: boolean
+  private darkTheme: boolean
+  private large: boolean
+  constructor(
+    texture: Texture,
+    darkTheme: boolean,
+    label: string,
+    posX: number,
+    posY: number,
+    onCheck?: () => void,
+    onUncheck?: () => void,
+    large?: boolean,
+    startChecked?: boolean
+  ) {
+    super()
+
+    this.checked = startChecked ? true : false
+    this.darkTheme = darkTheme
+    this.large = large
+
+    this.image = new UIImage(promptBackground, texture)
+    this.image.positionX = posX
+    this.image.positionY = posY
+    this.image.width = large ? 32 : 24
+    this.image.height = large ? 32 : 24
+
+    if (this.checked == false) {
+      this.check()
+    } else {
+      this.uncheck()
+    }
+
+    this.label = new UIText(this.image)
+
+    this.label.positionX = large ? 40 : 30
+
+    this.label.color = darkTheme ? Color4.White() : Color4.Black()
+
+    this.label.value = label
+    this.label.hTextAlign = 'left'
+    this.label.vTextAlign = 'center'
+    this.label.fontSize = 20
+    this.label.font = SFFont
+    this.label.isPointerBlocker = false
+
+    this.image.onClick = new OnClick(() => {
+      this.checked = !this.checked
+      if (this.checked == false) {
+        this.check()
+      } else {
+        this.uncheck()
+      }
+
+      this.checked ? onCheck() : onUncheck()
+    })
+  }
+
+  public hide(): void {
+    this.image.visible = false
+    this.label.visible = false
+  }
+
+  public show(): void {
+    this.image.visible = true
+    this.label.visible = true
+  }
+
+  public check(): void {
+    if (this.darkTheme) {
+      if (this.large) {
+        setSection(this.image, resources.checkboxes.wLargeOff)
+      } else {
+        setSection(this.image, resources.checkboxes.wOff)
+      }
+    } else {
+      if (this.large) {
+        setSection(this.image, resources.checkboxes.dLargeOff)
+      } else {
+        setSection(this.image, resources.checkboxes.dOff)
+      }
+    }
+  }
+
+  public uncheck(): void {
+    if (this.darkTheme) {
+      if (this.large) {
+        setSection(this.image, resources.checkboxes.wLargeOn)
+      } else {
+        setSection(this.image, resources.checkboxes.wOn)
+      }
+    } else {
+      if (this.large) {
+        setSection(this.image, resources.checkboxes.dLargeOn)
+      } else {
+        setSection(this.image, resources.checkboxes.dOn)
+      }
+    }
+  }
+}
+
+export class CustomPromptSwitch extends Entity {
+  label: UIText
+  image: UIImage
+  checked: boolean
+  private darkTheme: boolean
+  private style: SwitchStyles
+  constructor(
+    texture: Texture,
+    darkTheme: boolean,
+    label: string,
+    posX: number,
+    posY: number,
+    onCheck?: () => void,
+    onUncheck?: () => void,
+    style?: SwitchStyles,
+    startChecked?: boolean
+  ) {
+    super()
+
+    this.checked = startChecked ? true : false
+    this.darkTheme = darkTheme
+    this.style = style ? style : SwitchStyles.ROUNDGREEN
+
+    this.image = new UIImage(promptBackground, texture)
+    this.image.positionX = posX
+    this.image.positionY = posY
+    this.image.width = 64
+    this.image.height = 32
+
+    if (this.checked == false) {
+      this.check()
+    } else {
+      this.uncheck()
+    }
+
+    this.label = new UIText(this.image)
+
+    this.label.positionX = 80
+
+    this.label.color = darkTheme ? Color4.White() : Color4.Black()
+
+    this.label.value = label
+    this.label.hTextAlign = 'left'
+    this.label.vTextAlign = 'center'
+    this.label.fontSize = 20
+    this.label.font = SFFont
+    this.label.isPointerBlocker = false
+
+    this.image.onClick = new OnClick(() => {
+      this.checked = !this.checked
+      if (this.checked == false) {
+        this.check()
+      } else {
+        this.uncheck()
+      }
+
+      this.checked ? onCheck() : onUncheck()
+    })
+  }
+
+  public hide(): void {
+    this.image.visible = false
+    this.label.visible = false
+  }
+
+  public show(): void {
+    this.image.visible = true
+    this.label.visible = true
+  }
+
+  public check(): void {
+    switch (this.style) {
+      case SwitchStyles.ROUNDGREEN:
+        setSection(this.image, resources.switches.roundGreen)
+        break
+      case SwitchStyles.ROUNDRED:
+        setSection(this.image, resources.switches.roundRed)
+        break
+      case SwitchStyles.SQUAREGREEN:
+        setSection(this.image, resources.switches.squareGreen)
+        break
+      case SwitchStyles.SQUARERED:
+        setSection(this.image, resources.switches.squareRed)
+        break
+    }
+  }
+
+  public uncheck(): void {
+    if (this.style == SwitchStyles.ROUNDGREEN || this.style == SwitchStyles.ROUNDRED) {
+      setSection(this.image, resources.switches.roundOff)
+    } else {
+      setSection(this.image, resources.switches.squareOff)
+    }
+  }
+}
+
+export class CustomPromptIcon extends Entity {
+  image: UIImage
+  constructor(
+    texture: Texture,
+    xOffset: number,
+    yOffset: number,
+    width?: number,
+    height?: number,
+    section?: ImageSection
+  ) {
+    super()
+
+    this.image = new UIImage(promptBackground, texture)
+
+    this.image.positionX = xOffset
+    this.image.positionY = yOffset
+    this.image.width = width ? width : 128
+    this.image.height = height ? height : 128
+    this.image.sourceLeft = section ? section.sourceLeft : 0
+    this.image.sourceTop = section ? section.sourceTop : 0
+    this.image.sourceWidth = section ? section.sourceWidth : width ? width : 128
+    this.image.sourceHeight = section ? section.sourceHeight : height ? height : 128
+  }
+
+  public hide(): void {
+    this.image.visible = false
+  }
+
+  public show(): void {
+    this.image.visible = true
+  }
+}
+
+export class CustomPromptText extends Entity {
+  text: UIText
+  constructor(
+    value: string,
+    posX: number,
+    posY: number,
+    darkTheme?: boolean,
+    color?: Color4,
+    size?: number
+  ) {
+    super()
+
+    this.text = new UIText(promptBackground)
+    this.text.value = value
+    this.text.positionX = posX ? posX : 0
+    this.text.positionY = posY ? posY : 0
+    this.text.hTextAlign = 'center'
+    this.text.color = color ? color : darkTheme ? Color4.White() : Color4.Black()
+    this.text.fontSize = size ? size : 15
+  }
+
+  public hide(): void {
+    this.text.visible = false
+  }
+
+  public show(): void {
+    this.text.visible = true
+  }
+}
+
+export class CustomPromptTextBox extends Entity {
+  fillInBox: UIInputText
+  currentText: string = ''
+  constructor(posX: number, posY: number, placeholder?: string, onChange?: (e: string) => void) {
+    super()
+
+    this.fillInBox = new UIInputText(promptBackground)
+    this.fillInBox.color = Color4.Black()
+    this.fillInBox.font = SFFont
+    this.fillInBox.width = 312
+    this.fillInBox.height = 46
+    this.fillInBox.positionX = posX
+    this.fillInBox.positionY = posY
+    this.fillInBox.placeholder = placeholder ? placeholder : 'Fill in'
+    this.fillInBox.hTextAlign = 'center'
+    this.fillInBox.vTextAlign = 'center'
+    this.fillInBox.fontSize = 22
+
+    this.fillInBox.onChanged = new OnChanged(x => {
+      if (!this.fillInBox.visible) return
+      this.currentText = x.value
+      onChange(this.currentText)
+    })
+
+    this.fillInBox.onTextSubmit = new OnTextSubmit(x => {
+      if (!this.fillInBox.visible) return
+      this.currentText = x.text
+      onChange(this.currentText)
+    })
+  }
+
+  public hide(): void {
+    this.fillInBox.visible = false
+  }
+
+  public show(): void {
+    this.fillInBox.visible = true
   }
 }

@@ -354,13 +354,18 @@ To add text to a custom prompt, use the `addText` function.
 prompt.addText('Hello World', 0, 100)
 ```
 
-The `addText` function can take the following parameters:
+The `addText()` function can take the following parameters:
 
 - `value`: Text to show
 - `posX`: Offset on X from the center of the window.
 - `posY`: Offset on Y from the center of the window.
 - `color`: Text color.
 - `size`: Text size.
+
+The `addText()` function returns a `CustomPromptText` object, that you can then reference to change its values. This object also has the following functions that can be called any time:
+
+- `hide`
+- `show`
 
 ### Add a button
 
@@ -391,6 +396,13 @@ The `addButton` function can take the following parameters:
 
 <img src="screenshots/button-styles.png" width="250">
 
+The `addButton()` function returns a `CustomPromptButton` object, that you can then reference to change its values. This object also has the following functions that can be called any time:
+
+- `hide`
+- `show`
+- `grayOut`: Sets the text to gray and makes it unclickable.
+- `enable`: Sets the text to white and makes it clickable again.
+
 ### Add a Checkbox
 
 To add a checkbox to a custom prompt, use the `addCheckbox` function.
@@ -418,6 +430,15 @@ The `addCheckbox` function can take the following parameters:
 - `onUncheck`: Function to execute when the box is unchecked.
 - `large`: The default size of the checkbox is 24 x 24 pixels, checking this box sets the size to 32 x 32.
 - `startChecked`: If true, the box starts checked by default.
+
+The `addCheckbox()` function returns a `CustomPromptCheckbox` object, that you can then reference to change and read its values. This object also has the following functions that can be called any time:
+
+- `hide`
+- `show`
+- `check`: Sets the element to checked, without performing the associated function.
+- `uncheck`: Sets the element to checked, without performing the associated function.
+
+You can also read the returned object's `checked` property at any time to find its current state.
 
 ### Add a Switch
 
@@ -449,6 +470,15 @@ The `addSwitch` function can take the following parameters:
 
 <img src="screenshots/switch-styles.png" width="200">
 
+The `addSwitch()` function returns a `CustomPromptSwitch` object, that you can then reference to change and read its values. This object also has the following functions that can be called any time:
+
+- `hide`
+- `show`
+- `check`: Sets the element to checked, without performing the associated function.
+- `uncheck`: Sets the element to checked, without performing the associated function.
+
+You can also read the returned object's `checked` property at any time to find its current state.
+
 ### Add an icon
 
 To add an icon to a custom prompt, use the `addIcon` function.
@@ -460,11 +490,38 @@ prompt.addIcon(`images/icon.png`, -50, 0, 64, 64)
 The `addIcon` function can take the following parameters:
 
 - `image`: Path to the image file
-- `xOffset`: Offset on X, relative to the bottom-right corner
-- `yOffset`: Offset on Y, relative to the bottom-right corner
+- `xOffset`: Offset on X, relative to the window's center
+- `yOffset`: Offset on Y, relative to the window's center
 - `width`: Image width on screen in pixels
 - `height`: Image height on screen in pixels
 - `section`: Use only a section of the image file, useful when arranging multiple icons into an image atlas. This field takes an `ImageSection` object, specifying `sourceWidth` and `sourceHeight`, and optionally also `sourceLeft` and `sourceTop`.
+
+The `addIcon()` function returns a `CustomPromptIcon` object, that you can then reference to change its values. This object also has the following functions that can be called any time:
+
+- `hide`
+- `show`
+
+### Add an input box
+
+To add an input box to a custom prompt, use the `addTextBox` function.
+
+```ts
+prompt.addTextBox(`images/icon.png`, 0, 30)
+```
+
+The `addTextBox` function can take the following parameters:
+
+- `posX`: Offset on X, relative to the window's center
+- `posY`: Offset on Y, relative to the window's center
+- `placeholder`: Text to display in the input box before the player interacts with it.
+- `onChange`: Function that gets executed every time the player edits the content on the input box, once for each character changed.
+
+The `addTextBox()` function returns a `CustomPromptTextBox` object, that you can then reference to change and read its values. This object also has the following functions that can be called any time:
+
+- `hide`
+- `show`
+
+You can access the last edited value on the textbox by fetching the `currentText` value of the returned object.
 
 ### Full Custom UI example
 
@@ -475,18 +532,7 @@ let prompt = new ui.CustomPrompt(PromptStyles.DARKSLANTED)
 prompt.addText('What will you do?', 0, 130, Color4.Red(), 30)
 prompt.addText("It's an important decision", 0, 100)
 
-prompt.addCheckbox(
-  "Don't show again",
-  -80,
-  50,
-  () => {
-    log('checkbox ticked')
-  },
-  () => {
-    log('checkbox unticked')
-  },
-  false
-)
+let checkBox = prompt.addCheckbox("Don't show again", -80, 50)
 
 prompt.addButton(
   'Yeah',

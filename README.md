@@ -7,13 +7,13 @@ To use any of the helpers provided by the UI utils library:
 1. Install the library as an npm package. Run this command in your scene's project folder:
 
 ```
-npm install decentraland-ui-utils
+npm i @dcl/ui-utils
 ```
 
 2. Import the library into the scene's script. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
 ```ts
-import * as ui from '../node_modules/decentraland-ui-utils/index'
+import * as ui from '../node_modules/@dcl/ui-utils/index'
 ```
 
 3. In your TypeScript file, write `ui`. and let the suggestions of your IDE show the available helpers.

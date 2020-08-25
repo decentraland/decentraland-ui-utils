@@ -5,8 +5,8 @@ export let SFFont = new Font(Fonts.SanFrancisco)
 
 export let SFHeavyFont = new Font(Fonts.SanFrancisco_Heavy)
 
-export let lightTheme = new Texture('node_modules/decentraland-ui-utils/images/LightAtlas.png')
-export let darkTheme = new Texture('node_modules/decentraland-ui-utils/images/DarkAtlas.png')
+export let lightTheme = new Texture('node_modules/@dcl/ui-utils/images/LightAtlas.png')
+export let darkTheme = new Texture('node_modules/@dcl/ui-utils/images/DarkAtlas.png')
 
 export const message = new UIText(canvas) //messageBackground
 message.vAlign = 'center'
@@ -31,7 +31,7 @@ export const openDialogSound = new Entity()
 openDialogSound.addComponent(new Transform())
 openDialogSound.getComponent(Transform).position = Camera.instance.position
 openDialogSound.addComponent(
-  new AudioSource(new AudioClip('node_modules/decentraland-ui-utils/sounds/navigationForward.mp3'))
+  new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationForward.mp3'))
 )
 engine.addEntity(openDialogSound)
 
@@ -40,7 +40,7 @@ export const closeDialogSound = new Entity()
 closeDialogSound.addComponent(new Transform())
 closeDialogSound.getComponent(Transform).position = Camera.instance.position
 closeDialogSound.addComponent(
-  new AudioSource(new AudioClip('node_modules/decentraland-ui-utils/sounds/navigationBackward.mp3'))
+  new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationBackward.mp3'))
 )
 engine.addEntity(closeDialogSound)
 

@@ -6,7 +6,6 @@ import {
   PlayOpenSound,
   PlayCloseSound,
   SFHeavyFont,
-  setOpenUITime
 } from '../../utils/default-ui-comopnents'
 import resources, { setSection } from '../../utils/resources'
 
@@ -116,11 +115,11 @@ export class FillInPrompt extends Entity {
 
     let submittedText: string = ''
 
-    this.fillInBox.onChanged = new OnChanged(x => {
+    this.fillInBox.onChanged = new OnChanged((x) => {
       submittedText = x.value
     })
 
-    this.fillInBox.onTextSubmit = new OnTextSubmit(x => {
+    this.fillInBox.onTextSubmit = new OnTextSubmit((x) => {
       //submittedText = x.text
       this.accept(submittedText)
     })
@@ -129,11 +128,16 @@ export class FillInPrompt extends Entity {
       this.accept(submittedText)
     })
 
-    this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
-      if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
-        this.accept(submittedText)
+    this.EButtonAction = Input.instance.subscribe(
+      'BUTTON_DOWN',
+      ActionButton.PRIMARY,
+      false,
+      (e) => {
+        if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
+          this.accept(submittedText)
+        }
       }
-    })
+    )
   }
 
   public close(): void {

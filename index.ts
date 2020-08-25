@@ -25,5 +25,5 @@ export {
   FillInPrompt,
   CustomPrompt,
   DialogWindow,
-  LoadingIcon
+  LoadingIcon,
 }

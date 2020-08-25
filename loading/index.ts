@@ -1,4 +1,4 @@
-import { lightTheme, canvas } from 'decentraland-ui-utils/utils/default-ui-comopnents'
+import { lightTheme, canvas } from '../utils/default-ui-comopnents'
 import { Delay } from '../utils/timerComponents'
 import resources, { setSection } from '../utils/resources'
 

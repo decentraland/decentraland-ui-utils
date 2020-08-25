@@ -1,5 +1,5 @@
-import { canvas } from 'decentraland-ui-utils/utils/default-ui-comopnents'
-import { ImageSection } from 'decentraland-ui-utils/utils/types'
+import { canvas } from '../utils/default-ui-comopnents'
+import { ImageSection } from '../utils/types'
 import { Delay } from '../utils/timerComponents'
 
 /**

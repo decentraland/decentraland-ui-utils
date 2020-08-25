@@ -5,7 +5,6 @@ import {
   SFFont,
   PlayOpenSound,
   PlayCloseSound,
-  setOpenUITime
 } from '../../utils/default-ui-comopnents'
 import resources, { setSection } from '../../utils/resources'
 
@@ -104,11 +103,16 @@ export class OkPrompt extends Entity {
       this.accept()
     })
 
-    this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
-      if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
-        this.accept()
+    this.EButtonAction = Input.instance.subscribe(
+      'BUTTON_DOWN',
+      ActionButton.PRIMARY,
+      false,
+      (e) => {
+        if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
+          this.accept()
+        }
       }
-    })
+    )
   }
 
   public close(): void {

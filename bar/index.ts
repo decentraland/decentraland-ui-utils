@@ -1,5 +1,5 @@
-import { canvas, lightTheme } from 'decentraland-ui-utils/utils/default-ui-comopnents'
-import { BarStyles } from 'decentraland-ui-utils/utils/types'
+import { canvas, lightTheme } from '../utils/default-ui-comopnents'
+import { BarStyles } from '../utils/types'
 import resources, { setSection } from '../utils/resources'
 
 /**

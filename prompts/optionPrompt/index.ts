@@ -6,7 +6,6 @@ import {
   PlayOpenSound,
   PlayCloseSound,
   SFHeavyFont,
-  setOpenUITime
 } from '../../utils/default-ui-comopnents'
 import resources, { setSection } from '../../utils/resources'
 
@@ -133,11 +132,16 @@ export class OptionPrompt extends Entity {
       this.accept()
     })
 
-    this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
-      if (this.buttonE.visible && +Date.now() - this.UIOpenTime > 100) {
-        this.accept()
+    this.EButtonAction = Input.instance.subscribe(
+      'BUTTON_DOWN',
+      ActionButton.PRIMARY,
+      false,
+      (e) => {
+        if (this.buttonE.visible && +Date.now() - this.UIOpenTime > 100) {
+          this.accept()
+        }
       }
-    })
+    )
 
     this.buttonF = new UIImage(promptBackground, uiTheme)
     this.buttonF.positionX = 100
@@ -164,7 +168,7 @@ export class OptionPrompt extends Entity {
       'BUTTON_DOWN',
       ActionButton.SECONDARY,
       false,
-      e => {
+      (e) => {
         if (this.buttonF.visible && +Date.now() - this.UIOpenTime > 100) {
           this.reject()
         }

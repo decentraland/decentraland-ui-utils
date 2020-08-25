@@ -52,3 +52,7 @@ export function displayAnnouncement(
     )
   }
 }
+
+export function hideAnnouncements() {
+  message.visible = false
+}

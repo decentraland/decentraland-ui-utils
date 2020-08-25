@@ -4,14 +4,9 @@ import {
   lightTheme,
   promptBackground,
   SFFont,
-  PlayCloseSound
+  PlayCloseSound,
 } from '../../utils/default-ui-comopnents'
-import {
-  PromptStyles,
-  ButtonStyles,
-  SwitchStyles,
-  ImageSection
-} from 'decentraland-ui-utils/utils/types'
+import { PromptStyles, ButtonStyles, SwitchStyles, ImageSection } from '../../utils/types'
 
 /**
  * Displays a number on the center of the UI
@@ -324,13 +319,13 @@ export class CustomPromptButton extends Entity {
     })
 
     if (style == ButtonStyles.E) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
         if (this.image.visible && +Date.now() - UIOpenTime > 100) {
           onClick()
         }
       })
     } else if (style == ButtonStyles.F) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, e => {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, (e) => {
         if (this.image.visible && +Date.now() - UIOpenTime > 100) {
           onClick()
         }
@@ -637,13 +632,13 @@ export class CustomPromptTextBox extends Entity {
     this.fillInBox.vTextAlign = 'center'
     this.fillInBox.fontSize = 22
 
-    this.fillInBox.onChanged = new OnChanged(x => {
+    this.fillInBox.onChanged = new OnChanged((x) => {
       if (!this.fillInBox.visible) return
       this.currentText = x.value
       onChange(this.currentText)
     })
 
-    this.fillInBox.onTextSubmit = new OnTextSubmit(x => {
+    this.fillInBox.onTextSubmit = new OnTextSubmit((x) => {
       if (!this.fillInBox.visible) return
       this.currentText = x.text
       onChange(this.currentText)

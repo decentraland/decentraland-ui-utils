@@ -1,6 +1,6 @@
 {
   "name": "@dcl/ui-utils",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "A collection of UI helpers to make it easier to build a Decentraland scene using the SDK.",
   "main": "index.ts",
   "scripts": {

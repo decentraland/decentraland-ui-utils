@@ -669,3 +669,23 @@ When on a question entry, you can customize the following:
 - Set the label of either of the buttons, including text, size and alignment.
 - With the `ifPressE` and `ifPressE` you specify the index of the next dialog entry to display.
 - With `triggeredByE` and `triggeredByF` you can provide an additional function that gets run whenever the option is picked.
+
+---
+
+## CI/CD
+
+This repository uses `semantic-release` to atumatically release new versions of the package to NPM.
+
+Use the following convention for commit names:
+
+`feat: something`: Minor release, every time you add a feature or enhancement that doesn’t break the api.
+
+`fix: something`: Bug fixing / patch
+
+`chore: something`: Anything that doesn't require a release to npm, like changing the readme. Updating a dependency is **not** a chore if it fixes a bug or a vulnerability, that's a `fix`.
+
+If you break the API of the library, you need to do a major release, and that's done a different way. You need to add a second comment that starts with `BREAKING CHANGE`, like:
+
+```
+commit -m "feat: changed the signature of a method" -m "BREAKING CHANGE: this commit breaks the API, changing foo(arg1) to foo(arg1, arg2)"
+```

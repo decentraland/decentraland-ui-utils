@@ -1,17 +1,14 @@
 {
-  "name": "decentraland-ui-utils",
-  "version": "0.0.0-development",
+  "name": "@dcl/ui-utils",
+  "version": "0.0.0",
   "description": "A collection of UI helpers to make it easier to build a Decentraland scene using the SDK.",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "make": "cp -r src dist && cp package.json dist/package.json && cp LICENSE dist/LICENSE && cp README.md dist/README.md",
-    "makeclean": "rm -rf dist && npm run make",
     "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/decentraland/decentraland-crypto-utils.git"
+    "url": "git+https://github.com/decentraland/decentraland-ui-utils.git"
   },
   "prettier": {
     "printWidth": 100,
@@ -32,5 +29,8 @@
   },
   "dependencies": {
     "decentraland-ecs": "next"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -28,7 +28,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "decentraland-ecs": "next"
+    "decentraland-ecs": "latest"
   },
   "publishConfig": {
     "access": "public"

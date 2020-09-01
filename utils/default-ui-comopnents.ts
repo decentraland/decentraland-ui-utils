@@ -29,7 +29,7 @@ promptBackground.visible = false
 // Open dialog sound
 export const openDialogSound = new Entity()
 openDialogSound.addComponent(new Transform())
-openDialogSound.getComponent(Transform).position = Camera.instance.position
+openDialogSound.setParent(Attachable.PLAYER)
 openDialogSound.addComponent(
   new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationForward.mp3'))
 )
@@ -38,7 +38,7 @@ engine.addEntity(openDialogSound)
 // Close dialog sound
 export const closeDialogSound = new Entity()
 closeDialogSound.addComponent(new Transform())
-closeDialogSound.getComponent(Transform).position = Camera.instance.position
+closeDialogSound.setParent(Attachable.PLAYER)
 closeDialogSound.addComponent(
   new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationBackward.mp3'))
 )

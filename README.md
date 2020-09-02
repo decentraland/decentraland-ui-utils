@@ -216,7 +216,7 @@ let gameOver = new ui.CenterImage('images/Burn.png', 3, true, 0, 0, 512, 512, {
   sourceHeight: 512,
   sourceWidth: 512,
   sourceLeft: 0,
-  sourceTop: 0
+  sourceTop: 0,
 })
 gameOver.show()
 ```
@@ -606,15 +606,15 @@ Below is a minimal dialog.
 ```ts
 export let NPCTalk: Dialog[] = [
   {
-    text: 'Hi there'
+    text: 'Hi there',
   },
   {
-    text: 'It sure is nice talking to you'
+    text: 'It sure is nice talking to you',
   },
   {
     text: 'I must go, my planet needs me',
-    isEndOfDialog: true
-  }
+    isEndOfDialog: true,
+  },
 ]
 ```
 
@@ -623,12 +623,11 @@ The player advances through each entry by clicking the mouse button. Once the la
 The script must adhere to the following schema:
 
 ```ts
-export class Dialog {
+class Dialog {
   text: string
   fontSize?: number
+  offsetX?: number
   offsetY?: number
-  portrait?: Portrait
-  isEndOfDialog?: boolean = false
   isQuestion?: boolean = false
   labelE?: {
     label: string
@@ -646,6 +645,9 @@ export class Dialog {
   }
   ifPressF?: number
   triggeredByF?: () => void
+  isEndOfDialog?: boolean = false
+  portrait?: Portrait
+  image?: Portrait
 }
 ```
 
@@ -653,8 +655,19 @@ You can set the following fields to change the appearance of a dialog:
 
 - `text`: The dialog text
 - `fontSize`: Size of the text
-- `offsetY`: Offset of the text on the Y axis, relative to its normal position. This is especially useful to align longer multi-line strings.
-- `portrait`: Sets the portrait image to use on the left. This field expects a `Portrait` object, that may include the following fields: - `path`: Path to the image file. - `xOffset`: Offset on X, relative to the normal position of the portrait. - `yOffset`: Offset on Y, relative to the normal position of the portrait. - `section`: Use only a section of the image file, useful when arranging multiple icons into an image atlas. This field takes an `ImageSection` object, specifying `sourceWidth` and `sourceHeight`, and optionally also `sourceLeft` and `sourceTop`.
+- `offsetX`: Offset of the text on the X axis, relative to its normal position.
+- `offsetY`: Offset of the text on the Y axis, relative to its normal position.
+- `portrait`: Sets the portrait image to use on the left. This field expects a `Portrait` object.
+- `image`: Sets a second image to use on the right of the dialog, and slightly up. This field expects an `ImageData` object.
+
+The `ImageData` required for the `portrait` and `image` fields, may include the following:
+
+- `path`: Path to the image file.
+- `xOffset`: Offset on X, relative to the normal position of the image.
+- `yOffset`: Offset on Y, relative to the normal position of the image.
+- `width`: The width to show the image onscreen.
+- `height`: The height to show the image onscreen.
+- `section`: Use only a section of the image file, useful when arranging multiple icons into an image atlas. This field takes an `ImageSection` object, specifying `sourceWidth` and `sourceHeight`, and optionally also `sourceLeft` and `sourceTop`.
 
 #### Questions and conversation trees
 

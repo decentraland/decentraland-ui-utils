@@ -1,29 +1,24 @@
 import { canvas, SFFont, lightTheme, darkTheme } from '../utils/default-ui-comopnents'
-import { ImageData, Dialog } from '../utils/types'
+import { Portrait, Dialog } from '../utils/types'
 import resources, { setSection } from '../utils/resources'
 
 export enum ConfirmMode {
   Confirm = 0,
   Cancel = 1,
-  Next = 2,
+  Next = 2
 }
 
 let portraitXPos = -350
 let portraitYPos = 0
-
-let imageXPos = 350
-let imageYPos = 50
-
 let textSize = 22
 let buttonTextSise = 18
 
 export class DialogWindow {
   public NPCScript: Dialog[]
-  private defaultPortrait: ImageData = null
+  private defaultPortrait: Portrait = null
   private container: UIContainerRect
   private panel: UIImage
   private portrait: UIImage
-  private image: UIImage
   private text: UIText
   private buttonE: UIImage
   private buttonELabel: UIText
@@ -37,7 +32,7 @@ export class DialogWindow {
   ClickAction: () => false | Subscription[]
   EButtonAction: () => false | Subscription[]
   FButtonAction: () => false | Subscription[]
-  constructor(defaultPortrait?: ImageData, useDarkTheme?: boolean) {
+  constructor(defaultPortrait?: Portrait, useDarkTheme?: boolean) {
     this.defaultPortrait = defaultPortrait ? defaultPortrait : null
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
@@ -69,8 +64,8 @@ export class DialogWindow {
       defaultPortrait && defaultPortrait.section ? defaultPortrait.section.sourceWidth : 256
     this.portrait.sourceHeight =
       defaultPortrait && defaultPortrait.section ? defaultPortrait.section.sourceHeight : 256
-    this.portrait.width = defaultPortrait && defaultPortrait.width ? defaultPortrait.width : 256
-    this.portrait.height = defaultPortrait && defaultPortrait.height ? defaultPortrait.height : 256
+    this.portrait.width = 256
+    this.portrait.height = 256
     this.portrait.positionX =
       defaultPortrait && defaultPortrait.offsetX
         ? defaultPortrait.offsetX + portraitXPos
@@ -80,21 +75,6 @@ export class DialogWindow {
         ? defaultPortrait.offsetY + portraitYPos
         : portraitYPos
     this.portrait.onClick = new OnClick((): void => {
-      this.confirmText(ConfirmMode.Next)
-    })
-
-    // Image
-    this.image = new UIImage(this.container, new Texture(uiTheme.src))
-
-    this.image.sourceWidth = 256
-    this.image.sourceHeight = 256
-    this.image.sourceTop = 0
-    this.image.sourceLeft = 0
-    this.image.width = 256
-    this.image.height = 256
-    this.image.positionX = imageXPos
-    this.image.positionY = imageYPos
-    this.image.onClick = new OnClick((): void => {
       this.confirmText(ConfirmMode.Next)
     })
 
@@ -206,20 +186,6 @@ export class DialogWindow {
         : this.defaultPortrait && this.defaultPortrait.offsetY
         ? this.defaultPortrait.offsetY + portraitYPos
         : portraitYPos
-      this.portrait.width = hasPortrait
-        ? NPCScript[textId].portrait.width
-          ? NPCScript[textId].portrait.width
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.width
-        ? this.defaultPortrait.width
-        : 256
-      this.portrait.height = hasPortrait
-        ? NPCScript[textId].portrait.height
-          ? NPCScript[textId].portrait.height
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.height
-        ? this.defaultPortrait.height
-        : 256
 
       if (hasPortrait && NPCScript[textId].portrait.section) {
         setSection(this.portrait, NPCScript[textId].portrait.section)
@@ -232,54 +198,25 @@ export class DialogWindow {
       this.portrait.visible = false
     }
 
-    this.image.visible = false
-    let hasImage = NPCScript[textId].image ? true : false
-
-    // Set image on the right
-    if (hasImage) {
-      let image = NPCScript[textId].image
-      log('setting image to ', image.path)
-      this.image.source = new Texture(image.path)
-
-      this.image.positionX = image.offsetX ? image.offsetX + imageXPos : imageXPos
-      this.image.positionY = image.offsetY ? image.offsetY + imageYPos : imageYPos
-
-      this.image.width = image.width ? image.width : 256
-      this.portrait.height = image.height ? image.height : 256
-
-      if (image.section) {
-        setSection(this.image, image.section)
-      }
-      this.image.visible = true
-    } else {
-      this.image.visible = false
-    }
-
     // Set text
     this.text.value = currentText.text
     this.text.fontSize = currentText.fontSize ? currentText.fontSize : textSize
     this.text.positionY = currentText.offsetY ? currentText.offsetY + 20 : 20
-    this.text.positionX = currentText.offsetX ? currentText.offsetX : 0
     this.text.visible = true
     this.container.visible = true
 
     // Global button events
     if (!this.ClickAction) {
-      this.ClickAction = Input.instance.subscribe(
-        'BUTTON_DOWN',
-        ActionButton.POINTER,
-        false,
-        (e) => {
-          if (this.isDialogOpen && !this.isQuestionPanel && +Date.now() - this.UIOpenTime > 100) {
-            this.confirmText(ConfirmMode.Next)
-          }
+      this.ClickAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.POINTER, false, e => {
+        if (this.isDialogOpen && !this.isQuestionPanel && +Date.now() - this.UIOpenTime > 100) {
+          this.confirmText(ConfirmMode.Next)
         }
-      )
+      })
       this.EButtonAction = Input.instance.subscribe(
         'BUTTON_DOWN',
         ActionButton.PRIMARY,
         false,
-        (e) => {
+        e => {
           if (this.isDialogOpen && this.isQuestionPanel && +Date.now() - this.UIOpenTime > 100) {
             this.confirmText(ConfirmMode.Confirm)
           }
@@ -289,7 +226,7 @@ export class DialogWindow {
         'BUTTON_DOWN',
         ActionButton.SECONDARY,
         false,
-        (e) => {
+        e => {
           if (this.isDialogOpen && this.isQuestionPanel && +Date.now() - this.UIOpenTime > 100) {
             this.confirmText(ConfirmMode.Cancel)
           }
@@ -365,21 +302,6 @@ export class DialogWindow {
         ? this.defaultPortrait.offsetY + portraitYPos
         : portraitYPos
 
-      this.portrait.width = hasPortrait
-        ? currentText.portrait.width
-          ? currentText.portrait.width
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.width
-        ? this.defaultPortrait.width
-        : 256
-      this.portrait.height = hasPortrait
-        ? currentText.portrait.height
-          ? currentText.portrait.height
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.height
-        ? this.defaultPortrait.height
-        : 256
-
       if (hasPortrait && currentText.portrait.section) {
         setSection(this.portrait, currentText.portrait.section)
       } else if (!hasPortrait && this.defaultPortrait && this.defaultPortrait.section) {
@@ -389,28 +311,6 @@ export class DialogWindow {
     } else {
       log('No portrait')
       this.portrait.visible = false
-    }
-
-    let hasImage = currentText.image ? true : false
-
-    // Set image on the right
-    if (hasImage) {
-      let image = currentText.image
-      log('setting image to ', image.path)
-      this.image.source = new Texture(image.path)
-
-      this.image.positionX = image.offsetX ? image.offsetX + imageXPos : imageXPos
-      this.image.positionY = image.offsetY ? image.offsetY + imageYPos : imageYPos
-
-      this.image.width = currentText.image.width ? currentText.image.width : 256
-      this.image.height = currentText.image.height ? currentText.image.height : 256
-
-      if (image.section) {
-        setSection(this.image, image.section)
-      }
-      this.image.visible = true
-    } else {
-      this.image.visible = false
     }
 
     // Buttons & action icons

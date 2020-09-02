@@ -11,7 +11,7 @@ export enum PromptStyles {
   LIGHTLARGE = `lightlarge`,
   DARKLARGE = `darklarge`,
   LIGHTSLANTED = `lightslanted`,
-  DARKSLANTED = `darkslanted`
+  DARKSLANTED = `darkslanted`,
 }
 
 export enum BarStyles {
@@ -22,7 +22,7 @@ export enum BarStyles {
   SQUAREBLACK = `squareblack`,
   SQUAREWHITE = `squarewhite`,
   SQUARESILVER = `squaresilver`,
-  SQUAREGOLD = `squaregold`
+  SQUAREGOLD = `squaregold`,
 }
 
 export enum ButtonStyles {
@@ -35,26 +35,29 @@ export enum ButtonStyles {
   SQUAREBLACK = `squareblack`,
   SQUAREWHITE = `squarewhite`,
   SQUARESILVER = `squaresilver`,
-  SQUAREGOLD = `squaregold`
+  SQUAREGOLD = `squaregold`,
 }
 
 export enum SwitchStyles {
   ROUNDGREEN = `roundgreen`,
   ROUNDRED = `roundred`,
   SQUAREGREEN = `squaregreen`,
-  SQUARERED = `squarered`
+  SQUARERED = `squarered`,
 }
 
-export class Portrait {
+export class ImageData {
   path: string
   offsetX?: number
   offsetY?: number
+  height?: number
+  width?: number
   section?: ImageSection
 }
 
 export class Dialog {
   text: string
   fontSize?: number
+  offsetX?: number
   offsetY?: number
   isQuestion?: boolean = false
   labelE?: {
@@ -74,7 +77,8 @@ export class Dialog {
   ifPressF?: number
   triggeredByF?: () => void
   isEndOfDialog?: boolean = false
-  portrait?: Portrait
+  portrait?: ImageData
+  image?: ImageData
 }
 
 export class Dialogs {

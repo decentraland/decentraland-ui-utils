@@ -77,6 +77,7 @@ export class Dialog {
   ifPressF?: number
   triggeredByF?: () => void
   isEndOfDialog?: boolean = false
+  triggeredByNext?: () => void
   portrait?: ImageData
   image?: ImageData
 }

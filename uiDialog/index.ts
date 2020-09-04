@@ -232,7 +232,6 @@ export class DialogWindow {
       this.portrait.visible = false
     }
 
-    this.image.visible = false
     let hasImage = NPCScript[textId].image ? true : false
 
     // Set image on the right
@@ -309,10 +308,14 @@ export class DialogWindow {
 
     // Update active text
     if (mode == ConfirmMode.Next) {
-      if (currentText.isEndOfDialog) {
-        this.closeDialogWindow()
-        return
-      } else if (!currentText.isQuestion) {
+      if (!currentText.isQuestion) {
+        if (currentText.triggeredByNext) {
+          currentText.triggeredByNext()
+        }
+        if (currentText.isEndOfDialog) {
+          this.closeDialogWindow()
+          return
+        }
         this.activeTextId++
       }
     }
@@ -391,6 +394,7 @@ export class DialogWindow {
       this.portrait.visible = false
     }
 
+    this.image.visible = false
     let hasImage = currentText.image ? true : false
 
     // Set image on the right

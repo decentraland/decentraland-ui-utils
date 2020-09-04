@@ -646,6 +646,7 @@ class Dialog {
   ifPressF?: number
   triggeredByF?: () => void
   isEndOfDialog?: boolean = false
+  triggeredByNext?: () => void
   portrait?: Portrait
   image?: Portrait
 }
@@ -680,8 +681,84 @@ To make an entry a question, set the `isQuestion` field to _true_. This displays
 When on a question entry, you can customize the following:
 
 - Set the label of either of the buttons, including text, size and alignment.
-- With the `ifPressE` and `ifPressE` you specify the index of the next dialog entry to display.
+- With the `ifPressE` and `ifPressF` you specify the index of the next dialog entry to display.
 - With `triggeredByE` and `triggeredByF` you can provide an additional function that gets run whenever the option is picked.
+
+```ts
+export let GemsMission: Dialog[] = [
+  {
+    text: `Hello stranger`,
+  },
+  {
+    text: `Can you help me finding my missing gems?`,
+    isQuestion: true,
+    labelE: { label: `Yes!`, offsetX: 12 },
+    labelF: { label: `I'm busy`, offsetX: 12 },
+    ifPressE: 2,
+    ifPressF: 4,
+  },
+  {
+    text: `Ok, awesome, thanks!`,
+  },
+  {
+    text: `I need you to find 10 gems scattered around this scene, go find them!`,
+    isEndOfDialog: true,
+  },
+  {
+    text: `Ok, come back soon`,
+    isEndOfDialog: true,
+  },
+]
+```
+
+#### Triggering functions from the dialog
+
+You can run functions that may affect any other part of your scene, that get triggered by how the player interacts with the dialog window.
+
+- `triggeredByNext`: Is executed when the player advances to the next dialog on a non-question dialog. The function also gets called if the dialog is the end of the conversation.
+
+- `triggeredByE`: Is executed on a question dialog if the player hits the E key or clicks on the corresponding button.
+
+- `triggeredByF`: Is executed on a question dialog if the player hits the F key or clicks on the corresponding button.
+
+```ts
+export let GemsMission: Dialog[] = [
+  {
+	text: `Hello stranger`,
+	triggeredByNext: () => {
+		// NPC plays animation to show a gem
+	}
+  },
+   {
+    text: `Can you help me finding my missing gems?`,
+    isQuestion: true,
+    labelE: { label: `Yes!`, offsetX: 12 },
+    labelF: { label: `I'm busy`, offsetX: 12 },
+    ifPressE: 2,
+	ifPressF: 4,
+	triggeredByE: () => {
+		// NPC plays a celebratory animation
+	}
+	triggeredByF: () => {
+		// NPC waves goodbye
+	}
+  },
+  {
+    text: `Ok, awesome, thanks!`,
+  },
+  {
+	text: `I need you to find 10 gems scattered around this scene, go find them!`,
+	isEndOfDialog: true
+	triggeredByNext: () => {
+		// Gems are rendered all around the scene
+	}
+  },
+  {
+	text: `Ok, come back soon`,
+	isEndOfDialog: true
+  }
+]
+```
 
 ---
 

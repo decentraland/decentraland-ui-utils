@@ -737,7 +737,7 @@ export let GemsMission: Dialog[] = [
     ifPressE: 2,
 	ifPressF: 4,
 	triggeredByE: () => {
-		// NPC plays a celebratory animation
+		// NPC plays an animation to celebrate
 	}
 	triggeredByF: () => {
 		// NPC waves goodbye

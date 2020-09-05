@@ -15,6 +15,7 @@ import { Delay } from '../utils/timerComponents'
  */
 export class MediumIcon extends Entity {
   image: UIImage
+  canvas: UICanvas = canvas
   constructor(
     image: string,
     xOffset?: number,
@@ -63,6 +64,7 @@ export class MediumIcon extends Entity {
  */
 export class SmallIcon extends Entity {
   image: UIImage
+  canvas: UICanvas = canvas
   constructor(
     image: string,
     xOffset?: number,
@@ -111,6 +113,7 @@ export class SmallIcon extends Entity {
  */
 export class LargeIcon extends Entity {
   image: UIImage
+  canvas: UICanvas = canvas
   constructor(
     image: string,
     xOffset?: number,
@@ -161,6 +164,7 @@ export class LargeIcon extends Entity {
  */
 export class CenterImage extends Entity {
   image: UIImage
+  canvas: UICanvas = canvas
   constructor(
     image: string,
     duration: number,

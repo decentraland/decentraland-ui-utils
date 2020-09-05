@@ -13,6 +13,7 @@ import { canvas, SFFont } from '../utils/default-ui-comopnents'
  */
 export class CornerLabel extends Entity {
   uiText: UIText
+  canvas: UICanvas = canvas
   constructor(
     value: string,
     xOffset?: number,

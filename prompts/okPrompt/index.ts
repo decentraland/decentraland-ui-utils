@@ -5,6 +5,7 @@ import {
   SFFont,
   PlayOpenSound,
   PlayCloseSound,
+  canvas,
 } from '../../utils/default-ui-comopnents'
 import resources, { setSection } from '../../utils/resources'
 
@@ -25,6 +26,8 @@ export class OkPrompt extends Entity {
   onAccept: () => void
   EButtonAction: () => false | Subscription[]
   UIOpenTime: number
+  canvas: UICanvas = canvas
+  background: UIImage = promptBackground
   constructor(
     instructions: string,
     onAccept?: () => void,

@@ -12,6 +12,7 @@ import resources, { setSection } from '../utils/resources'
  */
 export class LoadingIcon extends Entity {
   image: UIImage
+  canvas: UICanvas = canvas
   constructor(duration?: number, xOffset?: number, yOffset?: number, scale?: number) {
     super()
 

@@ -6,6 +6,7 @@ import {
   PlayOpenSound,
   PlayCloseSound,
   SFHeavyFont,
+  canvas,
 } from '../../utils/default-ui-comopnents'
 import resources, { setSection } from '../../utils/resources'
 
@@ -28,6 +29,8 @@ export class FillInPrompt extends Entity {
   EButtonAction: () => false | Subscription[]
   fillInBox: UIInputText
   UIOpenTime: number
+  canvas: UICanvas = canvas
+  background: UIImage = promptBackground
   constructor(
     title: string,
     onAccept: (e: string) => void,

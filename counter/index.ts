@@ -14,6 +14,7 @@ import { canvas, SFFont } from '../utils/default-ui-comopnents'
 export class UICounter extends Entity {
   valueAsNum: number
   uiText: UIText
+  canvas: UICanvas = canvas
   constructor(
     value: number,
     xOffset?: number,

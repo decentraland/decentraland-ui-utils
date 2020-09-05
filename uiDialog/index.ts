@@ -20,20 +20,21 @@ let buttonTextSise = 18
 export class DialogWindow {
   public NPCScript: Dialog[]
   private defaultPortrait: ImageData = null
-  private container: UIContainerRect
-  private panel: UIImage
-  private portrait: UIImage
-  private image: UIImage
-  private text: UIText
-  private buttonE: UIImage
-  private buttonELabel: UIText
-  private buttonF: UIImage
-  private buttonFLabel: UIText
-  private leftClickIcon: UIImage
+  public container: UIContainerRect
+  public panel: UIImage
+  public portrait: UIImage
+  public image: UIImage
+  public text: UIText
+  public buttonE: UIImage
+  public buttonELabel: UIText
+  public buttonF: UIImage
+  public buttonFLabel: UIText
+  public leftClickIcon: UIImage
   public isDialogOpen: boolean
   public isQuestionPanel: boolean
   public activeTextId: number
   private UIOpenTime: number
+  canvas: UICanvas = canvas
   ClickAction: () => false | Subscription[]
   EButtonAction: () => false | Subscription[]
   FButtonAction: () => false | Subscription[]

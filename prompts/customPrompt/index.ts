@@ -29,6 +29,9 @@ export class CustomPrompt extends Entity {
   darkTheme: boolean
   closeIcon: UIImage = new UIImage(promptBackground, this.texture)
   UIOpenTime: number
+  canvas: UICanvas = canvas
+  background: UIImage = promptBackground
+
   constructor(style?: PromptStyles, width?: number, height?: number) {
     super()
 

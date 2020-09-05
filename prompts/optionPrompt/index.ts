@@ -6,6 +6,7 @@ import {
   PlayOpenSound,
   PlayCloseSound,
   SFHeavyFont,
+  canvas,
 } from '../../utils/default-ui-comopnents'
 import resources, { setSection } from '../../utils/resources'
 
@@ -34,6 +35,8 @@ export class OptionPrompt extends Entity {
   EButtonAction: () => false | Subscription[]
   FButtonAction: () => false | Subscription[]
   UIOpenTime: number
+  canvas: UICanvas = canvas
+  background: UIImage = promptBackground
   constructor(
     title: string,
     instructions: string,

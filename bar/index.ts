@@ -17,6 +17,7 @@ export class UIBar extends Entity {
   valueAsNum: number
   background: UIImage
   bar: UIContainerRect
+  canvas: UICanvas = canvas
   fullWidth: number
   constructor(
     value: number,

@@ -4,6 +4,7 @@ import {
   lightTheme,
   promptBackground,
   SFFont,
+  canvas,
   PlayCloseSound,
 } from '../../utils/default-ui-comopnents'
 import { PromptStyles, ButtonStyles, SwitchStyles, ImageSection } from '../../utils/types'

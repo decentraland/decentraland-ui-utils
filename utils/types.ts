@@ -60,6 +60,7 @@ export class Dialog {
   offsetX?: number
   offsetY?: number
   isQuestion?: boolean = false
+  isFixedScreen?: boolean = false
   labelE?: {
     label: string
     fontSize?: number

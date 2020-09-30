@@ -32,6 +32,7 @@ export class DialogWindow {
   public leftClickIcon: UIImage
   public isDialogOpen: boolean
   public isQuestionPanel: boolean
+  public isFixedScreen: boolean
   public activeTextId: number
   private UIOpenTime: number
   canvas: UICanvas = canvas
@@ -270,7 +271,7 @@ export class DialogWindow {
         ActionButton.POINTER,
         false,
         (e) => {
-          if (this.isDialogOpen && !this.isQuestionPanel && +Date.now() - this.UIOpenTime > 100) {
+          if (this.isDialogOpen && !this.isQuestionPanel && !this.isFixedScreen &&  +Date.now() - this.UIOpenTime > 100) {
             this.confirmText(ConfirmMode.Next)
           }
         }
@@ -426,7 +427,9 @@ export class DialogWindow {
   private layoutDialogWindow(textId: number): void {
     let currentText = this.NPCScript[textId]
 
-    this.isQuestionPanel = currentText.isQuestion
+	this.isQuestionPanel = currentText.isQuestion
+	
+	this.isFixedScreen = currentText.isFixedScreen
 
     if (currentText.isQuestion) {
       // Button E and label
@@ -468,7 +471,7 @@ export class DialogWindow {
 
       // Mouse icon
       this.leftClickIcon.visible = false
-    } else {
+    } else if( !this.isFixedScreen) {
       this.leftClickIcon.visible = true
       this.buttonE.visible = false
       this.buttonELabel.visible = false

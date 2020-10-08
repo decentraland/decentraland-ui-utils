@@ -192,7 +192,9 @@ export class OptionPrompt extends Entity {
   }
 
   public accept(): void {
-    this.onAccept()
+    if(this.onAccept){
+		  this.onAccept()
+	  }
 
     this.close()
     PlayOpenSound()
@@ -200,7 +202,9 @@ export class OptionPrompt extends Entity {
   }
 
   public reject(): void {
-    this.onReject()
+    if(this.onReject){
+		  this.onReject()
+	  }
 
     this.close()
     PlayCloseSound()

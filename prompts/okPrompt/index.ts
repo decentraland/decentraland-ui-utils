@@ -103,7 +103,9 @@ export class OkPrompt extends Entity {
     this.buttonLabel.isPointerBlocker = false
 
     this.button.onClick = new OnClick(() => {
-      this.accept()
+	
+		
+	  this.close()
     })
 
     this.EButtonAction = Input.instance.subscribe(
@@ -112,7 +114,11 @@ export class OkPrompt extends Entity {
       false,
       (e) => {
         if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
-          this.accept()
+			if(this.onAccept){
+				this.onAccept()
+			}
+			this.close()
+			PlayCloseSound()
         }
       }
     )

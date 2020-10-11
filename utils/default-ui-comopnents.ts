@@ -33,7 +33,7 @@ openDialogSound.addComponent(
   new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationForward.mp3'))
 )
 engine.addEntity(openDialogSound)
-openDialogSound.setParent(Attachable.PLAYER)
+openDialogSound.setParent(Attachable.AVATAR)
 
 // Close dialog sound
 export const closeDialogSound = new Entity()
@@ -42,7 +42,7 @@ closeDialogSound.addComponent(
   new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationBackward.mp3'))
 )
 engine.addEntity(closeDialogSound)
-closeDialogSound.setParent(Attachable.PLAYER)
+closeDialogSound.setParent(Attachable.AVATAR)
 
 export function PlayOpenSound() {
   openDialogSound.getComponent(AudioSource).playOnce()

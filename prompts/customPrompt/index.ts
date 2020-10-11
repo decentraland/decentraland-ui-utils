@@ -26,7 +26,7 @@ export class CustomPrompt extends Entity {
     | CustomPromptButton
     | CustomPromptTextBox
   )[] = []
-  texture: Texture
+  texture: Texture = lightTheme
   darkTheme: boolean
   closeIcon: UIImage = new UIImage(promptBackground, this.texture)
   UIOpenTime: number

@@ -9,25 +9,34 @@ import { canvas, SFFont } from '../utils/default-ui-comopnents'
  * @param color text color
  * @param size text size
  * @param bordersOff remove black border around text
+ * @param fixedDigits display a specific amount of digits, regardless of the value, adding preceding 0s
  *
  */
 export class UICounter extends Entity {
   valueAsNum: number
   uiText: UIText
   canvas: UICanvas = canvas
+  fixedDigits: number
   constructor(
     value: number,
     xOffset?: number,
     yOffset?: number,
     color?: Color4,
     size?: number,
-    bordersOff?: boolean
+    bordersOff?: boolean,
+    fixedDigits?: number
   ) {
     super()
     this.valueAsNum = value
     this.uiText = new UIText(canvas)
 
-    this.uiText.value = value.toString()
+
+    if(fixedDigits){
+        this.fixedDigits = fixedDigits
+    }
+
+    this.uiText.value = this.toFixedLengthString(value)
+    
 
     this.uiText.hAlign = 'right'
     this.uiText.vAlign = 'bottom'
@@ -48,16 +57,35 @@ export class UICounter extends Entity {
   }
   public increase(amount?: number): void {
     this.valueAsNum += amount ? amount : 1
-    this.uiText.value = this.valueAsNum.toString()
+    this.uiText.value = this.toFixedLengthString(this.valueAsNum)
   }
 
   public decrease(amount?: number): void {
     this.valueAsNum -= amount ? amount : 1
-    this.uiText.value = this.valueAsNum.toString()
+    this.uiText.value = this.toFixedLengthString(this.valueAsNum)
   }
 
   public set(amount: number): void {
     this.valueAsNum = amount
-    this.uiText.value = this.valueAsNum.toString()
+    this.uiText.value = this.toFixedLengthString(this.valueAsNum)
+  }
+  public toFixedLengthString(value: number){
+    
+    let stringValue = value.toString()
+    if(!this.fixedDigits) return stringValue
+    let lenDiff = stringValue.length - this.fixedDigits
+
+    if(lenDiff < 0){
+        while (stringValue.length - this.fixedDigits < 0){
+            stringValue.concat("0")
+        }
+    } else if (lenDiff > 0 ){
+        stringValue = value.toPrecision(this.fixedDigits)
+    }
+
+
+    return stringValue
+        
   }
 }
+

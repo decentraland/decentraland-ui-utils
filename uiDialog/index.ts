@@ -34,15 +34,17 @@ export class DialogWindow {
   public isQuestionPanel: boolean
   public isFixedScreen: boolean
   public activeTextId: number
+  public uiTheme: Texture
   private UIOpenTime: number
+
   canvas: UICanvas = canvas
   ClickAction: () => false | Subscription[]
   EButtonAction: () => false | Subscription[]
   FButtonAction: () => false | Subscription[]
-  constructor(defaultPortrait?: ImageData, useDarkTheme?: boolean) {
+  constructor(defaultPortrait?: ImageData, useDarkTheme?: boolean, customTheme?: Texture) {
     this.defaultPortrait = defaultPortrait ? defaultPortrait : null
 
-    let uiTheme = useDarkTheme ? darkTheme : lightTheme
+    this.uiTheme = customTheme ? customTheme: useDarkTheme? darkTheme : lightTheme
 
     // Container
     this.container = new UIContainerRect(canvas)
@@ -53,7 +55,7 @@ export class DialogWindow {
     this.container.visible = false
 
     // Text Panel
-    this.panel = new UIImage(this.container, uiTheme)
+    this.panel = new UIImage(this.container, this.uiTheme)
     setSection(this.panel, resources.backgrounds.NPCDialog)
     this.panel.width = 766
     this.panel.height = 248
@@ -64,7 +66,7 @@ export class DialogWindow {
     // Portrait
     this.portrait = new UIImage(
       this.container,
-      new Texture(defaultPortrait ? defaultPortrait.path : uiTheme.src)
+      new Texture(defaultPortrait ? defaultPortrait.path : this.uiTheme.src)
     )
 
     this.portrait.sourceWidth =
@@ -86,7 +88,7 @@ export class DialogWindow {
     })
 
     // Image
-    this.image = new UIImage(this.container, new Texture(uiTheme.src))
+    this.image = new UIImage(this.container, new Texture(this.uiTheme.src))
 
     this.image.sourceWidth = 256
     this.image.sourceHeight = 256
@@ -115,7 +117,7 @@ export class DialogWindow {
     this.text.isPointerBlocker = false
 
     // Button E
-    this.buttonE = new UIImage(this.container, uiTheme)
+    this.buttonE = new UIImage(this.container, this.uiTheme)
     this.buttonE.width = 174
     this.buttonE.height = 46
     setSection(this.buttonE, resources.buttons.buttonE)
@@ -138,7 +140,7 @@ export class DialogWindow {
     this.buttonELabel.isPointerBlocker = false
 
     // Button F
-    this.buttonF = new UIImage(this.container, uiTheme)
+    this.buttonF = new UIImage(this.container, this.uiTheme)
     this.buttonF.width = 174
     this.buttonF.height = 46
     setSection(this.buttonF, resources.buttons.buttonF)
@@ -161,7 +163,7 @@ export class DialogWindow {
     this.buttonFLabel.isPointerBlocker = false
 
     // Left Click Icon
-    this.leftClickIcon = new UIImage(this.container, uiTheme)
+    this.leftClickIcon = new UIImage(this.container, this.uiTheme)
     this.leftClickIcon.width = 32
     this.leftClickIcon.height = 48
     this.leftClickIcon.positionX = 340

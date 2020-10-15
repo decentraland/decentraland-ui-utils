@@ -1,4 +1,4 @@
-import { canvas } from '../utils/default-ui-comopnents'
+import { canvas } from '../utils/default-ui-components'
 import { ImageSection } from '../utils/types'
 import { Delay } from '../utils/timerComponents'
 

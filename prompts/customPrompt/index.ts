@@ -6,7 +6,7 @@ import {
   SFFont,
   canvas,
   PlayCloseSound,
-} from '../../utils/default-ui-comopnents'
+} from '../../utils/default-ui-components'
 import { PromptStyles, ButtonStyles, SwitchStyles, ImageSection } from '../../utils/types'
 
 /**

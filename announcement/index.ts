@@ -1,5 +1,5 @@
 import { Delay } from '../utils/timerComponents'
-import { message, PlayOpenSound, SFHeavyFont } from '../utils/default-ui-comopnents'
+import { message, PlayOpenSound, SFHeavyFont } from '../utils/default-ui-components'
 
 /**
  * Displays text in the center of the UI for a specific time

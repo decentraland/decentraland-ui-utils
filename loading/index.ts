@@ -1,4 +1,4 @@
-import { lightTheme, canvas } from '../utils/default-ui-comopnents'
+import { lightTheme, canvas } from '../utils/default-ui-components'
 import { Delay } from '../utils/timerComponents'
 import resources, { setSection } from '../utils/resources'
 

@@ -1,4 +1,4 @@
-import { canvas, SFFont, lightTheme, darkTheme } from '../utils/default-ui-comopnents'
+import { canvas, SFFont, lightTheme, darkTheme } from '../utils/default-ui-components'
 import { ImageData, Dialog } from '../utils/types'
 import resources, { setSection } from '../utils/resources'
 
@@ -44,7 +44,7 @@ export class DialogWindow {
   constructor(defaultPortrait?: ImageData, useDarkTheme?: boolean, customTheme?: Texture) {
     this.defaultPortrait = defaultPortrait ? defaultPortrait : null
 
-    this.uiTheme = customTheme ? customTheme: useDarkTheme? darkTheme : lightTheme
+    this.uiTheme = customTheme ? customTheme : useDarkTheme ? darkTheme : lightTheme
 
     // Container
     this.container = new UIContainerRect(canvas)
@@ -273,7 +273,12 @@ export class DialogWindow {
         ActionButton.POINTER,
         false,
         (e) => {
-          if (this.isDialogOpen && !this.isQuestionPanel && !this.isFixedScreen &&  +Date.now() - this.UIOpenTime > 100) {
+          if (
+            this.isDialogOpen &&
+            !this.isQuestionPanel &&
+            !this.isFixedScreen &&
+            +Date.now() - this.UIOpenTime > 100
+          ) {
             this.confirmText(ConfirmMode.Next)
           }
         }
@@ -429,9 +434,9 @@ export class DialogWindow {
   private layoutDialogWindow(textId: number): void {
     let currentText = this.NPCScript[textId]
 
-	this.isQuestionPanel = currentText.isQuestion
-	
-	this.isFixedScreen = currentText.isFixedScreen
+    this.isQuestionPanel = currentText.isQuestion
+
+    this.isFixedScreen = currentText.isFixedScreen
 
     if (currentText.isQuestion) {
       // Button E and label
@@ -473,7 +478,7 @@ export class DialogWindow {
 
       // Mouse icon
       this.leftClickIcon.visible = false
-    } else if( !this.isFixedScreen) {
+    } else if (!this.isFixedScreen) {
       this.leftClickIcon.visible = true
       this.buttonE.visible = false
       this.buttonELabel.visible = false

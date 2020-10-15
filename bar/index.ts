@@ -1,4 +1,4 @@
-import { canvas, lightTheme } from '../utils/default-ui-comopnents'
+import { canvas, lightTheme } from '../utils/default-ui-components'
 import { BarStyles } from '../utils/types'
 import resources, { setSection } from '../utils/resources'
 

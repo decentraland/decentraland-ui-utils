@@ -1,4 +1,4 @@
-import { canvas, SFFont } from '../utils/default-ui-comopnents'
+import { canvas, SFFont } from '../utils/default-ui-components'
 
 /**
  * Displays a number on the center of the UI
@@ -30,13 +30,11 @@ export class UICounter extends Entity {
     this.valueAsNum = value
     this.uiText = new UIText(canvas)
 
-
-    if(fixedDigits){
-        this.fixedDigits = fixedDigits
+    if (fixedDigits) {
+      this.fixedDigits = fixedDigits
     }
 
     this.uiText.value = this.toFixedLengthString(value)
-    
 
     this.uiText.hAlign = 'right'
     this.uiText.vAlign = 'bottom'
@@ -69,23 +67,19 @@ export class UICounter extends Entity {
     this.valueAsNum = amount
     this.uiText.value = this.toFixedLengthString(this.valueAsNum)
   }
-  public toFixedLengthString(value: number){
-    
+  public toFixedLengthString(value: number) {
     let stringValue = value.toString()
-    if(!this.fixedDigits) return stringValue
+    if (!this.fixedDigits) return stringValue
     let lenDiff = stringValue.length - this.fixedDigits
 
-    if(lenDiff < 0){
-        while (stringValue.length - this.fixedDigits < 0){
-            stringValue.concat("0")
-        }
-    } else if (lenDiff > 0 ){
-        stringValue = value.toPrecision(this.fixedDigits)
+    if (lenDiff < 0) {
+      while (stringValue.length - this.fixedDigits < 0) {
+        stringValue.concat('0')
+      }
+    } else if (lenDiff > 0) {
+      stringValue = value.toPrecision(this.fixedDigits)
     }
 
-
     return stringValue
-        
   }
 }
-

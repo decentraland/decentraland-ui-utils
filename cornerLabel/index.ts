@@ -1,4 +1,4 @@
-import { canvas, SFFont } from '../utils/default-ui-comopnents'
+import { canvas, SFFont } from '../utils/default-ui-components'
 
 /**
  * Displays a number on the center of the UI

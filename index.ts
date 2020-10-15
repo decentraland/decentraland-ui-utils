@@ -9,6 +9,7 @@ import { CustomPrompt } from './prompts/customPrompt/index'
 import { CornerLabel } from './cornerLabel/index'
 import { DialogWindow } from './uiDialog/index'
 import { LoadingIcon } from './loading/index'
+import { canvas, SFFont, SFHeavyFont, lightTheme, darkTheme } from './utils/default-ui-components'
 
 export {
   displayAnnouncement,
@@ -26,4 +27,9 @@ export {
   CustomPrompt,
   DialogWindow,
   LoadingIcon,
+  canvas,
+  SFFont,
+  SFHeavyFont,
+  lightTheme,
+  darkTheme,
 }

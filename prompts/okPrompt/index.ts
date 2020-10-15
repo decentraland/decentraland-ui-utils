@@ -6,7 +6,7 @@ import {
   PlayOpenSound,
   PlayCloseSound,
   canvas,
-} from '../../utils/default-ui-comopnents'
+} from '../../utils/default-ui-components'
 import resources, { setSection } from '../../utils/resources'
 
 /**
@@ -103,7 +103,7 @@ export class OkPrompt extends Entity {
     this.buttonLabel.isPointerBlocker = false
 
     this.button.onClick = new OnClick(() => {
-		this.accept()
+      this.accept()
     })
 
     this.EButtonAction = Input.instance.subscribe(
@@ -112,7 +112,7 @@ export class OkPrompt extends Entity {
       false,
       (e) => {
         if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
-			this.accept()
+          this.accept()
         }
       }
     )
@@ -128,9 +128,9 @@ export class OkPrompt extends Entity {
   }
 
   public accept(): void {
-    if(this.onAccept){
-		this.onAccept()
-	}
+    if (this.onAccept) {
+      this.onAccept()
+    }
 
     this.close()
     PlayOpenSound()

@@ -26,7 +26,7 @@ export class Delay implements ITimerComponent {
     this.elapsedTime = 0
     this.targetTime = seconds
     this.onTimeReachedCallback = onTimeReachedCallback
-    this.onTargetTimeReached = entity => {
+    this.onTargetTimeReached = (entity) => {
       if (this.onTimeReachedCallback) this.onTimeReachedCallback()
       entity.removeComponent(this)
     }

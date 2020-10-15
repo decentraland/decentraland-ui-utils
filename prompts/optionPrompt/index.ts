@@ -7,7 +7,7 @@ import {
   PlayCloseSound,
   SFHeavyFont,
   canvas,
-} from '../../utils/default-ui-comopnents'
+} from '../../utils/default-ui-components'
 import resources, { setSection } from '../../utils/resources'
 
 /**
@@ -192,9 +192,9 @@ export class OptionPrompt extends Entity {
   }
 
   public accept(): void {
-    if(this.onAccept){
-		  this.onAccept()
-	  }
+    if (this.onAccept) {
+      this.onAccept()
+    }
 
     this.close()
     PlayOpenSound()
@@ -202,9 +202,9 @@ export class OptionPrompt extends Entity {
   }
 
   public reject(): void {
-    if(this.onReject){
-		  this.onReject()
-	  }
+    if (this.onReject) {
+      this.onReject()
+    }
 
     this.close()
     PlayCloseSound()

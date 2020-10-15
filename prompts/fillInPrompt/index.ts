@@ -7,7 +7,7 @@ import {
   PlayCloseSound,
   SFHeavyFont,
   canvas,
-} from '../../utils/default-ui-comopnents'
+} from '../../utils/default-ui-components'
 import resources, { setSection } from '../../utils/resources'
 
 /**

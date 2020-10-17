@@ -72,11 +72,12 @@ export class UICounter extends Entity {
     if (!this.fixedDigits) return stringValue
     let lenDiff = stringValue.length - this.fixedDigits
 
-    if (lenDiff < 0) {
-      while (stringValue.length - this.fixedDigits < 0) {
-        stringValue.concat('0')
-      }
-    } else if (lenDiff > 0) {
+       while (lenDiff < 0) {
+		stringValue = '0'.concat(stringValue)
+		lenDiff +=1
+	  }
+	  
+   if (lenDiff > 0) {
       stringValue = value.toPrecision(this.fixedDigits)
     }
 

@@ -1,4 +1,4 @@
-import { canvas, SFFont, lightTheme, darkTheme } from '../utils/default-ui-components'
+import { canvas, SFFont, lightTheme, darkTheme, SFHeavyFont } from '../utils/default-ui-components'
 import { ImageData, Dialog } from '../utils/types'
 import resources, { setSection } from '../utils/resources'
 
@@ -14,7 +14,9 @@ let portraitYPos = 0
 let imageXPos = 350
 let imageYPos = 50
 
-let textSize = 22
+let textSize = 24
+let textYPos = 10
+
 let buttonTextSise = 18
 
 export class DialogWindow {
@@ -109,9 +111,13 @@ export class DialogWindow {
     this.text.width = 450
     this.text.positionX = 20
     this.text.hAlign = 'center'
-    this.text.vAlign = 'center'
-    this.text.font = SFFont
+	this.text.vAlign = 'center'
+	this.text.font = SFHeavyFont
     this.text.fontSize = textSize
+    this.text.hTextAlign = 'center'
+	this.text.vTextAlign = 'center'
+	this.text.positionY = textYPos
+	
     this.text.fontWeight = 'normal'
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
     this.text.isPointerBlocker = false
@@ -261,7 +267,7 @@ export class DialogWindow {
     // Set text
     this.text.value = currentText.text
     this.text.fontSize = currentText.fontSize ? currentText.fontSize : textSize
-    this.text.positionY = currentText.offsetY ? currentText.offsetY + 20 : 20
+    this.text.positionY = currentText.offsetY ? currentText.offsetY + textYPos : textYPos
     this.text.positionX = currentText.offsetX ? currentText.offsetX : 0
     this.text.visible = true
     this.container.visible = true
@@ -349,7 +355,7 @@ export class DialogWindow {
     // Update text
     this.text.value = currentText.text
     this.text.fontSize = currentText.fontSize ? currentText.fontSize : textSize
-    this.text.positionY = currentText.offsetY ? currentText.offsetY + 20 : 20
+    this.text.positionY = currentText.offsetY ? currentText.offsetY + textYPos : textYPos
 
     let hasPortrait = currentText.portrait ? true : false
 

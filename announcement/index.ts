@@ -1,4 +1,4 @@
-import { Delay } from '../utils/timerComponents'
+import { UIDelay } from '../utils/timerComponents'
 import { message, PlayOpenSound, SFHeavyFont } from '../utils/default-ui-components'
 
 /**
@@ -46,7 +46,7 @@ export function displayAnnouncement(
 
   if (duration != -1) {
     dummyEnty.addComponentOrReplace(
-      new Delay(duration ? duration : 3, () => {
+      new UIDelay(duration ? duration : 3, () => {
         message.visible = false
       })
     )

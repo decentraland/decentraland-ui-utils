@@ -1,5 +1,5 @@
 import { lightTheme, canvas } from '../utils/default-ui-components'
-import { Delay } from '../utils/timerComponents'
+import { UIDelay } from '../utils/timerComponents'
 import resources, { setSection } from '../utils/resources'
 
 /**
@@ -32,7 +32,7 @@ export class LoadingIcon extends Entity {
       engine.addEntity(dummyEnty)
 
       dummyEnty.addComponentOrReplace(
-        new Delay(duration ? duration : 3, () => {
+        new UIDelay(duration ? duration : 3, () => {
           this.hide()
         })
       )

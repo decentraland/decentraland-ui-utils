@@ -1,6 +1,6 @@
 import { canvas } from '../utils/default-ui-components'
 import { ImageSection } from '../utils/types'
-import { Delay } from '../utils/timerComponents'
+import { UIDelay } from '../utils/timerComponents'
 
 /**
  * Displays an icon of 64x64 on the bottom-left corner
@@ -199,7 +199,7 @@ export class CenterImage extends Entity {
       engine.addEntity(dummyEnty)
 
       dummyEnty.addComponentOrReplace(
-        new Delay(duration ? duration : 3, () => {
+        new UIDelay(duration ? duration : 3, () => {
           this.hide()
         })
       )

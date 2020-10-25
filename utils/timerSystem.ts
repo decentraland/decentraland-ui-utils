@@ -22,6 +22,7 @@ export class TimerSystem implements ISystem {
       let timerComponent = ent.getComponent(UIDelay)
 
       timerComponent.elapsedTime += dt
+
       if (timerComponent.elapsedTime >= timerComponent.targetTime) {
         timerComponent.onTargetTimeReached(ent)
       }

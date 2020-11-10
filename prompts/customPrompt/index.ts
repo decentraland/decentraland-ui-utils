@@ -1,4 +1,4 @@
-import resources, { setSection } from '../../utils/resources'
+import resources, { setSection, buttonIconPos } from '../../utils/resources'
 import {
   darkTheme,
   lightTheme,
@@ -15,7 +15,7 @@ import { PromptStyles, ButtonStyles, SwitchStyles, ImageSection } from '../../ut
  * @param style: Pick from a few predefined options
  * @param width image width
  * @param height image height
- *
+ * @param startHidden if true, image starts invisible to load in the background till calling the `show()` function of the prompt object.
  */
 export class CustomPrompt extends Entity {
   elements: (
@@ -33,7 +33,7 @@ export class CustomPrompt extends Entity {
   canvas: UICanvas = canvas
   background: UIImage = promptBackground
 
-  constructor(style?: PromptStyles, width?: number, height?: number) {
+  constructor(style?: PromptStyles, width?: number, height?: number, startHidden?: boolean) {
     super()
 
     this.UIOpenTime = +Date.now()
@@ -98,11 +98,15 @@ export class CustomPrompt extends Entity {
 
     this.closeIcon.onClick = new OnClick(() => {
       PlayCloseSound()
-      this.close()
+      this.hide()
     })
+
+    if (startHidden) {
+      this.hide()
+    }
   }
 
-  public close(): void {
+  public hide(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
 
@@ -110,7 +114,7 @@ export class CustomPrompt extends Entity {
       element.hide()
     }
   }
-  public reopen(): void {
+  public show(): void {
     promptBackground.visible = true
     this.closeIcon.visible = true
 
@@ -250,6 +254,7 @@ export class CustomPrompt extends Entity {
 export class CustomPromptButton extends Entity {
   label: UIText
   image: UIImage
+  icon: UIImage
   constructor(
     texture: Texture,
     UIOpenTime: number,
@@ -273,10 +278,32 @@ export class CustomPromptButton extends Entity {
         case ButtonStyles.E:
           setSection(this.image, resources.buttons.buttonE)
           this.label.positionX = 25
+          this.icon = new UIImage(this.image, texture)
+          this.icon.width = 26
+          this.icon.height = 26
+          this.icon.hAlign = 'center'
+          this.icon.vAlign = 'center'
+          this.icon.isPointerBlocker = false
+          setSection(this.icon, resources.buttonLabels.E)
+          this.icon.positionX = buttonIconPos(label.length)
           break
         case ButtonStyles.F:
           setSection(this.image, resources.buttons.buttonF)
           this.label.positionX = 25
+          this.icon = new UIImage(this.image, texture)
+          this.icon.width = 26
+          this.icon.height = 26
+          this.icon.hAlign = 'center'
+          this.icon.vAlign = 'center'
+          this.icon.isPointerBlocker = false
+          setSection(this.icon, resources.buttonLabels.F)
+          this.icon.positionX = buttonIconPos(label.length)
+          break
+        case ButtonStyles.RED:
+          setSection(this.image, resources.buttons.buttonRed)
+          break
+        case ButtonStyles.DARK:
+          setSection(this.image, resources.buttons.buttonDark)
           break
         case ButtonStyles.ROUNDBLACK:
           setSection(this.image, resources.buttons.roundBlack)
@@ -348,11 +375,17 @@ export class CustomPromptButton extends Entity {
   public grayOut(): void {
     this.label.color = Color4.Gray()
     this.image.isPointerBlocker = false
+    if (this.icon) {
+      this.icon.visible = false
+    }
   }
 
   public enable(): void {
     this.label.color = Color4.White()
     this.image.isPointerBlocker = true
+    if (this.icon) {
+      this.icon.visible = true
+    }
   }
 }
 

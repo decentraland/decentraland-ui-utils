@@ -8,7 +8,7 @@ import {
   SFHeavyFont,
   canvas,
 } from '../../utils/default-ui-components'
-import resources, { setSection } from '../../utils/resources'
+import resources, { buttonIconPos, setSection } from '../../utils/resources'
 
 /**
  * Displays a prompt window with two buttons that perform separate actions
@@ -27,8 +27,10 @@ export class OptionPrompt extends Entity {
   text: UIText
   buttonE: UIImage
   buttonELabel: UIText
+  buttonEIcon: UIImage
   buttonF: UIImage
   buttonFLabel: UIText
+  buttonFIcon: UIImage
   closeIcon: UIImage
   onAccept: () => void
   onReject: () => void
@@ -121,6 +123,15 @@ export class OptionPrompt extends Entity {
     this.buttonE.height = 46
     setSection(this.buttonE, resources.buttons.buttonE)
 
+    this.buttonEIcon = new UIImage(this.buttonE, useDarkTheme == true ? darkTheme : lightTheme)
+    this.buttonEIcon.width = 26
+    this.buttonEIcon.height = 26
+    this.buttonEIcon.hAlign = 'center'
+    this.buttonEIcon.vAlign = 'center'
+    this.buttonEIcon.isPointerBlocker = false
+    setSection(this.buttonEIcon, resources.buttonLabels.E)
+    this.buttonEIcon.positionX = buttonIconPos(acceptLabel ? acceptLabel.length : 2)
+
     this.buttonELabel = new UIText(this.buttonE)
     this.buttonELabel.value = acceptLabel ? acceptLabel : 'Ok'
     this.buttonELabel.hTextAlign = 'center'
@@ -152,6 +163,15 @@ export class OptionPrompt extends Entity {
     this.buttonF.width = 174
     this.buttonF.height = 46
     setSection(this.buttonF, resources.buttons.buttonF)
+
+    this.buttonFIcon = new UIImage(this.buttonF, useDarkTheme == true ? darkTheme : lightTheme)
+    this.buttonFIcon.width = 26
+    this.buttonFIcon.height = 26
+    this.buttonFIcon.hAlign = 'center'
+    this.buttonFIcon.vAlign = 'center'
+    this.buttonFIcon.isPointerBlocker = false
+    setSection(this.buttonFIcon, resources.buttonLabels.F)
+    this.buttonFIcon.positionX = buttonIconPos(rejectLabel ? rejectLabel.length : 6)
 
     this.buttonFLabel = new UIText(this.buttonF)
     this.buttonFLabel.value = rejectLabel ? rejectLabel : 'Cancel'
@@ -209,5 +229,29 @@ export class OptionPrompt extends Entity {
     this.close()
     PlayCloseSound()
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
+  }
+
+  public hide(): void {
+    promptBackground.visible = false
+    this.closeIcon.visible = false
+    this.buttonE.visible = false
+    this.buttonF.visible = false
+    this.text.visible = false
+    this.buttonELabel.visible = false
+    this.buttonFLabel.visible = false
+    this.buttonEIcon.visible = false
+    this.buttonFIcon.visible = false
+  }
+
+  public show(): void {
+    promptBackground.visible = true
+    this.closeIcon.visible = true
+    this.buttonE.visible = true
+    this.buttonF.visible = true
+    this.text.visible = true
+    this.buttonELabel.visible = true
+    this.buttonFLabel.visible = true
+    this.buttonEIcon.visible = true
+    this.buttonFIcon.visible = true
   }
 }

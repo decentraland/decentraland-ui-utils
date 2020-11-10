@@ -28,6 +28,8 @@ export enum BarStyles {
 export enum ButtonStyles {
   E = `e`,
   F = `f`,
+  DARK = `dark`,
+  RED = `red`,
   ROUNDBLACK = `roundblack`,
   ROUNDWHITE = `roundwhite`,
   ROUNDSILVER = `roundsilver`,
@@ -59,28 +61,23 @@ export class Dialog {
   fontSize?: number
   offsetX?: number
   offsetY?: number
-  isQuestion?: boolean = false
-  isFixedScreen?: boolean = false
-  labelE?: {
-    label: string
-    fontSize?: number
-    offsetX?: number
-    offsetY?: number
-  }
-  ifPressE?: number
-  triggeredByE?: () => void
-  labelF?: {
-    label: string
-    fontSize?: number
-    offsetX?: number
-    offset?: number
-  }
-  ifPressF?: number
-  triggeredByF?: () => void
+  typeSpeed?: number
   isEndOfDialog?: boolean = false
   triggeredByNext?: () => void
   portrait?: ImageData
   image?: ImageData
+  isQuestion?: boolean = false
+  isFixedScreen?: boolean = false
+  buttons?: ButtonData[]
+}
+
+export type ButtonData = {
+  goToDialog: number
+  label: string
+  triggeredActions?: () => void
+  fontSize?: number
+  offsetX?: number
+  offsetY?: number
 }
 
 export class Dialogs {

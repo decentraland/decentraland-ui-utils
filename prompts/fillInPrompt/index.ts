@@ -8,7 +8,7 @@ import {
   SFHeavyFont,
   canvas,
 } from '../../utils/default-ui-components'
-import resources, { setSection } from '../../utils/resources'
+import resources, { buttonIconPos, setSection } from '../../utils/resources'
 
 /**
  * Displays a prompt window with a field that can be filled in
@@ -24,6 +24,7 @@ export class FillInPrompt extends Entity {
   text: UIText
   button: UIImage
   buttonLabel: UIText
+  icon: UIImage
   closeIcon: UIImage
   onAccept: (e: string) => void
   EButtonAction: () => false | Subscription[]
@@ -94,6 +95,15 @@ export class FillInPrompt extends Entity {
     this.button.height = 46
     setSection(this.button, resources.buttons.buttonE)
 
+    this.icon = new UIImage(this.button, useDarkTheme == true ? darkTheme : lightTheme)
+    this.icon.width = 26
+    this.icon.height = 26
+    this.icon.hAlign = 'center'
+    this.icon.vAlign = 'center'
+    this.icon.isPointerBlocker = false
+    setSection(this.icon, resources.buttonLabels.E)
+    this.icon.positionX = buttonIconPos(acceptLabel ? acceptLabel.length : 6)
+
     this.buttonLabel = new UIText(this.button)
     this.buttonLabel.value = acceptLabel ? acceptLabel : 'Submit'
     this.buttonLabel.hTextAlign = 'center'
@@ -159,5 +169,23 @@ export class FillInPrompt extends Entity {
     this.close()
     PlayOpenSound()
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
+  }
+
+  public hide(): void {
+    promptBackground.visible = false
+    this.closeIcon.visible = false
+    this.button.visible = false
+    this.text.visible = false
+    this.buttonLabel.visible = false
+    this.fillInBox.visible = false
+  }
+
+  public show(): void {
+    promptBackground.visible = true
+    this.closeIcon.visible = true
+    this.button.visible = true
+    this.text.visible = true
+    this.buttonLabel.visible = true
+    this.fillInBox.visible = true
   }
 }

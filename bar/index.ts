@@ -3,7 +3,7 @@ import { BarStyles } from '../utils/types'
 import resources, { setSection } from '../utils/resources'
 
 /**
- * Displays a number on the center of the UI
+ * Displays a colored bar that can be filled up and updated to different values.
  *
  * @param value starting value
  * @param xOffset position on X, to enable fitting several counters
@@ -11,6 +11,7 @@ import resources, { setSection } from '../utils/resources'
  * @param fillColor color of the bar
  * @param style margin style of the bar, from the BarStyles enum
  * @param scale multiplier for the size of the bar. 1 = 128 x 32
+ * @param startHidden if true, image starts invisible to load in the background till it runs its show() function.
  *
  */
 export class UIBar extends Entity {
@@ -25,7 +26,8 @@ export class UIBar extends Entity {
     yOffset?: number,
     fillColor?: Color4,
     style?: BarStyles,
-    scale?: number
+    scale?: number,
+    startHidden?: boolean
   ) {
     super()
 
@@ -87,6 +89,10 @@ export class UIBar extends Entity {
     this.bar.width = scale
       ? this.fullWidth * this.valueAsNum - 5.1 * scale
       : this.fullWidth * this.valueAsNum - 5.1
+
+    if (startHidden) {
+      this.hide()
+    }
   }
 
   public read(): number {
@@ -105,5 +111,15 @@ export class UIBar extends Entity {
   public set(amount: number): void {
     this.valueAsNum = amount
     this.bar.width = this.fullWidth * this.valueAsNum - 6
+  }
+
+  public hide(): void {
+    this.background.visible = false
+    this.bar.visible = false
+  }
+
+  public show(): void {
+    this.background.visible = true
+    this.bar.visible = true
   }
 }

@@ -14,6 +14,18 @@ export default {
       sourceLeft: 512,
       sourceTop: 612,
     },
+    buttonRed: {
+      sourceWidth: 174,
+      sourceHeight: 46,
+      sourceLeft: 512,
+      sourceTop: 662,
+    },
+    buttonDark: {
+      sourceWidth: 174,
+      sourceHeight: 46,
+      sourceLeft: 512,
+      sourceTop: 612,
+    },
     roundBlack: {
       sourceWidth: 128,
       sourceHeight: 32,
@@ -61,6 +73,20 @@ export default {
       sourceHeight: 32,
       sourceLeft: 646,
       sourceTop: 567,
+    },
+  },
+  buttonLabels: {
+    E: {
+      sourceWidth: 26,
+      sourceHeight: 26,
+      sourceLeft: 697,
+      sourceTop: 611,
+    },
+    F: {
+      sourceWidth: 26,
+      sourceHeight: 26,
+      sourceLeft: 733,
+      sourceTop: 611,
     },
   },
   backgrounds: {
@@ -282,4 +308,9 @@ export function setSection(UIImage: UIImage, section: ImageSection) {
   UIImage.sourceHeight = section.sourceHeight
   UIImage.sourceLeft = section.sourceLeft ? section.sourceLeft : 0
   UIImage.sourceTop = section.sourceTop ? section.sourceTop : 0
+}
+
+export function buttonIconPos(textLen: number) {
+  let pos = -10 - textLen * 4
+  return pos > -65 ? pos : -65
 }

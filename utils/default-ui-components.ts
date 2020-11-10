@@ -5,8 +5,8 @@ export let SFFont = new Font(Fonts.SanFrancisco)
 
 export let SFHeavyFont = new Font(Fonts.SanFrancisco_Heavy)
 
-export let lightTheme = new Texture('https://decentraland.org/images/ui/light-atlas.png')
-export let darkTheme = new Texture('https://decentraland.org/images/ui/dark-atlas.png')
+export let lightTheme = new Texture('https://decentraland.org/images/ui/light-atlas-v2.png')
+export let darkTheme = new Texture('https://decentraland.org/images/ui/dark-atlas-v2.png')
 
 export const message = new UIText(canvas) //messageBackground
 message.vAlign = 'center'

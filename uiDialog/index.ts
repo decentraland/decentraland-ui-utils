@@ -1,11 +1,20 @@
-import { canvas, SFFont, lightTheme, darkTheme, SFHeavyFont } from '../utils/default-ui-components'
-import { ImageData, Dialog } from '../utils/types'
-import resources, { setSection } from '../utils/resources'
+import {
+  canvas,
+  SFFont,
+  lightTheme,
+  darkTheme,
+  SFHeavyFont,
+} from './../utils/default-ui-components'
+import { ImageData, Dialog, ButtonStyles } from '../utils/types'
+import resources, { setSection, buttonIconPos } from '../utils/resources'
+import { UIDelay } from '../utils/timerComponents'
 
 export enum ConfirmMode {
   Confirm = 0,
   Cancel = 1,
   Next = 2,
+  Button3 = 3,
+  Button4 = 4,
 }
 
 let portraitXPos = -350
@@ -19,6 +28,18 @@ let textYPos = 10
 
 let buttonTextSise = 18
 
+let button1XPos = 150
+let button2XPos = -80
+let button3XPos = -80
+let button4XPos = 150
+
+let button1YPos = -65
+let button2YPos = -65
+let button1YPos4 = -20
+let button2YPos4 = -20
+let button3YPos = -80
+let button4YPos = -80
+
 export class DialogWindow {
   public NPCScript: Dialog[]
   private defaultPortrait: ImageData = null
@@ -27,10 +48,15 @@ export class DialogWindow {
   public portrait: UIImage
   public image: UIImage
   public text: UIText
-  public buttonE: UIImage
-  public buttonELabel: UIText
-  public buttonF: UIImage
-  public buttonFLabel: UIText
+  //   public buttonE: UIImage
+  //   public buttonELabel: UIText
+  //   public buttonF: UIImage
+  //   public buttonFLabel: UIText
+  public button1: CustomDialogButton
+  public button2: CustomDialogButton
+  public button3: CustomDialogButton
+  public button4: CustomDialogButton
+
   public leftClickIcon: UIImage
   public isDialogOpen: boolean
   public isQuestionPanel: boolean
@@ -38,15 +64,19 @@ export class DialogWindow {
   public activeTextId: number
   public uiTheme: Texture
   private UIOpenTime: number
+  public soundEnt: Entity
 
   canvas: UICanvas = canvas
   ClickAction: () => false | Subscription[]
   EButtonAction: () => false | Subscription[]
   FButtonAction: () => false | Subscription[]
-  constructor(defaultPortrait?: ImageData, useDarkTheme?: boolean, customTheme?: Texture) {
+
+  constructor(defaultPortrait?: ImageData, useDarkTheme?: boolean | Texture, sound?: string) {
     this.defaultPortrait = defaultPortrait ? defaultPortrait : null
 
-    this.uiTheme = customTheme ? customTheme : useDarkTheme ? darkTheme : lightTheme
+    this.uiTheme =
+      useDarkTheme instanceof Texture ? useDarkTheme : useDarkTheme == true ? darkTheme : lightTheme
+    //this.uiTheme =useDarkTheme == true ? darkTheme : lightTheme
 
     // Container
     this.container = new UIContainerRect(canvas)
@@ -111,62 +141,82 @@ export class DialogWindow {
     this.text.width = 450
     this.text.positionX = 20
     this.text.hAlign = 'center'
-	this.text.vAlign = 'center'
-	this.text.font = SFHeavyFont
+    this.text.vAlign = 'center'
+    this.text.font = SFHeavyFont
     this.text.fontSize = textSize
     this.text.hTextAlign = 'center'
-	this.text.vTextAlign = 'center'
-	this.text.positionY = textYPos
-	
+    this.text.vTextAlign = 'center'
+    this.text.positionY = textYPos
+
     this.text.fontWeight = 'normal'
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
     this.text.isPointerBlocker = false
 
-    // Button E
-    this.buttonE = new UIImage(this.container, this.uiTheme)
-    this.buttonE.width = 174
-    this.buttonE.height = 46
-    setSection(this.buttonE, resources.buttons.buttonE)
-    this.buttonE.positionX = 150
-    this.buttonE.positionY = -65
-    this.buttonE.visible = false
-    this.buttonE.isPointerBlocker = true
-    this.buttonE.onClick = new OnClick((): void => {
-      this.confirmText(ConfirmMode.Confirm)
-    })
+    this.soundEnt = new Entity()
 
-    // Label E Text
-    this.buttonELabel = new UIText(this.buttonE)
-    this.buttonELabel.hTextAlign = 'center'
-    this.buttonELabel.vTextAlign = 'center'
-    this.buttonELabel.positionX = 30
-    this.buttonELabel.fontSize = buttonTextSise
-    this.buttonELabel.font = SFFont
-    this.buttonELabel.color = Color4.White()
-    this.buttonELabel.isPointerBlocker = false
+    if (sound) {
+      this.soundEnt.addComponent(new Transform())
+      this.soundEnt.addComponent(new AudioSource(new AudioClip(sound)))
+      this.soundEnt.getComponent(AudioSource).volume = 0.5
+      engine.addEntity(this.soundEnt)
+      this.soundEnt.setParent(Attachable.AVATAR)
+    }
 
-    // Button F
-    this.buttonF = new UIImage(this.container, this.uiTheme)
-    this.buttonF.width = 174
-    this.buttonF.height = 46
-    setSection(this.buttonF, resources.buttons.buttonF)
-    this.buttonF.positionX = -80
-    this.buttonF.positionY = -65
-    this.buttonF.visible = false
-    this.buttonF.isPointerBlocker = true
-    this.buttonF.onClick = new OnClick((): void => {
-      this.confirmText(ConfirmMode.Cancel)
-    })
+    this.button1 = new CustomDialogButton(
+      this.container,
+      this.uiTheme,
+      'yes',
+      button1XPos,
+      button1YPos,
+      () => {
+        this.confirmText(ConfirmMode.Confirm)
+      },
+      false,
+      ButtonStyles.E
+    )
+    this.button1.hide()
 
-    // Label F Text
-    this.buttonFLabel = new UIText(this.buttonF)
-    this.buttonFLabel.hTextAlign = 'center'
-    this.buttonFLabel.vTextAlign = 'center'
-    this.buttonFLabel.positionX = 30
-    this.buttonFLabel.fontSize = buttonTextSise
-    this.buttonFLabel.font = SFFont
-    this.buttonFLabel.color = Color4.White()
-    this.buttonFLabel.isPointerBlocker = false
+    this.button2 = new CustomDialogButton(
+      this.container,
+      this.uiTheme,
+      'no',
+      button2XPos,
+      button2YPos,
+      () => {
+        this.confirmText(ConfirmMode.Cancel)
+      },
+      false,
+      ButtonStyles.F
+    )
+    this.button2.hide()
+
+    this.button3 = new CustomDialogButton(
+      this.container,
+      this.uiTheme,
+      'maybe',
+      button3XPos,
+      button3YPos,
+      () => {
+        this.confirmText(ConfirmMode.Button3)
+      },
+      false,
+      ButtonStyles.DARK
+    )
+    this.button3.hide()
+
+    this.button4 = new CustomDialogButton(
+      this.container,
+      this.uiTheme,
+      'maybe',
+      button4XPos,
+      button4YPos,
+      () => {
+        this.confirmText(ConfirmMode.Button4)
+      },
+      false,
+      ButtonStyles.DARK
+    )
+    this.button4.hide()
 
     // Left Click Icon
     this.leftClickIcon = new UIImage(this.container, this.uiTheme)
@@ -179,6 +229,8 @@ export class DialogWindow {
       this.leftClickIcon,
       darkTheme ? resources.icons.ClickWhite : resources.icons.ClickDark
     )
+
+    DialogTypeInSystem.createAndAddToEngine()
   }
 
   public openDialogWindow(NPCScript: Dialog[], textId: number): void {
@@ -188,6 +240,10 @@ export class DialogWindow {
     this.activeTextId = textId
 
     let currentText = NPCScript[textId]
+
+    if (this.soundEnt.hasComponent(AudioSource)) {
+      this.soundEnt.getComponent(AudioSource).playOnce()
+    }
 
     // Set portrait
     // Looks for portrait in current text, otherwise use default portrait data
@@ -265,12 +321,18 @@ export class DialogWindow {
     }
 
     // Set text
-    this.text.value = currentText.text
+    //this.text.value = currentText.text
     this.text.fontSize = currentText.fontSize ? currentText.fontSize : textSize
     this.text.positionY = currentText.offsetY ? currentText.offsetY + textYPos : textYPos
     this.text.positionX = currentText.offsetX ? currentText.offsetX : 0
     this.text.visible = true
     this.container.visible = true
+
+    DialogTypeInSystem._instance.newText(
+      this.text,
+      currentText.text,
+      currentText.typeSpeed ? currentText.typeSpeed : null
+    )
 
     // Global button events
     if (!this.ClickAction) {
@@ -279,12 +341,11 @@ export class DialogWindow {
         ActionButton.POINTER,
         false,
         (e) => {
-          if (
-            this.isDialogOpen &&
-            !this.isQuestionPanel &&
-            !this.isFixedScreen &&
-            +Date.now() - this.UIOpenTime > 100
-          ) {
+          if (!this.isDialogOpen || +Date.now() - this.UIOpenTime < 100) return
+
+          if (!DialogTypeInSystem._instance.done) {
+            DialogTypeInSystem._instance.rush()
+          } else if (!this.isQuestionPanel && !this.isFixedScreen) {
             this.confirmText(ConfirmMode.Next)
           }
         }
@@ -294,7 +355,12 @@ export class DialogWindow {
         ActionButton.PRIMARY,
         false,
         (e) => {
-          if (this.isDialogOpen && this.isQuestionPanel && +Date.now() - this.UIOpenTime > 100) {
+          if (
+            this.isDialogOpen &&
+            this.isQuestionPanel &&
+            DialogTypeInSystem._instance.done &&
+            +Date.now() - this.UIOpenTime > 100
+          ) {
             this.confirmText(ConfirmMode.Confirm)
           }
         }
@@ -304,16 +370,19 @@ export class DialogWindow {
         ActionButton.SECONDARY,
         false,
         (e) => {
-          if (this.isDialogOpen && this.isQuestionPanel && +Date.now() - this.UIOpenTime > 100) {
+          if (
+            this.isDialogOpen &&
+            this.isQuestionPanel &&
+            DialogTypeInSystem._instance.done &&
+            +Date.now() - this.UIOpenTime > 100
+          ) {
             this.confirmText(ConfirmMode.Cancel)
           }
         }
       )
     }
 
-    // Layout panel buttons and icon
     this.layoutDialogWindow(textId)
-
     this.isDialogOpen = true
   }
 
@@ -335,27 +404,58 @@ export class DialogWindow {
       }
     }
 
-    if (mode == ConfirmMode.Confirm && currentText.ifPressE) {
-      this.activeTextId = currentText.ifPressE
-      if (currentText.triggeredByE) {
-        currentText.triggeredByE()
+    if (mode == ConfirmMode.Confirm) {
+      if (currentText.buttons.length >= 1) {
+        this.activeTextId = currentText.buttons[0].goToDialog
+        if (currentText.buttons[0].triggeredActions) {
+          currentText.buttons[0].triggeredActions()
+        }
       }
     }
 
-    if (mode == ConfirmMode.Cancel && currentText.ifPressF) {
-      this.activeTextId = currentText.ifPressF
-      if (currentText.triggeredByF) {
-        currentText.triggeredByF()
+    if (mode == ConfirmMode.Cancel) {
+      if (currentText.buttons.length >= 2) {
+        this.activeTextId = currentText.buttons[1].goToDialog
+        if (currentText.buttons[1].triggeredActions) {
+          currentText.buttons[1].triggeredActions()
+        }
       }
     }
 
+    if (mode == ConfirmMode.Button3) {
+      if (currentText.buttons.length >= 3) {
+        this.activeTextId = currentText.buttons[2].goToDialog
+        if (currentText.buttons[2].triggeredActions) {
+          currentText.buttons[2].triggeredActions()
+        }
+      }
+    }
+
+    if (mode == ConfirmMode.Button4) {
+      if (currentText.buttons.length >= 4) {
+        this.activeTextId = currentText.buttons[3].goToDialog
+        if (currentText.buttons[3].triggeredActions) {
+          currentText.buttons[3].triggeredActions()
+        }
+      }
+    }
     // Update active text with new active text
     currentText = this.NPCScript[this.activeTextId]
 
     // Update text
-    this.text.value = currentText.text
+    //this.text.value = currentText.text
     this.text.fontSize = currentText.fontSize ? currentText.fontSize : textSize
     this.text.positionY = currentText.offsetY ? currentText.offsetY + textYPos : textYPos
+
+    if (this.soundEnt.hasComponent(AudioSource)) {
+      this.soundEnt.getComponent(AudioSource).playOnce()
+    }
+
+    DialogTypeInSystem._instance.newText(
+      this.text,
+      currentText.text,
+      currentText.typeSpeed ? currentText.typeSpeed : null
+    )
 
     let hasPortrait = currentText.portrait ? true : false
 
@@ -443,67 +543,334 @@ export class DialogWindow {
     this.isQuestionPanel = currentText.isQuestion
 
     this.isFixedScreen = currentText.isFixedScreen
+    this.button1.hide()
+    this.button2.hide()
+    this.button3.hide()
+    this.button4.hide()
+
+    // Mouse icon
+    this.leftClickIcon.visible = false
 
     if (currentText.isQuestion) {
-      // Button E and label
+      // Button E
+      if (currentText.buttons.length >= 1) {
+        this.button1.update(
+          currentText.buttons[0].label,
+          currentText.buttons[0].offsetX
+            ? currentText.buttons[0].offsetX + button1XPos
+            : button1XPos,
+          currentText.buttons.length >= 3
+            ? currentText.buttons[0].offsetY
+              ? currentText.buttons[0].offsetY + button1YPos4
+              : button1YPos4
+            : currentText.buttons[0].offsetY
+            ? currentText.buttons[0].offsetY + button1YPos
+            : button1YPos
+        )
+      }
 
-      this.buttonE.visible = true
+      // Button F
+      if (currentText.buttons.length >= 2) {
+        this.button2.update(
+          currentText.buttons[1].label,
+          currentText.buttons[1].offsetX
+            ? currentText.buttons[1].offsetX + button2XPos
+            : button2XPos,
+          currentText.buttons.length >= 3
+            ? currentText.buttons[1].offsetY
+              ? currentText.buttons[1].offsetY + button2YPos4
+              : button2YPos4
+            : currentText.buttons[1].offsetY
+            ? currentText.buttons[1].offsetY + button2YPos
+            : button2YPos
+        )
+      }
 
-      this.buttonELabel.value =
-        currentText.labelE && currentText.labelE['label'] ? currentText.labelE['label'] : 'Yes'
-      this.buttonELabel.positionX =
-        currentText.labelE && currentText.labelE['offsetX']
-          ? currentText.labelE['offsetX'] + 22
-          : 22
-      this.buttonELabel.positionY =
-        currentText.labelE && currentText.labelE['offsetY'] ? currentText.labelE['offsetY'] : 0
-      this.buttonELabel.fontSize =
-        currentText.labelE && currentText.labelE['fontSize']
-          ? currentText.labelE['fontSize']
-          : buttonTextSise
+      // Button 3
+      if (currentText.buttons.length >= 3) {
+        this.button3.update(
+          currentText.buttons[2].label,
+          currentText.buttons[2].offsetX
+            ? currentText.buttons[2].offsetX + button3XPos
+            : button3XPos,
+          currentText.buttons[2].offsetY
+            ? currentText.buttons[2].offsetY + button3YPos
+            : button3YPos
+        )
+      }
 
-      this.buttonELabel.visible = true
+      // Button 4
+      if (currentText.buttons.length >= 4) {
+        this.button4.update(
+          currentText.buttons[3].label,
+          currentText.buttons[3].offsetX
+            ? currentText.buttons[3].offsetX + button4XPos
+            : button4XPos,
+          currentText.buttons[3].offsetY
+            ? currentText.buttons[3].offsetY + button4YPos
+            : button4YPos
+        )
+      }
 
-      // Button F and label
-      this.buttonF.visible = true
+      dummyQuestionDelays.addComponentOrReplace(
+        new UIDelay(0.7, () => {
+          // Button E
+          if (currentText.buttons.length >= 1) {
+            this.button1.show()
+          }
+          // Button F
+          if (currentText.buttons.length >= 2) {
+            this.button2.show()
+          }
 
-      this.buttonFLabel.value =
-        currentText.labelF && currentText.labelF['label'] ? currentText.labelF['label'] : 'No'
-      this.buttonFLabel.positionX =
-        currentText.labelF && currentText.labelF['offsetX']
-          ? currentText.labelF['offsetX'] + 22
-          : 22
-      this.buttonFLabel.positionY =
-        currentText.labelF && currentText.labelF['offsetY'] ? currentText.labelF['offsetY'] : 0
-      this.buttonFLabel.fontSize =
-        currentText.labelF && currentText.labelF['fontSize']
-          ? currentText.labelF['fontSize']
-          : buttonTextSise
+          // Button 3
+          if (currentText.buttons.length >= 3) {
+            this.button3.show()
+          }
 
-      this.buttonFLabel.visible = true
-
-      // Mouse icon
-      this.leftClickIcon.visible = false
+          // Button 4
+          if (currentText.buttons.length >= 4) {
+            this.button4.show()
+          }
+        })
+      )
     } else if (!this.isFixedScreen) {
       this.leftClickIcon.visible = true
-      this.buttonE.visible = false
-      this.buttonELabel.visible = false
-      this.buttonF.visible = false
-      this.buttonFLabel.visible = false
     }
   }
 
   public closeDialogWindow(): void {
     if (this.isDialogOpen) {
       this.isDialogOpen = false
-      this.container.visible = false
+
       this.portrait.visible = false
+      this.text.value = ''
       this.text.visible = false
-      this.buttonE.visible = false
-      this.buttonELabel.visible = false
-      this.buttonF.visible = false
-      this.buttonFLabel.visible = false
+      this.button1.hide()
+      this.button2.hide()
+      this.button3.hide()
+      this.button4.hide()
       this.leftClickIcon.visible = false
+      this.container.visible = false
     }
   }
 }
+
+const DEFAULT_SPEED = 30
+
+export class DialogTypeInSystem implements ISystem {
+  static _instance: DialogTypeInSystem | null = null
+
+  timer: number = 0
+  speed: number = DEFAULT_SPEED
+  visibleChars: number = 0
+  fullText: string = ''
+  UIText: UIText
+  done: boolean = true
+
+  static createAndAddToEngine(): DialogTypeInSystem {
+    if (this._instance == null) {
+      this._instance = new DialogTypeInSystem()
+      engine.addSystem(this._instance)
+    }
+    return this._instance
+  }
+
+  private constructor() {
+    DialogTypeInSystem._instance = this
+  }
+
+  update(dt: number) {
+    if (this.done) return
+
+    this.timer += dt
+    if (this.timer >= 1 / this.speed) {
+      let charsToAdd = Math.floor(this.timer / (1 / this.speed))
+      this.timer = 0
+      this.visibleChars += charsToAdd
+      if (this.visibleChars == this.fullText.length) {
+        this.done = true
+      }
+      this.UIText.value = this.fullText.substr(0, this.visibleChars)
+    }
+  }
+
+  newText(ui: UIText, text: string, speed?: number) {
+    this.UIText = ui
+    this.fullText = text
+    this.visibleChars = 0
+    this.timer = 0
+    this.done = false
+
+    if (speed && speed <= 0) {
+      this.rush()
+    } else if (speed) {
+      this.speed = speed
+    } else {
+      this.speed = DEFAULT_SPEED
+    }
+  }
+  rush() {
+    this.done = true
+    this.UIText.value = this.fullText
+    this.visibleChars = this.fullText.length
+  }
+}
+
+export class CustomDialogButton extends Entity {
+  label: UIText
+  image: UIImage
+  icon: UIImage
+  style: ButtonStyles
+  onClick: () => void
+  constructor(
+    parent: UIContainerRect,
+    texture: Texture,
+    //UIOpenTime: number,
+    label: string,
+    posX: number,
+    posY: number,
+    onClick: () => void,
+    useDarkTheme?: boolean,
+    style?: ButtonStyles
+  ) {
+    super()
+    this.image = new UIImage(parent, texture)
+    this.image.positionX = posX
+    this.image.positionY = posY
+    this.image.width = 174
+    this.image.height = 46
+
+    this.label = new UIText(this.image)
+    this.style = style
+
+    this.onClick = onClick
+
+    if (style) {
+      switch (style) {
+        case ButtonStyles.E:
+          setSection(this.image, resources.buttons.buttonE)
+          this.label.positionX = 25
+
+          this.icon = new UIImage(this.image, useDarkTheme == true ? darkTheme : lightTheme)
+          this.icon.width = 26
+          this.icon.height = 26
+          // this.button1Icon.positionY = 15
+          this.icon.hAlign = 'center'
+          this.icon.vAlign = 'center'
+          this.icon.isPointerBlocker = false
+          setSection(this.icon, resources.buttonLabels.E)
+          this.icon.positionX = buttonIconPos(label.length)
+
+          break
+        case ButtonStyles.F:
+          setSection(this.image, resources.buttons.buttonF)
+          this.label.positionX = 25
+
+          this.icon = new UIImage(this.image, useDarkTheme == true ? darkTheme : lightTheme)
+          this.icon.width = 26
+          this.icon.height = 26
+          // this.button1Icon.positionY = 15
+          this.icon.hAlign = 'center'
+          this.icon.vAlign = 'center'
+          this.icon.isPointerBlocker = false
+          setSection(this.icon, resources.buttonLabels.F)
+          this.icon.positionX = buttonIconPos(label.length)
+          break
+        case ButtonStyles.RED:
+          setSection(this.image, resources.buttons.buttonRed)
+          break
+        case ButtonStyles.DARK:
+          setSection(this.image, resources.buttons.buttonDark)
+          break
+        case ButtonStyles.ROUNDBLACK:
+          setSection(this.image, resources.buttons.roundBlack)
+          break
+        case ButtonStyles.ROUNDWHITE:
+          setSection(this.image, resources.buttons.roundWhite)
+          break
+        case ButtonStyles.ROUNDSILVER:
+          setSection(this.image, resources.buttons.roundSilver)
+          break
+        case ButtonStyles.ROUNDGOLD:
+          setSection(this.image, resources.buttons.roundGold)
+          break
+        case ButtonStyles.SQUAREBLACK:
+          setSection(this.image, resources.buttons.squareBlack)
+          break
+        case ButtonStyles.SQUAREWHITE:
+          setSection(this.image, resources.buttons.squareWhite)
+          break
+        case ButtonStyles.SQUARESILVER:
+          setSection(this.image, resources.buttons.squareSilver)
+          break
+        case ButtonStyles.SQUAREGOLD:
+          setSection(this.image, resources.buttons.squareGold)
+          break
+      }
+    } else {
+      setSection(this.image, resources.buttons.roundSilver)
+    }
+
+    this.label.value = label
+    this.label.hTextAlign = 'center'
+    this.label.vTextAlign = 'center'
+    this.label.fontSize = 20
+    this.label.font = SFFont
+    this.label.color =
+      style == ButtonStyles.ROUNDWHITE || style == ButtonStyles.SQUAREWHITE
+        ? Color4.Black()
+        : Color4.White()
+    this.label.isPointerBlocker = false
+
+    this.image.onClick = new OnClick(() => {
+      this.onClick()
+    })
+
+    if (style == ButtonStyles.E) {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
+        if (this.image.visible) {
+          // && +Date.now() - UIOpenTime > 100) {
+          this.onClick()
+        }
+      })
+    } else if (style == ButtonStyles.F) {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, (e) => {
+        if (this.image.visible) {
+          // && +Date.now() - UIOpenTime > 100) {
+          this.onClick()
+        }
+      })
+    }
+  }
+
+  public hide(): void {
+    this.image.visible = false
+  }
+
+  public show(): void {
+    this.image.visible = true
+  }
+
+  public grayOut(): void {
+    this.label.color = Color4.Gray()
+    this.image.isPointerBlocker = false
+  }
+
+  public enable(): void {
+    this.label.color = Color4.White()
+    this.image.isPointerBlocker = true
+  }
+  public update(label: string, posX: number, posY: number) {
+    this.label.value = label
+    this.image.positionX = posX
+    this.image.positionY = posY
+
+    if (this.style == ButtonStyles.E || this.style == ButtonStyles.F) {
+      this.icon.positionX = buttonIconPos(label.length)
+    }
+  }
+}
+
+let dummyQuestionDelays = new Entity()
+engine.addEntity(dummyQuestionDelays)

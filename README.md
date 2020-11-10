@@ -592,7 +592,9 @@ dialogWindow.openDialogWindow(NPCTalk, 0)
 When calling this function, you must specify:
 
 - `NPCScript`: A JSON object that includes all the dialog tree.
-- `textId`: The index of the entry to show first from the script. The first entry is 0.
+- `textId`: The index or `name` property of the entry to show first from the script. The first entry is 0.
+
+> TIP: It's always better to refer to an entry by name, since the array index might shift if you add more entries and it can get hard to keep track of these references.
 
 You can close a dialog window at any time by calling the `closeDialogWindow()` function.
 
@@ -628,6 +630,7 @@ The script must adhere to the following schema:
 ```ts
 class Dialog {
   text: string
+  name?: string
   fontSize?: number
   offsetX?: number
   offsetY?: number
@@ -662,10 +665,11 @@ The `ImageData` required for the `portrait` and `image` fields, may include the 
 
 Other fields:
 
+- `name`: Optionally add a name to an entry, this serves to more easily refer to an entry.
 - `buttons`: An array of buttons to use in a question entry, covered in the next section.
-- `typeSpeed`: The text appears one character at a time, simulating as if the NPC is typing it. Players can click to speed through this animation. This field lets you tune the speed of this typing to go slower or faster. The default is 30. Set `typeSpeed` to _-1_ to skip the animation.
-
-<img src="screenshots/NPC4.gif" width="500">
+- `typeSpeed`: The text appears one character at a time, simulating typing. Players can click to skip the animation. Tune the speed of this typing (30 by default) to go slower or faster. Set to _-1_ to skip the animation.
+  s
+  <img src="screenshots/NPC4.gif" width="500">
 
 #### Questions and conversation trees
 
@@ -680,7 +684,9 @@ The `buttons` property of an entry contains an array of `ButtonData` objects, ea
 When on a question entry, you must provide at least the following for each button:
 
 - `label`: _(string)_ The label to show on the button.
-- `goToDialog`: _(number)_ The index of the next dialog entry to display when activated.
+- `goToDialog`: _(number | string)_ The index or name of the next dialog entry to display when activated.
+
+> TIP: It's always better to refer to an entry by name, since the array index might shift if you add more entries and it can get hard to keep track of these references.
 
 You can also set the following:
 

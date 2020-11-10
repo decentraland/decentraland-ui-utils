@@ -40,6 +40,14 @@ let button2YPos4 = -20
 let button3YPos = -80
 let button4YPos = -80
 
+/**
+ * Displays a UI screen with text from an array of Dialog objects. Each entry can also include a portrait image, questions with triggered actions by each, etc.
+ *
+ * @param defaultPortrait ImageData object with soruce and dimension of default portrait image to use on the Dialog UI
+ * @param useDarkTheme If true, use the dark theme for all the UI. Can also be an alternative `Texture` object to use a different themed atlas, with identical coordinates for each element.
+ * @param sound Path to a sound file to play once for every dialog window shown.
+ *
+ */
 export class DialogWindow {
   public NPCScript: Dialog[]
   private defaultPortrait: ImageData = null
@@ -48,10 +56,6 @@ export class DialogWindow {
   public portrait: UIImage
   public image: UIImage
   public text: UIText
-  //   public buttonE: UIImage
-  //   public buttonELabel: UIText
-  //   public buttonF: UIImage
-  //   public buttonFLabel: UIText
   public button1: CustomDialogButton
   public button2: CustomDialogButton
   public button3: CustomDialogButton
@@ -233,13 +237,21 @@ export class DialogWindow {
     DialogTypeInSystem.createAndAddToEngine()
   }
 
-  public openDialogWindow(NPCScript: Dialog[], textId: number): void {
+  public openDialogWindow(NPCScript: Dialog[], textId?: number | string): void {
     this.UIOpenTime = +Date.now()
 
     this.NPCScript = NPCScript
-    this.activeTextId = textId
 
-    let currentText = NPCScript[textId]
+    if (!textId) {
+      this.activeTextId = 0
+    }
+    if (typeof textId === 'number') {
+      this.activeTextId = textId
+    } else {
+      this.activeTextId = findDialogByName(NPCScript, textId)
+    }
+
+    let currentText = NPCScript[this.activeTextId]
 
     if (this.soundEnt.hasComponent(AudioSource)) {
       this.soundEnt.getComponent(AudioSource).playOnce()
@@ -247,48 +259,48 @@ export class DialogWindow {
 
     // Set portrait
     // Looks for portrait in current text, otherwise use default portrait data
-    let hasPortrait = NPCScript[textId].portrait ? true : false
+    let hasPortrait = NPCScript[this.activeTextId].portrait ? true : false
 
     if (hasPortrait || this.defaultPortrait) {
       log(
         'setting portrait to ',
-        hasPortrait ? NPCScript[textId].portrait.path : this.defaultPortrait.path
+        hasPortrait ? NPCScript[this.activeTextId].portrait.path : this.defaultPortrait.path
       )
       this.portrait.source = new Texture(
-        hasPortrait ? NPCScript[textId].portrait.path : this.defaultPortrait.path
+        hasPortrait ? NPCScript[this.activeTextId].portrait.path : this.defaultPortrait.path
       )
 
       this.portrait.positionX = hasPortrait
-        ? NPCScript[textId].portrait.offsetX
-          ? NPCScript[textId].portrait.offsetX + portraitXPos
+        ? NPCScript[this.activeTextId].portrait.offsetX
+          ? NPCScript[this.activeTextId].portrait.offsetX + portraitXPos
           : portraitXPos
         : this.defaultPortrait && this.defaultPortrait.offsetX
         ? this.defaultPortrait.offsetX + portraitXPos
         : portraitXPos
       this.portrait.positionY = hasPortrait
-        ? NPCScript[textId].portrait.offsetY
-          ? NPCScript[textId].portrait.offsetY + portraitYPos
+        ? NPCScript[this.activeTextId].portrait.offsetY
+          ? NPCScript[this.activeTextId].portrait.offsetY + portraitYPos
           : portraitYPos
         : this.defaultPortrait && this.defaultPortrait.offsetY
         ? this.defaultPortrait.offsetY + portraitYPos
         : portraitYPos
       this.portrait.width = hasPortrait
-        ? NPCScript[textId].portrait.width
-          ? NPCScript[textId].portrait.width
+        ? NPCScript[this.activeTextId].portrait.width
+          ? NPCScript[this.activeTextId].portrait.width
           : 256
         : this.defaultPortrait && this.defaultPortrait.width
         ? this.defaultPortrait.width
         : 256
       this.portrait.height = hasPortrait
-        ? NPCScript[textId].portrait.height
-          ? NPCScript[textId].portrait.height
+        ? NPCScript[this.activeTextId].portrait.height
+          ? NPCScript[this.activeTextId].portrait.height
           : 256
         : this.defaultPortrait && this.defaultPortrait.height
         ? this.defaultPortrait.height
         : 256
 
-      if (hasPortrait && NPCScript[textId].portrait.section) {
-        setSection(this.portrait, NPCScript[textId].portrait.section)
+      if (hasPortrait && NPCScript[this.activeTextId].portrait.section) {
+        setSection(this.portrait, NPCScript[this.activeTextId].portrait.section)
       } else if (!hasPortrait && this.defaultPortrait && this.defaultPortrait.section) {
         setSection(this.portrait, this.defaultPortrait.section)
       }
@@ -298,11 +310,11 @@ export class DialogWindow {
       this.portrait.visible = false
     }
 
-    let hasImage = NPCScript[textId].image ? true : false
+    let hasImage = NPCScript[this.activeTextId].image ? true : false
 
     // Set image on the right
     if (hasImage) {
-      let image = NPCScript[textId].image
+      let image = NPCScript[this.activeTextId].image
       log('setting image to ', image.path)
       this.image.source = new Texture(image.path)
 
@@ -382,7 +394,7 @@ export class DialogWindow {
       )
     }
 
-    this.layoutDialogWindow(textId)
+    this.layoutDialogWindow(this.activeTextId)
     this.isDialogOpen = true
   }
 
@@ -406,7 +418,11 @@ export class DialogWindow {
 
     if (mode == ConfirmMode.Confirm) {
       if (currentText.buttons.length >= 1) {
-        this.activeTextId = currentText.buttons[0].goToDialog
+        if (typeof currentText.buttons[0].goToDialog === 'number') {
+          this.activeTextId = currentText.buttons[0].goToDialog
+        } else {
+          this.activeTextId = findDialogByName(this.NPCScript, currentText.buttons[0].goToDialog)
+        }
         if (currentText.buttons[0].triggeredActions) {
           currentText.buttons[0].triggeredActions()
         }
@@ -415,7 +431,11 @@ export class DialogWindow {
 
     if (mode == ConfirmMode.Cancel) {
       if (currentText.buttons.length >= 2) {
-        this.activeTextId = currentText.buttons[1].goToDialog
+        if (typeof currentText.buttons[1].goToDialog === 'number') {
+          this.activeTextId = currentText.buttons[1].goToDialog
+        } else {
+          this.activeTextId = findDialogByName(this.NPCScript, currentText.buttons[1].goToDialog)
+        }
         if (currentText.buttons[1].triggeredActions) {
           currentText.buttons[1].triggeredActions()
         }
@@ -424,7 +444,11 @@ export class DialogWindow {
 
     if (mode == ConfirmMode.Button3) {
       if (currentText.buttons.length >= 3) {
-        this.activeTextId = currentText.buttons[2].goToDialog
+        if (typeof currentText.buttons[2].goToDialog === 'number') {
+          this.activeTextId = currentText.buttons[2].goToDialog
+        } else {
+          this.activeTextId = findDialogByName(this.NPCScript, currentText.buttons[2].goToDialog)
+        }
         if (currentText.buttons[2].triggeredActions) {
           currentText.buttons[2].triggeredActions()
         }
@@ -433,7 +457,11 @@ export class DialogWindow {
 
     if (mode == ConfirmMode.Button4) {
       if (currentText.buttons.length >= 4) {
-        this.activeTextId = currentText.buttons[3].goToDialog
+        if (typeof currentText.buttons[3].goToDialog === 'number') {
+          this.activeTextId = currentText.buttons[3].goToDialog
+        } else {
+          this.activeTextId = findDialogByName(this.NPCScript, currentText.buttons[3].goToDialog)
+        }
         if (currentText.buttons[3].triggeredActions) {
           currentText.buttons[3].triggeredActions()
         }
@@ -874,3 +902,12 @@ export class CustomDialogButton extends Entity {
 
 let dummyQuestionDelays = new Entity()
 engine.addEntity(dummyQuestionDelays)
+
+function findDialogByName(dialogs: Dialog[], name: string) {
+  for (let i = 0; i < dialogs.length; i++) {
+    if (dialogs[i].name && dialogs[i].name == name) {
+      return i
+    }
+  }
+  return 0
+}

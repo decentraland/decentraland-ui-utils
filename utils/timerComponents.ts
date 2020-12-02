@@ -9,7 +9,7 @@ export interface ITimerComponent {
 /**
  * Execute once after X milliseconds
  */
-@Component('timerDelay')
+@Component('UItimerDelay')
 export class UIDelay implements ITimerComponent {
   elapsedTime: number
   targetTime: number

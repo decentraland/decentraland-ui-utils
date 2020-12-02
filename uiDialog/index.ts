@@ -404,7 +404,7 @@ export class DialogWindow {
 
     // Update active text
     if (mode == ConfirmMode.Next) {
-      if (!currentText.isQuestion) {
+      if (!currentText.isQuestion && DialogTypeInSystem._instance.done) {
         if (currentText.triggeredByNext) {
           currentText.triggeredByNext()
         }

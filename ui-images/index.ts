@@ -46,8 +46,19 @@ export class MediumIcon extends Entity {
     this.image.visible = false
   }
 
-  public show(): void {
-    this.image.visible = true
+ public show(duration?: number): void {
+	this.image.visible = true
+	
+	if (duration) {
+		let dummyEnty = new Entity()
+		engine.addEntity(dummyEnty)
+  
+		dummyEnty.addComponentOrReplace(
+		  new UIDelay(duration, () => {
+			this.hide()
+		  })
+		)
+	  }
   }
 }
 
@@ -95,8 +106,19 @@ export class SmallIcon extends Entity {
     this.image.visible = false
   }
 
-  public show(): void {
-    this.image.visible = true
+ public show(duration?: number): void {
+	this.image.visible = true
+	
+	if (duration) {
+		let dummyEnty = new Entity()
+		engine.addEntity(dummyEnty)
+  
+		dummyEnty.addComponentOrReplace(
+		  new UIDelay(duration, () => {
+			this.hide()
+		  })
+		)
+	  }
   }
 }
 
@@ -144,8 +166,19 @@ export class LargeIcon extends Entity {
     this.image.visible = false
   }
 
-  public show(): void {
-    this.image.visible = true
+ public show(duration?: number): void {
+	this.image.visible = true
+	
+	if (duration) {
+		let dummyEnty = new Entity()
+		engine.addEntity(dummyEnty)
+  
+		dummyEnty.addComponentOrReplace(
+		  new UIDelay(duration, () => {
+			this.hide()
+		  })
+		)
+	  }
   }
 }
 
@@ -210,7 +243,18 @@ export class CenterImage extends Entity {
     this.image.visible = false
   }
 
-  public show(): void {
-    this.image.visible = true
+ public show(duration?: number): void {
+	this.image.visible = true
+	
+	if (duration) {
+		let dummyEnty = new Entity()
+		engine.addEntity(dummyEnty)
+  
+		dummyEnty.addComponentOrReplace(
+		  new UIDelay(duration, () => {
+			this.hide()
+		  })
+		)
+	  }
   }
 }

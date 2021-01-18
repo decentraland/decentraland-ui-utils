@@ -55,6 +55,25 @@ export class FillInPrompt extends Entity {
 
     promptBackground.visible = true
 
+    this.text = new UIText(promptBackground)
+
+    this.text.value = title //splitTextIntoLines(instructions,30,3)
+
+    this.text.adaptWidth = false
+    this.text.textWrapping = true
+    this.text.width = 320
+
+    this.text.hAlign = 'center'
+    this.text.vAlign = 'top'
+    this.text.positionX = 0
+    this.text.positionY = -20
+    this.text.fontSize = 24
+    this.text.font = SFHeavyFont
+    this.text.vTextAlign = 'center'
+    this.text.hTextAlign = 'center'
+    this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
+
+     
     this.closeIcon = new UIImage(promptBackground, uiTheme)
     this.closeIcon.positionX = 175
     this.closeIcon.positionY = 100
@@ -67,27 +86,9 @@ export class FillInPrompt extends Entity {
     }
     this.closeIcon.onClick = new OnClick(() => {
       PlayCloseSound()
-      this.close()
-    })
-
-    this.text = new UIText(promptBackground)
-
-    this.text.value = title //splitTextIntoLines(instructions,30,3)
-
-    this.text.adaptWidth = false
-    this.text.textWrapping = true
-    this.text.width = 380
-
-    this.text.hAlign = 'center'
-    this.text.vAlign = 'top'
-    this.text.positionX = 0
-    this.text.positionY = -20
-    this.text.fontSize = 24
-    this.text.font = SFHeavyFont
-    this.text.vTextAlign = 'center'
-    this.text.hTextAlign = 'center'
-    this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
-
+      this.hide()
+    }) 
+      
     this.button = new UIImage(promptBackground, uiTheme)
     this.button.positionX = 0
     this.button.positionY = -60

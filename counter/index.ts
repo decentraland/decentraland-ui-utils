@@ -16,7 +16,7 @@ export class UICounter extends Entity {
   valueAsNum: number
   uiText: UIText
   canvas: UICanvas = canvas
-  fixedDigits: number
+  fixedDigits: number | null
   constructor(
     value: number,
     xOffset?: number,
@@ -30,9 +30,7 @@ export class UICounter extends Entity {
     this.valueAsNum = value
     this.uiText = new UIText(canvas)
 
-    if (fixedDigits) {
-      this.fixedDigits = fixedDigits
-    }
+    this.fixedDigits = fixedDigits ? fixedDigits : null
 
     this.uiText.value = this.toFixedLengthString(value)
 
@@ -72,12 +70,12 @@ export class UICounter extends Entity {
     if (!this.fixedDigits) return stringValue
     let lenDiff = stringValue.length - this.fixedDigits
 
-       while (lenDiff < 0) {
-		stringValue = '0'.concat(stringValue)
-		lenDiff +=1
-	  }
-	  
-   if (lenDiff > 0) {
+    while (lenDiff < 0) {
+      stringValue = '0'.concat(stringValue)
+      lenDiff += 1
+    }
+
+    if (lenDiff > 0) {
       stringValue = value.toPrecision(this.fixedDigits)
     }
 

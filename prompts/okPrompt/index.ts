@@ -39,7 +39,7 @@ export class OkPrompt extends Entity {
 
     this.UIOpenTime = +Date.now()
 
-    this.onAccept = onAccept
+    this.onAccept = onAccept ? onAccept : undefined
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
 

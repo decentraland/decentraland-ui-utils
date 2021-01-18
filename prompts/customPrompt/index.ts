@@ -129,8 +129,8 @@ export class CustomPrompt extends Entity {
       posX,
       posY,
       this.darkTheme,
-      color ? color : null,
-      size ? size : null
+      color ? color : undefined,
+      size ? size : undefined
     )
 
     this.elements.push(text)
@@ -153,7 +153,7 @@ export class CustomPrompt extends Entity {
       posX,
       posY,
       onClick,
-      style ? style : null
+      style ? style : undefined
     )
 
     this.elements.push(button)
@@ -175,8 +175,8 @@ export class CustomPrompt extends Entity {
       label,
       posX,
       posY,
-      onCheck ? onCheck : null,
-      onUncheck ? onUncheck : null,
+      onCheck ? onCheck : undefined,
+      onUncheck ? onUncheck : undefined,
       large ? large : null,
       startChecked ? startChecked : null
     )
@@ -200,8 +200,8 @@ export class CustomPrompt extends Entity {
       label,
       posX,
       posY,
-      onCheck ? onCheck : null,
-      onUncheck ? onUncheck : null,
+      onCheck ? onCheck : undefined,
+      onUncheck ? onUncheck : undefined,
       style ? style : null,
       startChecked ? startChecked : null
     )
@@ -224,9 +224,9 @@ export class CustomPrompt extends Entity {
       iconTexture,
       xOffset,
       yOffset,
-      width ? width : null,
-      height ? height : null,
-      section ? section : null
+      width ? width : undefined,
+      height ? height : undefined,
+      section ? section : undefined
     )
 
     this.elements.push(icon)
@@ -410,7 +410,7 @@ export class CustomPromptCheckBox extends Entity {
 
     this.checked = startChecked ? true : false
     this.darkTheme = darkTheme
-    this.large = large
+    this.large = large ? large : false
 
     this.image = new UIImage(promptBackground, texture)
     this.image.positionX = posX
@@ -445,7 +445,7 @@ export class CustomPromptCheckBox extends Entity {
         this.uncheck()
       }
 
-      this.checked ? onCheck() : onUncheck()
+      this.checked ? (onCheck ? onCheck() : null) : onUncheck ? onUncheck() : null
     })
   }
 
@@ -548,7 +548,7 @@ export class CustomPromptSwitch extends Entity {
         this.uncheck()
       }
 
-      this.checked ? onCheck() : onUncheck()
+      this.checked ? (onCheck ? onCheck() : null) : onUncheck ? onUncheck() : null
     })
   }
 
@@ -606,10 +606,12 @@ export class CustomPromptIcon extends Entity {
     this.image.positionY = yOffset
     this.image.width = width ? width : 128
     this.image.height = height ? height : 128
-    this.image.sourceLeft = section ? section.sourceLeft : 0
-    this.image.sourceTop = section ? section.sourceTop : 0
-    this.image.sourceWidth = section ? section.sourceWidth : width ? width : 128
-    this.image.sourceHeight = section ? section.sourceHeight : height ? height : 128
+    this.image.sourceLeft = section && section.sourceLeft ? section.sourceLeft : 0
+    this.image.sourceTop = section && section.sourceTop ? section.sourceTop : 0
+    this.image.sourceWidth =
+      section && section.sourceWidth ? section.sourceWidth : width ? width : 128
+    this.image.sourceHeight =
+      section && section.sourceHeight ? section.sourceHeight : height ? height : 128
   }
 
   public hide(): void {
@@ -670,13 +672,13 @@ export class CustomPromptTextBox extends Entity {
     this.fillInBox.fontSize = 22
 
     this.fillInBox.onChanged = new OnChanged((x) => {
-      if (!this.fillInBox.visible) return
+      if (this.fillInBox && !this.fillInBox.visible) return
       this.currentText = x.value
       onChange(this.currentText)
     })
 
     this.fillInBox.onTextSubmit = new OnTextSubmit((x) => {
-      if (!this.fillInBox.visible) return
+      if (this.fillInBox && !this.fillInBox.visible) return
       this.currentText = x.text
       onChange(this.currentText)
     })

@@ -68,7 +68,7 @@ export enum SwitchStyles {
  *
  */
 export class ImageData {
-  path: string
+  path: string = ''
   offsetX?: number
   offsetY?: number
   height?: number
@@ -93,7 +93,7 @@ export class ImageData {
  *
  */
 export class Dialog {
-  text: string
+  text: string = ''
   name?: string
   fontSize?: number
   offsetX?: number

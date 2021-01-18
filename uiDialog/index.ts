@@ -50,7 +50,7 @@ let button4YPos = -80
  */
 export class DialogWindow {
   public NPCScript: Dialog[]
-  private defaultPortrait: ImageData = null
+  private defaultPortrait: ImageData | null = null
   public container: UIContainerRect
   public panel: UIImage
   public portrait: UIImage
@@ -62,12 +62,12 @@ export class DialogWindow {
   public button4: CustomDialogButton
 
   public leftClickIcon: UIImage
-  public isDialogOpen: boolean
-  public isQuestionPanel: boolean
-  public isFixedScreen: boolean
-  public activeTextId: number
+  public isDialogOpen: boolean = false
+  public isQuestionPanel: boolean = false
+  public isFixedScreen: boolean = false
+  public activeTextId: number = 0
   public uiTheme: Texture
-  private UIOpenTime: number
+  private UIOpenTime: number = 0
   public soundEnt: Entity
 
   canvas: UICanvas = canvas
@@ -244,8 +244,7 @@ export class DialogWindow {
 
     if (!textId) {
       this.activeTextId = 0
-    }
-    if (typeof textId === 'number') {
+    } else if (typeof textId === 'number') {
       this.activeTextId = textId
     } else {
       this.activeTextId = findDialogByName(NPCScript, textId)
@@ -262,10 +261,10 @@ export class DialogWindow {
     let hasPortrait = NPCScript[this.activeTextId].portrait ? true : false
 
     if (hasPortrait || this.defaultPortrait) {
-      log(
-        'setting portrait to ',
-        hasPortrait ? NPCScript[this.activeTextId].portrait.path : this.defaultPortrait.path
-      )
+      //   log(
+      //     'setting portrait to ',
+      //     hasPortrait ? NPCScript[this.activeTextId].portrait.path : this.defaultPortrait.path
+      //   )
       this.portrait.source = new Texture(
         hasPortrait ? NPCScript[this.activeTextId].portrait.path : this.defaultPortrait.path
       )
@@ -343,7 +342,7 @@ export class DialogWindow {
     DialogTypeInSystem._instance.newText(
       this.text,
       currentText.text,
-      currentText.typeSpeed ? currentText.typeSpeed : null
+      currentText.typeSpeed ? currentText.typeSpeed : undefined
     )
 
     // Global button events
@@ -717,8 +716,8 @@ export class DialogTypeInSystem implements ISystem {
       this.timer = 0
       this.visibleChars += charsToAdd
       if (this.visibleChars >= this.fullText.length) {
-		    this.done = true
-		    this.visibleChars = this.fullText.length
+        this.done = true
+        this.visibleChars = this.fullText.length
       }
       this.UIText.value = this.fullText.substr(0, this.visibleChars)
     }
@@ -771,7 +770,7 @@ export class CustomDialogButton extends Entity {
     this.image.height = 46
 
     this.label = new UIText(this.image)
-    this.style = style
+    this.style = style ? style : undefined
 
     this.onClick = onClick
 

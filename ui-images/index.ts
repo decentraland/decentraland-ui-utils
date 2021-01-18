@@ -36,29 +36,31 @@ export class MediumIcon extends Entity {
     this.image.positionY = yOffset ? yOffset : 0
     this.image.width = width ? width : 64
     this.image.height = height ? height : 64
-    this.image.sourceLeft = section ? section.sourceLeft : 0
-    this.image.sourceTop = section ? section.sourceTop : 0
-    this.image.sourceWidth = section ? section.sourceWidth : width ? width : 64
-    this.image.sourceHeight = section ? section.sourceHeight : height ? height : 64
+    this.image.sourceLeft = section && section.sourceLeft ? section.sourceLeft : 0
+    this.image.sourceTop = section && section.sourceTop ? section.sourceTop : 0
+    this.image.sourceWidth =
+      section && section.sourceWidth ? section.sourceWidth : width ? width : 64
+    this.image.sourceHeight =
+      section && section.sourceHeight ? section.sourceHeight : height ? height : 64
   }
 
   public hide(): void {
     this.image.visible = false
   }
 
- public show(duration?: number): void {
-	this.image.visible = true
-	
-	if (duration) {
-		let dummyEnty = new Entity()
-		engine.addEntity(dummyEnty)
-  
-		dummyEnty.addComponentOrReplace(
-		  new UIDelay(duration, () => {
-			this.hide()
-		  })
-		)
-	  }
+  public show(duration?: number): void {
+    this.image.visible = true
+
+    if (duration) {
+      let dummyEnty = new Entity()
+      engine.addEntity(dummyEnty)
+
+      dummyEnty.addComponentOrReplace(
+        new UIDelay(duration, () => {
+          this.hide()
+        })
+      )
+    }
   }
 }
 
@@ -96,8 +98,8 @@ export class SmallIcon extends Entity {
     this.image.positionY = yOffset ? yOffset : 0
     this.image.width = width ? width : 32
     this.image.height = height ? height : 32
-    this.image.sourceLeft = section ? section.sourceLeft : 0
-    this.image.sourceTop = section ? section.sourceTop : 0
+    this.image.sourceLeft = section && section.sourceLeft ? section.sourceLeft : 0
+    this.image.sourceTop = section && section.sourceTop ? section.sourceTop : 0
     this.image.sourceWidth = section ? section.sourceWidth : width ? width : 32
     this.image.sourceHeight = section ? section.sourceHeight : height ? height : 32
   }
@@ -106,19 +108,19 @@ export class SmallIcon extends Entity {
     this.image.visible = false
   }
 
- public show(duration?: number): void {
-	this.image.visible = true
-	
-	if (duration) {
-		let dummyEnty = new Entity()
-		engine.addEntity(dummyEnty)
-  
-		dummyEnty.addComponentOrReplace(
-		  new UIDelay(duration, () => {
-			this.hide()
-		  })
-		)
-	  }
+  public show(duration?: number): void {
+    this.image.visible = true
+
+    if (duration) {
+      let dummyEnty = new Entity()
+      engine.addEntity(dummyEnty)
+
+      dummyEnty.addComponentOrReplace(
+        new UIDelay(duration, () => {
+          this.hide()
+        })
+      )
+    }
   }
 }
 
@@ -156,8 +158,8 @@ export class LargeIcon extends Entity {
     this.image.positionY = yOffset ? yOffset : 0
     this.image.width = width ? width : 128
     this.image.height = height ? height : 128
-    this.image.sourceLeft = section ? section.sourceLeft : 0
-    this.image.sourceTop = section ? section.sourceTop : 0
+    this.image.sourceLeft = section && section.sourceLeft ? section.sourceLeft : 0
+    this.image.sourceTop = section && section.sourceTop ? section.sourceTop : 0
     this.image.sourceWidth = section ? section.sourceWidth : width ? width : 128
     this.image.sourceHeight = section ? section.sourceHeight : height ? height : 128
   }
@@ -166,19 +168,19 @@ export class LargeIcon extends Entity {
     this.image.visible = false
   }
 
- public show(duration?: number): void {
-	this.image.visible = true
-	
-	if (duration) {
-		let dummyEnty = new Entity()
-		engine.addEntity(dummyEnty)
-  
-		dummyEnty.addComponentOrReplace(
-		  new UIDelay(duration, () => {
-			this.hide()
-		  })
-		)
-	  }
+  public show(duration?: number): void {
+    this.image.visible = true
+
+    if (duration) {
+      let dummyEnty = new Entity()
+      engine.addEntity(dummyEnty)
+
+      dummyEnty.addComponentOrReplace(
+        new UIDelay(duration, () => {
+          this.hide()
+        })
+      )
+    }
   }
 }
 
@@ -220,8 +222,8 @@ export class CenterImage extends Entity {
     this.image.positionY = yOffset ? yOffset : 0
     this.image.width = width ? width : 512
     this.image.height = height ? height : 512
-    this.image.sourceLeft = section ? section.sourceLeft : 0
-    this.image.sourceTop = section ? section.sourceTop : 0
+    this.image.sourceLeft = section && section.sourceLeft ? section.sourceLeft : 0
+    this.image.sourceTop = section && section.sourceTop ? section.sourceTop : 0
     this.image.sourceWidth = section ? section.sourceWidth : width ? width : 512
     this.image.sourceHeight = section ? section.sourceHeight : height ? height : 512
 
@@ -243,18 +245,18 @@ export class CenterImage extends Entity {
     this.image.visible = false
   }
 
- public show(duration?: number): void {
-	this.image.visible = true
-	
-	if (duration) {
-		let dummyEnty = new Entity()
-		engine.addEntity(dummyEnty)
-  
-		dummyEnty.addComponentOrReplace(
-		  new UIDelay(duration, () => {
-			this.hide()
-		  })
-		)
-	  }
+  public show(duration?: number): void {
+    this.image.visible = true
+
+    if (duration) {
+      let dummyEnty = new Entity()
+      engine.addEntity(dummyEnty)
+
+      dummyEnty.addComponentOrReplace(
+        new UIDelay(duration, () => {
+          this.hide()
+        })
+      )
+    }
   }
 }

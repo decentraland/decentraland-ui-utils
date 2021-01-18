@@ -53,7 +53,7 @@ export class OptionPrompt extends Entity {
     this.UIOpenTime = +Date.now()
 
     this.onAccept = onAccept
-    this.onReject = onReject
+    this.onReject = onReject ? onReject : undefined
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
 

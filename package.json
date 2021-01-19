@@ -5,7 +5,7 @@
   "main": "./dist/lib.js",
   "typings": "./dist/lib.d.ts",
   "scripts": {
-    "build": "dcl build",
+    "build": "build-ecs build",
     "semantic-release": "semantic-release"
   },
   "repository": {
@@ -35,5 +35,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "files": ["dist"]
 }

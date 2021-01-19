@@ -481,10 +481,10 @@ export class DialogWindow {
     DialogTypeInSystem._instance.newText(
       this.text,
       currentText.text,
-      currentText.typeSpeed ? currentText.typeSpeed : null
+      currentText.typeSpeed ? currentText.typeSpeed : undefined
     )
 
-    let hasPortrait = currentText.portrait ? true : false
+    let hasPortrait = currentText.portrait.path ? true : false
 
     if (hasPortrait || this.defaultPortrait) {
       log(

@@ -33,7 +33,7 @@ export class OptionPrompt extends Entity {
   buttonFIcon: UIImage
   closeIcon: UIImage
   onAccept: () => void
-  onReject: () => void
+  onReject: null | (() => void)
   EButtonAction: () => false | Subscription[]
   FButtonAction: () => false | Subscription[]
   UIOpenTime: number
@@ -53,7 +53,7 @@ export class OptionPrompt extends Entity {
     this.UIOpenTime = +Date.now()
 
     this.onAccept = onAccept
-    this.onReject = onReject ? onReject : undefined
+    this.onReject = onReject ? onReject : null
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
 

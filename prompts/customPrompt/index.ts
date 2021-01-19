@@ -27,9 +27,9 @@ export class CustomPrompt extends Entity {
     | CustomPromptTextBox
   )[] = []
   texture: Texture = lightTheme
-  darkTheme: boolean
+  darkTheme: boolean = false
   closeIcon: UIImage = new UIImage(promptBackground, this.texture)
-  UIOpenTime: number
+  UIOpenTime: number = 0
   canvas: UICanvas = canvas
   background: UIImage = promptBackground
 
@@ -177,8 +177,8 @@ export class CustomPrompt extends Entity {
       posY,
       onCheck ? onCheck : undefined,
       onUncheck ? onUncheck : undefined,
-      large ? large : null,
-      startChecked ? startChecked : null
+      large ? large : undefined,
+      startChecked ? startChecked : undefined
     )
 
     this.elements.push(checkBox)
@@ -202,8 +202,8 @@ export class CustomPrompt extends Entity {
       posY,
       onCheck ? onCheck : undefined,
       onUncheck ? onUncheck : undefined,
-      style ? style : null,
-      startChecked ? startChecked : null
+      style ? style : undefined,
+      startChecked ? startChecked : undefined
     )
 
     this.elements.push(uiswitch)
@@ -242,8 +242,8 @@ export class CustomPrompt extends Entity {
     let texBox = new CustomPromptTextBox(
       posX,
       posY,
-      placeholder ? placeholder : null,
-      onChange ? onChange : null
+      placeholder ? placeholder : undefined,
+      onChange ? onChange : undefined
     )
 
     this.elements.push(texBox)
@@ -254,7 +254,7 @@ export class CustomPrompt extends Entity {
 export class CustomPromptButton extends Entity {
   label: UIText
   image: UIImage
-  icon: UIImage
+  icon: UIImage | null = null
   constructor(
     texture: Texture,
     UIOpenTime: number,
@@ -329,6 +329,8 @@ export class CustomPromptButton extends Entity {
         case ButtonStyles.SQUAREGOLD:
           setSection(this.image, resources.buttons.squareGold)
           break
+        default:
+          setSection(this.image, resources.buttons.roundSilver)
       }
     } else {
       setSection(this.image, resources.buttons.roundSilver)

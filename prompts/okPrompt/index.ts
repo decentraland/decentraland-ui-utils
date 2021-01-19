@@ -24,7 +24,7 @@ export class OkPrompt extends Entity {
   buttonLabel: UIText
   icon: UIImage
   closeIcon: UIImage
-  onAccept: () => void
+  onAccept: null | (() => void)
   EButtonAction: () => false | Subscription[]
   UIOpenTime: number
   canvas: UICanvas = canvas
@@ -39,7 +39,7 @@ export class OkPrompt extends Entity {
 
     this.UIOpenTime = +Date.now()
 
-    this.onAccept = onAccept ? onAccept : undefined
+    this.onAccept = onAccept ? onAccept : null
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
 

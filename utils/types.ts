@@ -20,7 +20,7 @@ export enum PromptStyles {
   LIGHTLARGE = `lightlarge`,
   DARKLARGE = `darklarge`,
   LIGHTSLANTED = `lightslanted`,
-  DARKSLANTED = `darkslanted`,
+  DARKSLANTED = `darkslanted`
 }
 
 export enum BarStyles {
@@ -31,7 +31,7 @@ export enum BarStyles {
   SQUAREBLACK = `squareblack`,
   SQUAREWHITE = `squarewhite`,
   SQUARESILVER = `squaresilver`,
-  SQUAREGOLD = `squaregold`,
+  SQUAREGOLD = `squaregold`
 }
 
 export enum ButtonStyles {
@@ -46,14 +46,14 @@ export enum ButtonStyles {
   SQUAREBLACK = `squareblack`,
   SQUAREWHITE = `squarewhite`,
   SQUARESILVER = `squaresilver`,
-  SQUAREGOLD = `squaregold`,
+  SQUAREGOLD = `squaregold`
 }
 
 export enum SwitchStyles {
   ROUNDGREEN = `roundgreen`,
   ROUNDRED = `roundred`,
   SQUAREGREEN = `squaregreen`,
-  SQUARERED = `squarered`,
+  SQUARERED = `squarered`
 }
 
 /**
@@ -129,5 +129,5 @@ export type ButtonData = {
 }
 
 export class Dialogs {
-  dialogs: Dialog[]
+  dialogs: Dialog[] = []
 }

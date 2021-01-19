@@ -3,7 +3,7 @@ import {
   SFFont,
   lightTheme,
   darkTheme,
-  SFHeavyFont,
+  SFHeavyFont
 } from './../utils/default-ui-components'
 import { ImageData, Dialog, ButtonStyles } from '../utils/types'
 import resources, { setSection, buttonIconPos } from '../utils/resources'
@@ -14,7 +14,7 @@ export enum ConfirmMode {
   Cancel = 1,
   Next = 2,
   Button3 = 3,
-  Button4 = 4,
+  Button4 = 4
 }
 
 let portraitXPos = -350
@@ -49,7 +49,7 @@ let button4YPos = -80
  *
  */
 export class DialogWindow {
-  public NPCScript: Dialog[]
+  public NPCScript: Dialog[] = []
   private defaultPortrait: ImageData | null = null
   public container: UIContainerRect
   public panel: UIImage
@@ -71,9 +71,9 @@ export class DialogWindow {
   public soundEnt: Entity
 
   canvas: UICanvas = canvas
-  ClickAction: () => false | Subscription[]
-  EButtonAction: () => false | Subscription[]
-  FButtonAction: () => false | Subscription[]
+  ClickAction: null | (() => false | Subscription[]) = null
+  EButtonAction: null | (() => false | Subscription[]) = null
+  FButtonAction: null | (() => false | Subscription[]) = null
 
   constructor(defaultPortrait?: ImageData, useDarkTheme?: boolean | Texture, sound?: string) {
     this.defaultPortrait = defaultPortrait ? defaultPortrait : null
@@ -250,7 +250,9 @@ export class DialogWindow {
       this.activeTextId = findDialogByName(NPCScript, textId)
     }
 
-    let currentText = NPCScript[this.activeTextId]
+    let currentText: Dialog = NPCScript[this.activeTextId]
+      ? NPCScript[this.activeTextId]
+      : { text: '' }
 
     if (this.soundEnt.hasComponent(AudioSource)) {
       this.soundEnt.getComponent(AudioSource).playOnce()
@@ -258,49 +260,42 @@ export class DialogWindow {
 
     // Set portrait
     // Looks for portrait in current text, otherwise use default portrait data
-    let hasPortrait = NPCScript[this.activeTextId].portrait ? true : false
 
-    if (hasPortrait || this.defaultPortrait) {
-      //   log(
-      //     'setting portrait to ',
-      //     hasPortrait ? NPCScript[this.activeTextId].portrait.path : this.defaultPortrait.path
-      //   )
-      this.portrait.source = new Texture(
-        hasPortrait ? NPCScript[this.activeTextId].portrait.path : this.defaultPortrait.path
-      )
+    if (currentText.portrait) {
+      this.portrait.source = new Texture(currentText.portrait.path)
 
-      this.portrait.positionX = hasPortrait
-        ? NPCScript[this.activeTextId].portrait.offsetX
-          ? NPCScript[this.activeTextId].portrait.offsetX + portraitXPos
-          : portraitXPos
-        : this.defaultPortrait && this.defaultPortrait.offsetX
-        ? this.defaultPortrait.offsetX + portraitXPos
+      this.portrait.positionX = currentText.portrait.offsetX
+        ? currentText.portrait.offsetX + portraitXPos
         : portraitXPos
-      this.portrait.positionY = hasPortrait
-        ? NPCScript[this.activeTextId].portrait.offsetY
-          ? NPCScript[this.activeTextId].portrait.offsetY + portraitYPos
-          : portraitYPos
-        : this.defaultPortrait && this.defaultPortrait.offsetY
-        ? this.defaultPortrait.offsetY + portraitYPos
+      this.portrait.positionY = currentText.portrait.offsetY
+        ? currentText.portrait.offsetY + portraitYPos
         : portraitYPos
-      this.portrait.width = hasPortrait
-        ? NPCScript[this.activeTextId].portrait.width
-          ? NPCScript[this.activeTextId].portrait.width
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.width
-        ? this.defaultPortrait.width
-        : 256
-      this.portrait.height = hasPortrait
-        ? NPCScript[this.activeTextId].portrait.height
-          ? NPCScript[this.activeTextId].portrait.height
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.height
-        ? this.defaultPortrait.height
-        : 256
 
-      if (hasPortrait && NPCScript[this.activeTextId].portrait.section) {
-        setSection(this.portrait, NPCScript[this.activeTextId].portrait.section)
-      } else if (!hasPortrait && this.defaultPortrait && this.defaultPortrait.section) {
+      this.portrait.width = currentText.portrait.width ? currentText.portrait.width : 256
+
+      this.portrait.height = currentText.portrait.height ? currentText.portrait.height : 256
+
+      if (currentText.portrait.section) {
+        setSection(this.portrait, currentText.portrait.section)
+      }
+      this.portrait.visible = true
+    } else if (this.defaultPortrait) {
+      this.portrait.source = new Texture(this.defaultPortrait.path)
+
+      this.portrait.positionX =
+        this.defaultPortrait && this.defaultPortrait.offsetX
+          ? this.defaultPortrait.offsetX + portraitXPos
+          : portraitXPos
+      this.portrait.positionY =
+        this.defaultPortrait && this.defaultPortrait.offsetY
+          ? this.defaultPortrait.offsetY + portraitYPos
+          : portraitYPos
+      this.portrait.width =
+        this.defaultPortrait && this.defaultPortrait.width ? this.defaultPortrait.width : 256
+      this.portrait.height =
+        this.defaultPortrait && this.defaultPortrait.height ? this.defaultPortrait.height : 256
+
+      if (this.defaultPortrait.section) {
         setSection(this.portrait, this.defaultPortrait.section)
       }
       this.portrait.visible = true
@@ -309,11 +304,9 @@ export class DialogWindow {
       this.portrait.visible = false
     }
 
-    let hasImage = NPCScript[this.activeTextId].image ? true : false
-
     // Set image on the right
-    if (hasImage) {
-      let image = NPCScript[this.activeTextId].image
+    if (currentText.image) {
+      let image: ImageData = currentText.image
       log('setting image to ', image.path)
       this.image.source = new Texture(image.path)
 
@@ -347,25 +340,20 @@ export class DialogWindow {
 
     // Global button events
     if (!this.ClickAction) {
-      this.ClickAction = Input.instance.subscribe(
-        'BUTTON_DOWN',
-        ActionButton.POINTER,
-        false,
-        (e) => {
-          if (!this.isDialogOpen || +Date.now() - this.UIOpenTime < 100) return
+      this.ClickAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.POINTER, false, e => {
+        if (!this.isDialogOpen || +Date.now() - this.UIOpenTime < 100) return
 
-          if (!DialogTypeInSystem._instance.done) {
-            DialogTypeInSystem._instance.rush()
-          } else if (!this.isQuestionPanel && !this.isFixedScreen) {
-            this.confirmText(ConfirmMode.Next)
-          }
+        if (!DialogTypeInSystem._instance.done) {
+          DialogTypeInSystem._instance.rush()
+        } else if (!this.isQuestionPanel && !this.isFixedScreen) {
+          this.confirmText(ConfirmMode.Next)
         }
-      )
+      })
       this.EButtonAction = Input.instance.subscribe(
         'BUTTON_DOWN',
         ActionButton.PRIMARY,
         false,
-        (e) => {
+        e => {
           if (
             this.isDialogOpen &&
             this.isQuestionPanel &&
@@ -380,7 +368,7 @@ export class DialogWindow {
         'BUTTON_DOWN',
         ActionButton.SECONDARY,
         false,
-        (e) => {
+        e => {
           if (
             this.isDialogOpen &&
             this.isQuestionPanel &&
@@ -399,7 +387,9 @@ export class DialogWindow {
 
   // Progresses text
   public confirmText(mode: ConfirmMode): void {
-    let currentText = this.NPCScript[this.activeTextId]
+    let currentText: Dialog = this.NPCScript[this.activeTextId]
+      ? this.NPCScript[this.activeTextId]
+      : { text: '' }
 
     // Update active text
     if (mode == ConfirmMode.Next) {
@@ -416,7 +406,7 @@ export class DialogWindow {
     }
 
     if (mode == ConfirmMode.Confirm) {
-      if (currentText.buttons.length >= 1) {
+      if (currentText.buttons && currentText.buttons.length >= 1) {
         if (typeof currentText.buttons[0].goToDialog === 'number') {
           this.activeTextId = currentText.buttons[0].goToDialog
         } else {
@@ -429,7 +419,7 @@ export class DialogWindow {
     }
 
     if (mode == ConfirmMode.Cancel) {
-      if (currentText.buttons.length >= 2) {
+      if (currentText.buttons && currentText.buttons.length >= 2) {
         if (typeof currentText.buttons[1].goToDialog === 'number') {
           this.activeTextId = currentText.buttons[1].goToDialog
         } else {
@@ -442,7 +432,7 @@ export class DialogWindow {
     }
 
     if (mode == ConfirmMode.Button3) {
-      if (currentText.buttons.length >= 3) {
+      if (currentText.buttons && currentText.buttons.length >= 3) {
         if (typeof currentText.buttons[2].goToDialog === 'number') {
           this.activeTextId = currentText.buttons[2].goToDialog
         } else {
@@ -455,7 +445,7 @@ export class DialogWindow {
     }
 
     if (mode == ConfirmMode.Button4) {
-      if (currentText.buttons.length >= 4) {
+      if (currentText.buttons && currentText.buttons.length >= 4) {
         if (typeof currentText.buttons[3].goToDialog === 'number') {
           this.activeTextId = currentText.buttons[3].goToDialog
         } else {
@@ -484,50 +474,43 @@ export class DialogWindow {
       currentText.typeSpeed ? currentText.typeSpeed : undefined
     )
 
-    let hasPortrait = currentText.portrait.path ? true : false
+    if (currentText.portrait) {
+      this.portrait.source = new Texture(currentText.portrait.path)
 
-    if (hasPortrait || this.defaultPortrait) {
-      log(
-        'setting portrait to ',
-        hasPortrait ? currentText.portrait.path : this.defaultPortrait.path
-      )
-      this.portrait.source = new Texture(
-        hasPortrait ? currentText.portrait.path : this.defaultPortrait.path
-      )
-
-      this.portrait.positionX = hasPortrait
-        ? currentText.portrait.offsetX
-          ? currentText.portrait.offsetX + portraitXPos
-          : portraitXPos
-        : this.defaultPortrait && this.defaultPortrait.offsetX
-        ? this.defaultPortrait.offsetX + portraitXPos
+      this.portrait.positionX = currentText.portrait.offsetX
+        ? currentText.portrait.offsetX + portraitXPos
         : portraitXPos
-      this.portrait.positionY = hasPortrait
-        ? currentText.portrait.offsetY
-          ? currentText.portrait.offsetY + portraitYPos
-          : portraitYPos
-        : this.defaultPortrait && this.defaultPortrait.offsetY
-        ? this.defaultPortrait.offsetY + portraitYPos
+
+      this.portrait.positionY = currentText.portrait.offsetY
+        ? currentText.portrait.offsetY + portraitYPos
         : portraitYPos
 
-      this.portrait.width = hasPortrait
-        ? currentText.portrait.width
-          ? currentText.portrait.width
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.width
-        ? this.defaultPortrait.width
-        : 256
-      this.portrait.height = hasPortrait
-        ? currentText.portrait.height
-          ? currentText.portrait.height
-          : 256
-        : this.defaultPortrait && this.defaultPortrait.height
-        ? this.defaultPortrait.height
-        : 256
+      this.portrait.width = currentText.portrait.width ? currentText.portrait.width : 256
 
-      if (hasPortrait && currentText.portrait.section) {
+      this.portrait.height = currentText.portrait.height ? currentText.portrait.height : 256
+
+      if (currentText.portrait.section) {
         setSection(this.portrait, currentText.portrait.section)
-      } else if (!hasPortrait && this.defaultPortrait && this.defaultPortrait.section) {
+      }
+      this.portrait.visible = true
+    } else if (this.defaultPortrait) {
+      this.portrait.source = new Texture(this.defaultPortrait.path)
+
+      this.portrait.positionX =
+        this.defaultPortrait && this.defaultPortrait.offsetX
+          ? this.defaultPortrait.offsetX + portraitXPos
+          : portraitXPos
+      this.portrait.positionY =
+        this.defaultPortrait && this.defaultPortrait.offsetY
+          ? this.defaultPortrait.offsetY + portraitYPos
+          : portraitYPos
+
+      this.portrait.width =
+        this.defaultPortrait && this.defaultPortrait.width ? this.defaultPortrait.width : 256
+      this.portrait.height =
+        this.defaultPortrait && this.defaultPortrait.height ? this.defaultPortrait.height : 256
+
+      if (this.defaultPortrait.section) {
         setSection(this.portrait, this.defaultPortrait.section)
       }
       this.portrait.visible = true
@@ -541,7 +524,7 @@ export class DialogWindow {
 
     // Set image on the right
     if (hasImage) {
-      let image = currentText.image
+      let image: ImageData = currentText.image
       log('setting image to ', image.path)
       this.image.source = new Texture(image.path)
 
@@ -565,7 +548,7 @@ export class DialogWindow {
 
   // Adds the buttons or mouse icon depending on the type of window
   private layoutDialogWindow(textId: number): void {
-    let currentText = this.NPCScript[textId]
+    let currentText: Dialog = this.NPCScript[textId] ? this.NPCScript[textId] : { text: '' }
 
     this.isQuestionPanel = currentText.isQuestion
 
@@ -580,7 +563,7 @@ export class DialogWindow {
 
     if (currentText.isQuestion) {
       // Button E
-      if (currentText.buttons.length >= 1) {
+      if (currentText.buttons && currentText.buttons.length >= 1) {
         this.button1.update(
           currentText.buttons[0].label,
           currentText.buttons[0].offsetX
@@ -597,7 +580,7 @@ export class DialogWindow {
       }
 
       // Button F
-      if (currentText.buttons.length >= 2) {
+      if (currentText.buttons && currentText.buttons.length >= 2) {
         this.button2.update(
           currentText.buttons[1].label,
           currentText.buttons[1].offsetX
@@ -614,7 +597,7 @@ export class DialogWindow {
       }
 
       // Button 3
-      if (currentText.buttons.length >= 3) {
+      if (currentText.buttons && currentText.buttons.length >= 3) {
         this.button3.update(
           currentText.buttons[2].label,
           currentText.buttons[2].offsetX
@@ -627,7 +610,7 @@ export class DialogWindow {
       }
 
       // Button 4
-      if (currentText.buttons.length >= 4) {
+      if (currentText.buttons && currentText.buttons.length >= 4) {
         this.button4.update(
           currentText.buttons[3].label,
           currentText.buttons[3].offsetX
@@ -642,21 +625,21 @@ export class DialogWindow {
       dummyQuestionDelays.addComponentOrReplace(
         new UIDelay(0.7, () => {
           // Button E
-          if (currentText.buttons.length >= 1) {
+          if (currentText.buttons && currentText.buttons.length >= 1) {
             this.button1.show()
           }
           // Button F
-          if (currentText.buttons.length >= 2) {
+          if (currentText.buttons && currentText.buttons.length >= 2) {
             this.button2.show()
           }
 
           // Button 3
-          if (currentText.buttons.length >= 3) {
+          if (currentText.buttons && currentText.buttons.length >= 3) {
             this.button3.show()
           }
 
           // Button 4
-          if (currentText.buttons.length >= 4) {
+          if (currentText.buttons && currentText.buttons.length >= 4) {
             this.button4.show()
           }
         })
@@ -749,7 +732,7 @@ export class CustomDialogButton extends Entity {
   label: UIText
   image: UIImage
   icon: UIImage
-  style: ButtonStyles
+  style: ButtonStyles | null
   onClick: () => void
   constructor(
     parent: UIContainerRect,
@@ -770,7 +753,7 @@ export class CustomDialogButton extends Entity {
     this.image.height = 46
 
     this.label = new UIText(this.image)
-    this.style = style ? style : undefined
+    this.style = style ? style : null
 
     this.onClick = onClick
 
@@ -856,14 +839,14 @@ export class CustomDialogButton extends Entity {
     })
 
     if (style == ButtonStyles.E) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
         if (this.image.visible) {
           // && +Date.now() - UIOpenTime > 100) {
           this.onClick()
         }
       })
     } else if (style == ButtonStyles.F) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, (e) => {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, e => {
         if (this.image.visible) {
           // && +Date.now() - UIOpenTime > 100) {
           this.onClick()

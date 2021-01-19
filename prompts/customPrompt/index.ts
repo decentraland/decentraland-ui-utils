@@ -5,7 +5,7 @@ import {
   promptBackground,
   SFFont,
   canvas,
-  PlayCloseSound,
+  PlayCloseSound
 } from '../../utils/default-ui-components'
 import { PromptStyles, ButtonStyles, SwitchStyles, ImageSection } from '../../utils/types'
 
@@ -352,13 +352,13 @@ export class CustomPromptButton extends Entity {
     })
 
     if (style == ButtonStyles.E) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
         if (this.image.visible && +Date.now() - UIOpenTime > 100) {
           onClick()
         }
       })
     } else if (style == ButtonStyles.F) {
-      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, (e) => {
+      Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, e => {
         if (this.image.visible && +Date.now() - UIOpenTime > 100) {
           onClick()
         }
@@ -673,16 +673,20 @@ export class CustomPromptTextBox extends Entity {
     this.fillInBox.vTextAlign = 'center'
     this.fillInBox.fontSize = 22
 
-    this.fillInBox.onChanged = new OnChanged((x) => {
+    this.fillInBox.onChanged = new OnChanged(x => {
       if (this.fillInBox && !this.fillInBox.visible) return
       this.currentText = x.value
-      onChange(this.currentText)
+      if (onChange) {
+        onChange(this.currentText)
+      }
     })
 
-    this.fillInBox.onTextSubmit = new OnTextSubmit((x) => {
+    this.fillInBox.onTextSubmit = new OnTextSubmit(x => {
       if (this.fillInBox && !this.fillInBox.visible) return
       this.currentText = x.text
-      onChange(this.currentText)
+      if (onChange) {
+        onChange(this.currentText)
+      }
     })
   }
 

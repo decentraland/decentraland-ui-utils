@@ -1,5 +1,14 @@
 {
-  "include": ["."],
-  "exclude": ["node_modules"],
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "outFile": "./dist/lib.js",
+    "declaration": true,
+    "strict": true
+  },
   "extends": "./node_modules/decentraland-ecs/types/tsconfig.json"
 }

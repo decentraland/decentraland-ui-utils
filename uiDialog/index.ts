@@ -332,7 +332,7 @@ export class DialogWindow {
     this.text.visible = true
     this.container.visible = true
 
-    DialogTypeInSystem._instance.newText(
+    DialogTypeInSystem._instance!.newText(
       this.text,
       currentText.text,
       currentText.typeSpeed ? currentText.typeSpeed : undefined
@@ -343,8 +343,8 @@ export class DialogWindow {
       this.ClickAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.POINTER, false, e => {
         if (!this.isDialogOpen || +Date.now() - this.UIOpenTime < 100) return
 
-        if (!DialogTypeInSystem._instance.done) {
-          DialogTypeInSystem._instance.rush()
+        if (!DialogTypeInSystem._instance!.done) {
+          DialogTypeInSystem._instance!.rush()
         } else if (!this.isQuestionPanel && !this.isFixedScreen) {
           this.confirmText(ConfirmMode.Next)
         }
@@ -357,7 +357,7 @@ export class DialogWindow {
           if (
             this.isDialogOpen &&
             this.isQuestionPanel &&
-            DialogTypeInSystem._instance.done &&
+            DialogTypeInSystem._instance!.done &&
             +Date.now() - this.UIOpenTime > 100
           ) {
             this.confirmText(ConfirmMode.Confirm)
@@ -372,7 +372,7 @@ export class DialogWindow {
           if (
             this.isDialogOpen &&
             this.isQuestionPanel &&
-            DialogTypeInSystem._instance.done &&
+            DialogTypeInSystem._instance!.done &&
             +Date.now() - this.UIOpenTime > 100
           ) {
             this.confirmText(ConfirmMode.Cancel)
@@ -393,7 +393,7 @@ export class DialogWindow {
 
     // Update active text
     if (mode == ConfirmMode.Next) {
-      if (!currentText.isQuestion && DialogTypeInSystem._instance.done) {
+      if (!currentText.isQuestion && DialogTypeInSystem._instance!.done) {
         if (currentText.triggeredByNext) {
           currentText.triggeredByNext()
         }
@@ -468,7 +468,7 @@ export class DialogWindow {
       this.soundEnt.getComponent(AudioSource).playOnce()
     }
 
-    DialogTypeInSystem._instance.newText(
+    DialogTypeInSystem._instance!.newText(
       this.text,
       currentText.text,
       currentText.typeSpeed ? currentText.typeSpeed : undefined
@@ -520,10 +520,9 @@ export class DialogWindow {
     }
 
     this.image.visible = false
-    let hasImage = currentText.image ? true : false
 
     // Set image on the right
-    if (hasImage) {
+    if (currentText.image) {
       let image: ImageData = currentText.image
       log('setting image to ', image.path)
       this.image.source = new Texture(image.path)
@@ -550,9 +549,9 @@ export class DialogWindow {
   private layoutDialogWindow(textId: number): void {
     let currentText: Dialog = this.NPCScript[textId] ? this.NPCScript[textId] : { text: '' }
 
-    this.isQuestionPanel = currentText.isQuestion
+    this.isQuestionPanel = currentText.isQuestion ? true : false
 
-    this.isFixedScreen = currentText.isFixedScreen
+    this.isFixedScreen = currentText.isFixedScreen ? true : false
     this.button1.hide()
     this.button2.hide()
     this.button3.hide()
@@ -675,7 +674,7 @@ export class DialogTypeInSystem implements ISystem {
   speed: number = DEFAULT_SPEED
   visibleChars: number = 0
   fullText: string = ''
-  UIText: UIText
+  UIText: UIText | null = null
   done: boolean = true
 
   static createAndAddToEngine(): DialogTypeInSystem {
@@ -701,8 +700,10 @@ export class DialogTypeInSystem implements ISystem {
       if (this.visibleChars >= this.fullText.length) {
         this.done = true
         this.visibleChars = this.fullText.length
-      }
-      this.UIText.value = this.fullText.substr(0, this.visibleChars)
+	  }
+	  if(this.UIText){
+		this.UIText.value = this.fullText.substr(0, this.visibleChars)
+	  }  
     }
   }
 
@@ -723,15 +724,17 @@ export class DialogTypeInSystem implements ISystem {
   }
   rush() {
     this.done = true
-    this.UIText.value = this.fullText
-    this.visibleChars = this.fullText.length
+	this.visibleChars = this.fullText.length
+	if(this.UIText){
+		this.UIText.value = this.fullText
+	}
   }
 }
 
 export class CustomDialogButton extends Entity {
   label: UIText
   image: UIImage
-  icon: UIImage
+  icon: UIImage | null = null
   style: ButtonStyles | null
   onClick: () => void
   constructor(
@@ -757,8 +760,8 @@ export class CustomDialogButton extends Entity {
 
     this.onClick = onClick
 
-    if (style) {
-      switch (style) {
+    if (this.style) {
+      switch (this.style) {
         case ButtonStyles.E:
           setSection(this.image, resources.buttons.buttonE)
           this.label.positionX = 25
@@ -877,7 +880,7 @@ export class CustomDialogButton extends Entity {
     this.image.positionX = posX
     this.image.positionY = posY
 
-    if (this.style == ButtonStyles.E || this.style == ButtonStyles.F) {
+    if (this.icon && (this.style == ButtonStyles.E || this.style == ButtonStyles.F)) {
       this.icon.positionX = buttonIconPos(label.length)
     }
   }

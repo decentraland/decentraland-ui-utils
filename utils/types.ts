@@ -67,8 +67,8 @@ export enum SwitchStyles {
  * @param section Use only a section of the image file, useful when arranging multiple icons into an image atlas. This field takes an `ImageSection` object, specifying `sourceWidth` and `sourceHeight`, and optionally also `sourceLeft` and `sourceTop`.
  *
  */
-export class ImageData {
-  path: string = ''
+export type ImageData = {
+  path: string
   offsetX?: number
   offsetY?: number
   height?: number

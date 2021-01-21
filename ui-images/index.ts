@@ -5,12 +5,12 @@ import { UIDelay } from '../utils/timerComponents'
 /**
  * Displays an icon of 64x64 on the bottom-left corner
  *
- * @param image path to image file
- * @param xOffset position on X, to enable fitting several counters
- * @param yOffset position on Y, to enable fitting several counters
- * @param width image width
- * @param height image height
- * @param section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
+ * @param {string} image path to image file
+ * @param {number} xOffset position on X, to enable fitting several counters
+ * @param {number} yOffset position on Y, to enable fitting several counters
+ * @param {number} width image width
+ * @param {number} height image height
+ * @param {ImageSection} section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
  *
  */
 export class MediumIcon extends Entity {
@@ -44,10 +44,17 @@ export class MediumIcon extends Entity {
       section && section.sourceHeight ? section.sourceHeight : height ? height : 64
   }
 
+  /**
+   * Hides the image from view in the screen.
+   */
   public hide(): void {
     this.image.visible = false
   }
 
+  /**
+   * Makes an invisible image visible again.
+   * @param {number} duration Seconds to display the image onscreen. If no value is provided, it stays visible.
+   */
   public show(duration?: number): void {
     this.image.visible = true
 
@@ -67,12 +74,12 @@ export class MediumIcon extends Entity {
 /**
  * Displays an icon of 32x32 on the bottom-left corner
  *
- * @param image path to image file
- * @param xOffset position on X, to enable fitting several counters
- * @param yOffset position on Y, to enable fitting several counters
- * @param width image width
- * @param height image height
- * @param section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
+ * @param {string} image path to image file
+ * @param {number} xOffset position on X, to enable fitting several counters
+ * @param {number} yOffset position on Y, to enable fitting several counters
+ * @param {number} width image width
+ * @param {number} height image height
+ * @param {ImageSection} section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
  *
  */
 export class SmallIcon extends Entity {
@@ -104,10 +111,17 @@ export class SmallIcon extends Entity {
     this.image.sourceHeight = section ? section.sourceHeight : height ? height : 32
   }
 
+  /**
+   * Hides the image from view in the screen.
+   */
   public hide(): void {
     this.image.visible = false
   }
 
+  /**
+   * Makes an invisible image visible again.
+   * @param {number} duration Seconds to display the image onscreen. If no value is provided, it stays visible.
+   */
   public show(duration?: number): void {
     this.image.visible = true
 
@@ -127,12 +141,12 @@ export class SmallIcon extends Entity {
 /**
  * Displays an icon of 128x128 on the bottom-left corner
  *
- * @param image path to image file
- * @param xOffset position on X, to enable fitting several counters
- * @param yOffset position on Y, to enable fitting several counters
- * @param width image width (128 by default)
- * @param height image height (128 by default)
- * @param section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
+ * @param {string} image path to image file
+ * @param {number} xOffset position on X, to enable fitting several counters
+ * @param {number} yOffset position on Y, to enable fitting several counters
+ * @param {number} width image width (128 by default)
+ * @param {number} height image height (128 by default)
+ * @param {ImageSection} section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
  *
  */
 export class LargeIcon extends Entity {
@@ -164,10 +178,17 @@ export class LargeIcon extends Entity {
     this.image.sourceHeight = section ? section.sourceHeight : height ? height : 128
   }
 
+  /**
+   * Hides the image from view in the screen.
+   */
   public hide(): void {
     this.image.visible = false
   }
 
+  /**
+   * Makes an invisible image visible again.
+   * @param {number} duration Seconds to display the image onscreen. If no value is provided, it stays visible.
+   */
   public show(duration?: number): void {
     this.image.visible = true
 
@@ -187,14 +208,14 @@ export class LargeIcon extends Entity {
 /**
  * Displays an image of 512x512 on the center of the screen for limited time
  *
- * @param image path to image file
- * @param duration seconds to display the image onscreen. 0 keeps it on till you hide it
- * @param xOffset position on X, to enable fitting several counters
- * @param yOffset position on Y, to enable fitting several counters
- * @param width image width
- * @param height image height
- * @param section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
- * @param startHidden if true, image starts invisible to load in the background till it runs its show() function.
+ * @param {string} image path to image file
+ * @param {number} duration seconds to display the image onscreen. 0 keeps it on till you hide it
+ * @param {number} xOffset position on X, to enable fitting several counters
+ * @param {number} yOffset position on Y, to enable fitting several counters
+ * @param {number} width image width
+ * @param {number} height image height
+ * @param {ImageSection} section cut out a section of the imge, as an object specifying sourceLeft, sourceTop, sourceWidth and sourceHeight
+ * @param {boolean} startHidden if true, image starts invisible to load in the background till it runs its show() function.
  *
  */
 export class CenterImage extends Entity {
@@ -241,10 +262,17 @@ export class CenterImage extends Entity {
     }
   }
 
+  /**
+   * Hides the image from view in the screen.
+   */
   public hide(): void {
     this.image.visible = false
   }
 
+  /**
+   * Makes an invisible image visible again.
+   * @param {number} duration Seconds to display the image onscreen. If no value is provided, it stays visible.
+   */
   public show(duration?: number): void {
     this.image.visible = true
 

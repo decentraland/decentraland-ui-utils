@@ -1,21 +1,19 @@
 import { UIDelay } from '../utils/timerComponents'
-import { message, PlayOpenSound, SFHeavyFont } from '../utils/default-ui-components'
+import { message, SFHeavyFont } from '../utils/default-ui-components'
 
 /**
  * Displays text in the center of the UI for a specific time
  *
- * @param value string to display
- * @param duration time to keep the text visible (in seconds). Default: 3 seconds.
- * @param silent if true, no sound is played when the announcement pops up
- * @param color text color, as a Color4. Default: black
- * @param size font size, default 60
- * @param bordersOff if true, text won't have a black margin around it
+ * @param {string} value string to display
+ * @param {duration} duration time to keep the text visible (in seconds). Default: 3 seconds.
+ * @param {Color4} [color=Color.Yellow()] text color, as a Color4. Default: black
+ * @param {number} [size=60] font size, default 60
+ * @param {boolean} bordersOff if true, text won't have a black margin around it
  *
  */
 export function displayAnnouncement(
   value: string,
   duration?: number,
-  silent?: boolean,
   color?: Color4,
   size?: number,
   bordersOff?: boolean
@@ -37,10 +35,6 @@ export function displayAnnouncement(
   message.textWrapping = true
   message.width = 900
 
-  if (!silent) {
-    PlayOpenSound()
-  }
-
   let dummyEnty = new Entity()
   engine.addEntity(dummyEnty)
 
@@ -53,6 +47,9 @@ export function displayAnnouncement(
   }
 }
 
+/**
+ * Hides any announcement text that might be visible
+ */
 export function hideAnnouncements() {
   message.visible = false
 }

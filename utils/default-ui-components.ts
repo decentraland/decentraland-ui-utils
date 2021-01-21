@@ -26,24 +26,6 @@ promptBackground.width = 400
 promptBackground.height = 250
 promptBackground.visible = false
 
-// // Open dialog sound
-// export const openDialogSound = new Entity()
-// openDialogSound.addComponent(new Transform())
-// openDialogSound.addComponent(
-//   new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationForward.mp3'))
-// )
-// engine.addEntity(openDialogSound)
-// openDialogSound.setParent(Attachable.AVATAR)
-
-// // Close dialog sound
-// export const closeDialogSound = new Entity()
-// closeDialogSound.addComponent(new Transform())
-// closeDialogSound.addComponent(
-//   new AudioSource(new AudioClip('node_modules/@dcl/ui-utils/sounds/navigationBackward.mp3'))
-// )
-// engine.addEntity(closeDialogSound)
-// closeDialogSound.setParent(Attachable.AVATAR)
-
 export function PlayOpenSound() {
   //openDialogSound.getComponent(AudioSource).playOnce()
 }

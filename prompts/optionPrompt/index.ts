@@ -6,20 +6,20 @@ import {
   PlayOpenSound,
   PlayCloseSound,
   SFHeavyFont,
-  canvas,
+  canvas
 } from '../../utils/default-ui-components'
 import resources, { buttonIconPos, setSection } from '../../utils/resources'
 
 /**
  * Displays a prompt window with two buttons that perform separate actions
  *
- * @param title: Header on dialog
- * @param instructions: Smaller print instructions
- * @param onAccept: Function that gets executed if player clicks accept
- * @param onReject: Function that gets executed if player clicks reject
- * @param acceptLabel: String to go in the accept button
- * @param rejectLabel: String to go in the reject button
- * @param useDarkTheme: Switch to the dark theme
+ * @param {string} title: Header on dialog
+ * @param {string} instructions: Smaller print instructions
+ * @param {() => void} onAccept: Function that gets executed if player clicks accept
+ * @param {() => void} onReject: Function that gets executed if player clicks reject
+ * @param {string} acceptLabel: String to go in the accept button
+ * @param {string} rejectLabel: String to go in the reject button
+ * @param {boolean} useDarkTheme: Switch to the dark theme
  *
  */
 export class OptionPrompt extends Entity {
@@ -146,16 +146,11 @@ export class OptionPrompt extends Entity {
       this.accept()
     })
 
-    this.EButtonAction = Input.instance.subscribe(
-      'BUTTON_DOWN',
-      ActionButton.PRIMARY,
-      false,
-      (e) => {
-        if (this.buttonE.visible && +Date.now() - this.UIOpenTime > 100) {
-          this.accept()
-        }
+    this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
+      if (this.buttonE.visible && +Date.now() - this.UIOpenTime > 100) {
+        this.accept()
       }
-    )
+    })
 
     this.buttonF = new UIImage(promptBackground, uiTheme)
     this.buttonF.positionX = 100
@@ -191,7 +186,7 @@ export class OptionPrompt extends Entity {
       'BUTTON_DOWN',
       ActionButton.SECONDARY,
       false,
-      (e) => {
+      e => {
         if (this.buttonF.visible && +Date.now() - this.UIOpenTime > 100) {
           this.reject()
         }
@@ -199,6 +194,9 @@ export class OptionPrompt extends Entity {
     )
   }
 
+  /**
+   * Hides the prompt from view in the screen.
+   */
   public close(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
@@ -211,6 +209,9 @@ export class OptionPrompt extends Entity {
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
+  /**
+   * Runs the onAccept function, then hides the prompt from view in the screen.
+   */
   public accept(): void {
     if (this.onAccept) {
       this.onAccept()
@@ -221,6 +222,9 @@ export class OptionPrompt extends Entity {
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
+  /**
+   * Runs the onReject function, then hides the prompt from view in the screen.
+   */
   public reject(): void {
     if (this.onReject) {
       this.onReject()
@@ -231,6 +235,9 @@ export class OptionPrompt extends Entity {
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
+  /**
+   * Hides the prompt from view in the screen.
+   */
   public hide(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
@@ -243,6 +250,9 @@ export class OptionPrompt extends Entity {
     this.buttonFIcon.visible = false
   }
 
+  /**
+   * Makes an invisible prompt visible again.
+   */
   public show(): void {
     promptBackground.visible = true
     this.closeIcon.visible = true

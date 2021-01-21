@@ -3,12 +3,12 @@ import { canvas, SFFont } from '../utils/default-ui-components'
 /**
  * Displays a number on the center of the UI
  *
- * @param value string value
- * @param xOffset position on X, to enable fitting several UI elements
- * @param yOffset position on Y, to enable fitting several UI elements
- * @param color text color
- * @param size text size
- * @param bordersOff if true, text won't have a black margin around it
+ * @param {string} value string value
+ * @param {number} [xOffset=0] position on X, to enable fitting several UI elements
+ * @param {number} [yOffset=0] position on Y, to enable fitting several UI elements
+ * @param {Color4} [color Color4.White()] text color
+ * @param {number} [size=25] text size
+ * @param {boolean} bordersOff if true, text won't have a black margin around it
  *
  */
 export class CornerLabel extends Entity {

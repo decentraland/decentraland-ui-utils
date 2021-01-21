@@ -18,8 +18,7 @@ import {
   SwitchStyles,
   ImageData,
   Dialog,
-  ButtonData,
-  Dialogs,
+  ButtonData
 } from './utils/types'
 
 export {
@@ -50,6 +49,5 @@ export {
   SwitchStyles,
   ImageData,
   Dialog,
-  ButtonData,
-  Dialogs,
+  ButtonData
 }

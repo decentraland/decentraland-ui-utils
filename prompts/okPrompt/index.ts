@@ -5,17 +5,17 @@ import {
   SFFont,
   PlayOpenSound,
   PlayCloseSound,
-  canvas,
+  canvas
 } from '../../utils/default-ui-components'
 import resources, { buttonIconPos, setSection } from '../../utils/resources'
 
 /**
  * Displays a prompt window with a custom string and an OK button
  *
- * @param instructions: Notification string
- * @param onAccept: Function that gets executed if player clicks button
- * @param acceptLabel: String to go in the accept button
- * @param useDarkTheme: Switch to the dark theme
+ * @param  {string} instructions: Notification string
+ * @param {() => void} onAccept: Function that gets executed if player clicks button
+ * @param  {string} acceptLabel: String to go in the accept button
+ * @param {boolean} useDarkTheme: Switch to the dark theme
  *
  */
 export class OkPrompt extends Entity {
@@ -116,18 +116,16 @@ export class OkPrompt extends Entity {
       this.accept()
     })
 
-    this.EButtonAction = Input.instance.subscribe(
-      'BUTTON_DOWN',
-      ActionButton.PRIMARY,
-      false,
-      (e) => {
-        if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
-          this.accept()
-        }
+    this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
+      if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
+        this.accept()
       }
-    )
+    })
   }
 
+  /**
+   * Hides the prompt from view in the screen.
+   */
   public close(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
@@ -137,6 +135,9 @@ export class OkPrompt extends Entity {
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
+  /**
+   * Runs the onAccept function, then hides the prompt from view in the screen.
+   */
   public accept(): void {
     if (this.onAccept) {
       this.onAccept()
@@ -147,6 +148,9 @@ export class OkPrompt extends Entity {
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
+  /**
+   * Hides the prompt from view in the screen.
+   */
   public hide(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
@@ -155,6 +159,9 @@ export class OkPrompt extends Entity {
     this.buttonLabel.visible = false
   }
 
+  /**
+   * Makes an invisible prompt visible again.
+   */
   public show(): void {
     promptBackground.visible = true
     this.closeIcon.visible = true

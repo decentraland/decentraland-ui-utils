@@ -216,7 +216,7 @@ let gameOver = new ui.CenterImage('images/Burn.png', 3, true, 0, 0, 512, 512, {
   sourceHeight: 512,
   sourceWidth: 512,
   sourceLeft: 0,
-  sourceTop: 0,
+  sourceTop: 0
 })
 gameOver.show()
 ```
@@ -332,7 +332,7 @@ let prompt = new ui.CustomPrompt(PromptStyles.DARKSLANTED)
 
 When instancing a new loading icon, you can pass the following parameters:
 
-- `style`: Pick from a few predefined options, some of them using the dark theme, others the light theme.
+- `style`: Pick from a few predefined options, some of them using the dark theme, others the light theme. You can also provide a string with a path to a custom image to use as a background instead.
 - `width`: Background width on screen in pixels. The default size depends on the theme used.
 - `height`: Background height on screen in pixels. The default size depends on the theme used.
 - `startHidden`: If true, image starts invisible to load in the background till calling the `show()` function of the prompt object.
@@ -611,15 +611,15 @@ Below is a minimal dialog.
 ```ts
 export let NPCTalk: Dialog[] = [
   {
-    text: 'Hi there',
+    text: 'Hi there'
   },
   {
-    text: 'It sure is nice talking to you',
+    text: 'It sure is nice talking to you'
   },
   {
     text: 'I must go, my planet needs me',
-    isEndOfDialog: true,
-  },
+    isEndOfDialog: true
+  }
 ]
 ```
 
@@ -702,27 +702,27 @@ All buttons can be clicked to activate them. Additionally, the first button in t
 ```ts
 export let GemsMission: Dialog[] = [
   {
-    text: `Hello stranger`,
+    text: `Hello stranger`
   },
   {
     text: `Can you help me finding my missing gems?`,
     isQuestion: true,
     buttons: [
       { label: `Yes!`, goToDialog: 2 },
-      { label: `I'm busy`, goToDialog: 4 },
-    ],
+      { label: `I'm busy`, goToDialog: 4 }
+    ]
   },
   {
-    text: `Ok, awesome, thanks!`,
+    text: `Ok, awesome, thanks!`
   },
   {
     text: `I need you to find 10 gems scattered around this scene, go find them!`,
-    isEndOfDialog: true,
+    isEndOfDialog: true
   },
   {
     text: `Ok, come back soon`,
-    isEndOfDialog: true,
-  },
+    isEndOfDialog: true
+  }
 ]
 ```
 

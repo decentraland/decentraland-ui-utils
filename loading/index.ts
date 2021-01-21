@@ -4,10 +4,10 @@ import resources, { setSection } from '../utils/resources'
 
 /**
  * Displays a loading icon on the center of the screen
- * @param duration seconds to display the image onscreen. 0 keeps it on till you hide it
- * @param xOffset position on X, to enable fitting several counters
- * @param yOffset position on Y, to enable fitting several counters
- * @param scale multiplier for the size of the bar. 1 = 48 x 64
+ * @param {number} [duration=3] Seconds to display the image onscreen. 0 keeps it on till you hide it manually
+ * @param {number} [xOffset=0] Position on X, to enable fitting several counters
+ * @param {number} [yOffset=0] Position on Y, to enable fitting several counters
+ * @param {number} [scale=1] Multiplier for the size of the bar. 1 = 48 x 64
  *
  */
 export class LoadingIcon extends Entity {
@@ -39,10 +39,18 @@ export class LoadingIcon extends Entity {
     }
   }
 
+  /**
+   * Hides the image from view in the screen.
+   *
+   */
   public hide(): void {
     this.image.visible = false
   }
 
+  /**
+   * Makes an invisible image visible again.
+   *
+   */
   public show(): void {
     this.image.visible = true
   }

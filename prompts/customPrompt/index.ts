@@ -10,12 +10,12 @@ import {
 import { PromptStyles, ButtonStyles, SwitchStyles, ImageSection } from '../../utils/types'
 
 /**
- * Displays a number on the center of the UI
+ * Creates a prompt object that includes a background and a close icon, and supports adding as many custom UI elements as desired
  *
- * @param style: Pick from a few predefined options
- * @param width image width
- * @param height image height
- * @param startHidden if true, image starts invisible to load in the background till calling the `show()` function of the prompt object.
+ * @param {PromptStyles| string} style: Pick from a few predefined options of color, shape and size, or provide the string path to a custom image
+ * @param {number} width Background width
+ * @param {number} height Background height
+ * @param {boolean} startHidden If true, prompt starts invisible to load in the background till calling the `show()` function of the prompt object.
  */
 export class CustomPrompt extends Entity {
   elements: (
@@ -33,7 +33,12 @@ export class CustomPrompt extends Entity {
   canvas: UICanvas = canvas
   background: UIImage = promptBackground
 
-  constructor(style?: PromptStyles, width?: number, height?: number, startHidden?: boolean) {
+  constructor(
+    style?: PromptStyles | string,
+    width?: number,
+    height?: number,
+    startHidden?: boolean
+  ) {
     super()
 
     this.UIOpenTime = +Date.now()
@@ -85,6 +90,9 @@ export class CustomPrompt extends Entity {
         this.closeIcon.positionX = width ? width / 2 - 25 : 175 + 40
         this.closeIcon.positionY = height ? height / 2 - 25 : 100 + 38
         break
+      default:
+        this.texture = new Texture(style)
+        this.closeIcon.visible = false
     }
     promptBackground.source = this.texture
 
@@ -106,6 +114,10 @@ export class CustomPrompt extends Entity {
     }
   }
 
+  /**
+   * Hides the prompt from view in the screen.
+   *
+   */
   public hide(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
@@ -114,6 +126,10 @@ export class CustomPrompt extends Entity {
       element.hide()
     }
   }
+  /**
+   * Makes an invisible prompt visible again.
+   *
+   */
   public show(): void {
     promptBackground.visible = true
     this.closeIcon.visible = true
@@ -123,6 +139,14 @@ export class CustomPrompt extends Entity {
     }
   }
 
+  /**
+   * Adds a text UI element to the custom prompt
+   * @param {string} value Text to display
+   * @param {number} [posX=0] Position on X on the prompt, counting from the center of the prompt
+   * @param {number} [posY=0] Position on Y on the prompt, counting from the center of the prompt
+   * @param {Color4} color Color of the text. By default black over light themes and white over dark themes
+   * @param {number} size Font size
+   */
   public addText(value: string, posX: number, posY: number, color?: Color4, size?: number) {
     let text = new CustomPromptText(
       value,
@@ -137,8 +161,14 @@ export class CustomPrompt extends Entity {
     return text
   }
 
-  // add button
-
+  /**
+   * Adds a button UI element to the custom prompt
+   * @param {string} label Text to display as a label
+   * @param {number} [posX=0] Position on X on the prompt, counting from the center of the prompt
+   * @param {number} [posY=0] Position on Y on the prompt, counting from the center of the prompt
+   * @param {() => void} onClick Function to call every time the button is clicked
+   * @param {ButtonStyles} style Appearance of the button, selecting from several predefined options for different colors and shapes
+   */
   public addButton(
     label: string,
     posX: number,
@@ -160,6 +190,17 @@ export class CustomPrompt extends Entity {
     return button
   }
 
+  /**
+   * Adds a checkbox UI element to the custom prompt
+   * @param {string} label Text to display on the right of the box
+   * @param {number} [posX=0] Position on X on the prompt, counting from the center of the prompt
+   * @param {number} [posY=0] Position on Y on the prompt, counting from the center of the prompt
+   * @param {() => void} onCheck Function to call every time the box is checked
+   * @param {() => void} onUncheck Function to call every time the box is unchecked
+   * @param {ButtonStyles} style Appearance of the button, selecting from several predefined options for different colors and shapes
+   * @param {boolean} large Makes the checkbox significantly larger
+   * @param {boolean} startChecked Starts the checkbox in a default state of already checked
+   */
   public addCheckbox(
     label: string,
     posX: number,
@@ -185,6 +226,16 @@ export class CustomPrompt extends Entity {
     return checkBox
   }
 
+  /**
+   * Adds a switch UI element to the custom prompt
+   * @param {string} label Text to display on the right of the switch
+   * @param {number} [posX=0] Position on X on the prompt, counting from the center of the prompt
+   * @param {number} [posY=0] Position on Y on the prompt, counting from the center of the prompt
+   * @param {() => void} onCheck Function to call every time the switch is activated
+   * @param {() => void} onUncheck Function to call every time the switch is deactivated
+   * @param {SwitchStyles} style Appearance of the switch, selecting from several predefined options for different colors and shapes
+   * @param {boolean} startChecked Starts the switch in a default state of already activated
+   */
   public addSwitch(
     label: string,
     posX: number,
@@ -210,6 +261,15 @@ export class CustomPrompt extends Entity {
     return uiswitch
   }
 
+  /**
+   * Adds a switch UI element to the custom prompt
+   * @param {string} image Path to the image file
+   * @param {number} [xOffset=0] Position on X on the prompt, counting from the center of the prompt
+   * @param {number} [yOffset=0] Position on Y on the prompt, counting from the center of the prompt
+   * @param {number} [width=0] Width of the image
+   * @param {number} [height=0] Height of the image
+   * @param {ImageSection} section ImageSection object to specify a specific region of the image file
+   */
   public addIcon(
     image: string,
     xOffset: number,
@@ -233,6 +293,13 @@ export class CustomPrompt extends Entity {
     return icon
   }
 
+  /**
+   * Adds a textbox UI element to the custom prompt, for the player to fill in an input value
+   * @param {number} [posX=0] Position on X on the prompt, counting from the center of the prompt
+   * @param {number} [posY=0] Position on Y on the prompt, counting from the center of the prompt
+   * @param {string} placeholder Default string to display in the box
+   * @param {e: string => void} onChange Function to call every time the value in the text box is modified by the player
+   */
   public addTextBox(
     posX: number,
     posY: number,
@@ -251,6 +318,9 @@ export class CustomPrompt extends Entity {
   }
 }
 
+/**
+ * A button UI element to use in a custom prompt
+ */
 export class CustomPromptButton extends Entity {
   label: UIText
   image: UIImage
@@ -366,14 +436,23 @@ export class CustomPromptButton extends Entity {
     }
   }
 
+  /**
+   * Hides the item from view in the screen. It can't be clicked while invisible.
+   */
   public hide(): void {
     this.image.visible = false
   }
 
+  /**
+   * Makes an invisible item visible again.
+   */
   public show(): void {
     this.image.visible = true
   }
 
+  /**
+   * Grays out the item so it can't be clicked.
+   */
   public grayOut(): void {
     this.label.color = Color4.Gray()
     this.image.isPointerBlocker = false
@@ -382,6 +461,9 @@ export class CustomPromptButton extends Entity {
     }
   }
 
+  /**
+   * The opposite action of graying out, so it can't be clicked again.
+   */
   public enable(): void {
     this.label.color = Color4.White()
     this.image.isPointerBlocker = true
@@ -391,6 +473,9 @@ export class CustomPromptButton extends Entity {
   }
 }
 
+/**
+ * A checkbox UI element to use in a custom prompt
+ */
 export class CustomPromptCheckBox extends Entity {
   label: UIText
   image: UIImage
@@ -451,16 +536,25 @@ export class CustomPromptCheckBox extends Entity {
     })
   }
 
+  /**
+   * Hides the item from view in the screen. It can't be clicked while invisible.
+   */
   public hide(): void {
     this.image.visible = false
     this.label.visible = false
   }
 
+  /**
+   * Makes an invisible item visible again.
+   */
   public show(): void {
     this.image.visible = true
     this.label.visible = true
   }
 
+  /**
+   * Sets the box state to checked.
+   */
   public check(): void {
     if (this.darkTheme) {
       if (this.large) {
@@ -477,6 +571,9 @@ export class CustomPromptCheckBox extends Entity {
     }
   }
 
+  /**
+   * Sets the box state to unchecked.
+   */
   public uncheck(): void {
     if (this.darkTheme) {
       if (this.large) {
@@ -494,6 +591,9 @@ export class CustomPromptCheckBox extends Entity {
   }
 }
 
+/**
+ * A switch UI element to use in a custom prompt
+ */
 export class CustomPromptSwitch extends Entity {
   label: UIText
   image: UIImage
@@ -554,16 +654,25 @@ export class CustomPromptSwitch extends Entity {
     })
   }
 
+  /**
+   * Hides the item from view in the screen. It can't be clicked while invisible.
+   */
   public hide(): void {
     this.image.visible = false
     this.label.visible = false
   }
 
+  /**
+   * Makes an invisible item visible again.
+   */
   public show(): void {
     this.image.visible = true
     this.label.visible = true
   }
 
+  /**
+   * Sets the switch state to activated.
+   */
   public check(): void {
     switch (this.style) {
       case SwitchStyles.ROUNDGREEN:
@@ -581,6 +690,9 @@ export class CustomPromptSwitch extends Entity {
     }
   }
 
+  /**
+   * Sets the switch state to deactivated.
+   */
   public uncheck(): void {
     if (this.style == SwitchStyles.ROUNDGREEN || this.style == SwitchStyles.ROUNDRED) {
       setSection(this.image, resources.switches.roundOff)
@@ -590,6 +702,9 @@ export class CustomPromptSwitch extends Entity {
   }
 }
 
+/**
+ * An icon UI element to use in a custom prompt, by default 128x128 pixels.
+ */
 export class CustomPromptIcon extends Entity {
   image: UIImage
   constructor(
@@ -616,15 +731,24 @@ export class CustomPromptIcon extends Entity {
       section && section.sourceHeight ? section.sourceHeight : height ? height : 128
   }
 
+  /**
+   * Hides the item from view in the screen.
+   */
   public hide(): void {
     this.image.visible = false
   }
 
+  /**
+   * Makes an invisible item visible again.
+   */
   public show(): void {
     this.image.visible = true
   }
 }
 
+/**
+ * A text UI element to use in a custom prompt
+ */
 export class CustomPromptText extends Entity {
   text: UIText
   constructor(
@@ -646,15 +770,24 @@ export class CustomPromptText extends Entity {
     this.text.fontSize = size ? size : 15
   }
 
+  /**
+   * Hides the item from view in the screen.
+   */
   public hide(): void {
     this.text.visible = false
   }
 
+  /**
+   * Makes an invisible item visible again.
+   */
   public show(): void {
     this.text.visible = true
   }
 }
 
+/**
+ * A textbox UI element to use in a custom prompt
+ */
 export class CustomPromptTextBox extends Entity {
   fillInBox: UIInputText
   currentText: string = ''
@@ -690,10 +823,16 @@ export class CustomPromptTextBox extends Entity {
     })
   }
 
+  /**
+   * Hides the item from view in the screen. It can't be clicked while invisible.
+   */
   public hide(): void {
     this.fillInBox.visible = false
   }
 
+  /**
+   * Makes an invisible item visible again.
+   */
   public show(): void {
     this.fillInBox.visible = true
   }

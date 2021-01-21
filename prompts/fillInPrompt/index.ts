@@ -6,18 +6,18 @@ import {
   PlayOpenSound,
   PlayCloseSound,
   SFHeavyFont,
-  canvas,
+  canvas
 } from '../../utils/default-ui-components'
 import resources, { buttonIconPos, setSection } from '../../utils/resources'
 
 /**
  * Displays a prompt window with a field that can be filled in
  *
- * @param title: Notification string
- * @param onAccept: Function that gets executed if player clicks button
- * @param acceptLabel: String to go in the accept button
- * @param placeholder: Text to display as placeholder in the fill in box
- * @param useDarkTheme: Switch to the dark theme
+ * @param  {string} title: Notification string
+ * @param {(e:string) => void} onAccept: Function that gets executed if player clicks button
+ * @param  {string} acceptLabel: String to go in the accept button
+ * @param  {string} placeholder: Text to display as placeholder in the fill in box
+ * @param {boolean} useDarkTheme: Switch to the dark theme
  *
  */
 export class FillInPrompt extends Entity {
@@ -73,7 +73,6 @@ export class FillInPrompt extends Entity {
     this.text.hTextAlign = 'center'
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
 
-     
     this.closeIcon = new UIImage(promptBackground, uiTheme)
     this.closeIcon.positionX = 175
     this.closeIcon.positionY = 100
@@ -87,8 +86,8 @@ export class FillInPrompt extends Entity {
     this.closeIcon.onClick = new OnClick(() => {
       PlayCloseSound()
       this.hide()
-    }) 
-      
+    })
+
     this.button = new UIImage(promptBackground, uiTheme)
     this.button.positionX = 0
     this.button.positionY = -60
@@ -129,11 +128,11 @@ export class FillInPrompt extends Entity {
 
     let submittedText: string = ''
 
-    this.fillInBox.onChanged = new OnChanged((x) => {
+    this.fillInBox.onChanged = new OnChanged(x => {
       submittedText = x.value
     })
 
-    this.fillInBox.onTextSubmit = new OnTextSubmit((x) => {
+    this.fillInBox.onTextSubmit = new OnTextSubmit(x => {
       //submittedText = x.text
       this.accept(submittedText)
     })
@@ -142,18 +141,16 @@ export class FillInPrompt extends Entity {
       this.accept(submittedText)
     })
 
-    this.EButtonAction = Input.instance.subscribe(
-      'BUTTON_DOWN',
-      ActionButton.PRIMARY,
-      false,
-      (e) => {
-        if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
-          this.accept(submittedText)
-        }
+    this.EButtonAction = Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, e => {
+      if (this.button.visible && +Date.now() - this.UIOpenTime > 100) {
+        this.accept(submittedText)
       }
-    )
+    })
   }
 
+  /**
+   * Hides the prompt from view in the screen.
+   */
   public close(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
@@ -164,6 +161,9 @@ export class FillInPrompt extends Entity {
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
+  /**
+   * Hides the prompt, but first reads the provided value and runs the onAccept function with it
+   */
   public accept(submittedText: string): void {
     this.onAccept(submittedText)
 
@@ -172,6 +172,9 @@ export class FillInPrompt extends Entity {
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
+  /**
+   * Hides the prompt from view in the screen.
+   */
   public hide(): void {
     promptBackground.visible = false
     this.closeIcon.visible = false
@@ -181,6 +184,9 @@ export class FillInPrompt extends Entity {
     this.fillInBox.visible = false
   }
 
+  /**
+   * Makes an invisible prompt visible again.
+   */
   public show(): void {
     promptBackground.visible = true
     this.closeIcon.visible = true

@@ -7,19 +7,9 @@ import { OptionPrompt } from './prompts/optionPrompt/index'
 import { FillInPrompt } from './prompts/fillInPrompt/index'
 import { CustomPrompt } from './prompts/customPrompt/index'
 import { CornerLabel } from './cornerLabel/index'
-import { DialogWindow } from './uiDialog/index'
 import { LoadingIcon } from './loading/index'
 import { canvas, SFFont, SFHeavyFont, lightTheme, darkTheme } from './utils/default-ui-components'
-import {
-  ImageSection,
-  PromptStyles,
-  BarStyles,
-  ButtonStyles,
-  SwitchStyles,
-  ImageData,
-  Dialog,
-  ButtonData
-} from './utils/types'
+import { ImageSection, PromptStyles, BarStyles, ButtonStyles, SwitchStyles } from './utils/types'
 
 export {
   displayAnnouncement,
@@ -35,7 +25,6 @@ export {
   OptionPrompt,
   FillInPrompt,
   CustomPrompt,
-  DialogWindow,
   LoadingIcon,
   canvas,
   SFFont,
@@ -46,8 +35,5 @@ export {
   PromptStyles,
   BarStyles,
   ButtonStyles,
-  SwitchStyles,
-  ImageData,
-  Dialog,
-  ButtonData
+  SwitchStyles
 }

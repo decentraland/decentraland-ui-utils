@@ -25,11 +25,3 @@ promptBackground.vAlign = 'center'
 promptBackground.width = 400
 promptBackground.height = 250
 promptBackground.visible = false
-
-export function PlayOpenSound() {
-  //openDialogSound.getComponent(AudioSource).playOnce()
-}
-
-export function PlayCloseSound() {
-  //closeDialogSound.getComponent(AudioSource).playOnce()
-}

@@ -3,8 +3,6 @@ import {
   lightTheme,
   promptBackground,
   SFFont,
-  PlayOpenSound,
-  PlayCloseSound,
   SFHeavyFont,
   canvas
 } from '../../utils/default-ui-components'
@@ -76,7 +74,6 @@ export class OptionPrompt extends Entity {
       setSection(this.closeIcon, resources.icons.closeD)
     }
     this.closeIcon.onClick = new OnClick(() => {
-      PlayCloseSound()
       this.close()
     })
 
@@ -218,8 +215,6 @@ export class OptionPrompt extends Entity {
     }
 
     this.close()
-    PlayOpenSound()
-    //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
   /**
@@ -231,8 +226,6 @@ export class OptionPrompt extends Entity {
     }
 
     this.close()
-    PlayCloseSound()
-    //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
   /**

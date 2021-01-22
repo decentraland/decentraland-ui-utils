@@ -3,8 +3,6 @@ import {
   lightTheme,
   promptBackground,
   SFFont,
-  PlayOpenSound,
-  PlayCloseSound,
   SFHeavyFont,
   canvas
 } from '../../utils/default-ui-components'
@@ -84,7 +82,6 @@ export class FillInPrompt extends Entity {
       setSection(this.closeIcon, resources.icons.closeD)
     }
     this.closeIcon.onClick = new OnClick(() => {
-      PlayCloseSound()
       this.hide()
     })
 
@@ -168,7 +165,6 @@ export class FillInPrompt extends Entity {
     this.onAccept(submittedText)
 
     this.close()
-    PlayOpenSound()
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 

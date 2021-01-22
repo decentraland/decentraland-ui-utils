@@ -3,8 +3,6 @@ import {
   lightTheme,
   promptBackground,
   SFFont,
-  PlayOpenSound,
-  PlayCloseSound,
   canvas
 } from '../../utils/default-ui-components'
 import resources, { buttonIconPos, setSection } from '../../utils/resources'
@@ -64,7 +62,6 @@ export class OkPrompt extends Entity {
     }
 
     this.closeIcon.onClick = new OnClick(() => {
-      PlayCloseSound()
       this.close()
     })
 
@@ -144,8 +141,6 @@ export class OkPrompt extends Entity {
     }
 
     this.close()
-    PlayOpenSound()
-    //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
   /**

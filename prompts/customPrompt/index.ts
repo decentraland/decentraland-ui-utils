@@ -4,8 +4,7 @@ import {
   lightTheme,
   promptBackground,
   SFFont,
-  canvas,
-  PlayCloseSound
+  canvas
 } from '../../utils/default-ui-components'
 import { PromptStyles, ButtonStyles, SwitchStyles, ImageSection } from '../../utils/types'
 
@@ -105,7 +104,6 @@ export class CustomPrompt extends Entity {
     this.closeIcon.source = this.texture
 
     this.closeIcon.onClick = new OnClick(() => {
-      PlayCloseSound()
       this.hide()
     })
 
@@ -116,7 +114,6 @@ export class CustomPrompt extends Entity {
 
   /**
    * Hides the prompt from view in the screen.
-   *
    */
   public hide(): void {
     promptBackground.visible = false
@@ -128,7 +125,6 @@ export class CustomPrompt extends Entity {
   }
   /**
    * Makes an invisible prompt visible again.
-   *
    */
   public show(): void {
     promptBackground.visible = true

@@ -514,9 +514,9 @@ export class CustomPromptCheckBox extends Entity {
     this.image.height = large ? 32 : 24
 
     if (this.checked == false) {
-      this.check()
-    } else {
       this.uncheck()
+    } else {
+      this.check()
     }
 
     this.label = new UIText(this.image)
@@ -533,7 +533,7 @@ export class CustomPromptCheckBox extends Entity {
     this.label.isPointerBlocker = false
 
     this.image.onClick = new OnClick(() => {
-      this.checked = !this.checked
+      //this.checked = !this.checked
       if (this.checked == false) {
         this.check()
       } else {
@@ -563,7 +563,8 @@ export class CustomPromptCheckBox extends Entity {
   /**
    * Sets the box state to checked.
    */
-  public check(): void {
+  public uncheck(): void {
+    this.checked = false
     if (this.darkTheme) {
       if (this.large) {
         setSection(this.image, resources.checkboxes.wLargeOff)
@@ -582,7 +583,8 @@ export class CustomPromptCheckBox extends Entity {
   /**
    * Sets the box state to unchecked.
    */
-  public uncheck(): void {
+  public check(): void {
+    this.checked = true
     if (this.darkTheme) {
       if (this.large) {
         setSection(this.image, resources.checkboxes.wLargeOn)
@@ -652,7 +654,7 @@ export class CustomPromptSwitch extends Entity {
     this.label.isPointerBlocker = false
 
     this.image.onClick = new OnClick(() => {
-      this.checked = !this.checked
+      //this.checked = !this.checked
       if (this.checked == false) {
         this.check()
       } else {
@@ -683,6 +685,7 @@ export class CustomPromptSwitch extends Entity {
    * Sets the switch state to activated.
    */
   public check(): void {
+    this.checked = true
     switch (this.style) {
       case SwitchStyles.ROUNDGREEN:
         setSection(this.image, resources.switches.roundGreen)
@@ -703,6 +706,7 @@ export class CustomPromptSwitch extends Entity {
    * Sets the switch state to deactivated.
    */
   public uncheck(): void {
+    this.checked = false
     if (this.style == SwitchStyles.ROUNDGREEN || this.style == SwitchStyles.ROUNDRED) {
       setSection(this.image, resources.switches.roundOff)
     } else {

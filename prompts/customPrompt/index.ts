@@ -27,10 +27,10 @@ export class CustomPrompt extends Entity {
   )[] = []
   texture: Texture = lightTheme
   darkTheme: boolean = false
-  closeIcon: UIImage = new UIImage(promptBackground, this.texture)
+  background: UIImage = new UIImage(canvas, lightTheme)
+  closeIcon: UIImage = new UIImage(this.background, this.texture)
   UIOpenTime: number = 0
   canvas: UICanvas = canvas
-  background: UIImage = promptBackground
 
   constructor(
     style?: PromptStyles | string,
@@ -42,10 +42,14 @@ export class CustomPrompt extends Entity {
 
     this.UIOpenTime = +Date.now()
 
+    this.background = new UIImage(canvas, lightTheme)
+    this.background.hAlign = 'center'
+    this.background.vAlign = 'center'
+
     switch (style) {
       case PromptStyles.LIGHT:
         this.texture = lightTheme
-        setSection(promptBackground, resources.backgrounds.promptBackground)
+        setSection(this.background, resources.backgrounds.promptBackground)
         setSection(this.closeIcon, resources.icons.closeD)
         this.closeIcon.positionX = width ? width / 2 - 25 : 175
         this.closeIcon.positionY = height ? height / 2 - 25 : 145
@@ -53,14 +57,14 @@ export class CustomPrompt extends Entity {
       case PromptStyles.DARK:
         this.texture = darkTheme
         this.darkTheme = true
-        setSection(promptBackground, resources.backgrounds.promptBackground)
+        setSection(this.background, resources.backgrounds.promptBackground)
         setSection(this.closeIcon, resources.icons.closeW)
         this.closeIcon.positionX = width ? width / 2 - 25 : 175
         this.closeIcon.positionY = height ? height / 2 - 25 : 145
         break
       case PromptStyles.LIGHTLARGE:
         this.texture = lightTheme
-        setSection(promptBackground, resources.backgrounds.promptLargeBackground)
+        setSection(this.background, resources.backgrounds.promptLargeBackground)
         setSection(this.closeIcon, resources.icons.closeD)
         this.closeIcon.positionX = width ? width / 2 - 25 : 175 + 40
         this.closeIcon.positionY = height ? height / 2 - 25 : 145 + 20
@@ -68,14 +72,14 @@ export class CustomPrompt extends Entity {
       case PromptStyles.DARKLARGE:
         this.texture = darkTheme
         this.darkTheme = true
-        setSection(promptBackground, resources.backgrounds.promptLargeBackground)
+        setSection(this.background, resources.backgrounds.promptLargeBackground)
         setSection(this.closeIcon, resources.icons.closeW)
         this.closeIcon.positionX = width ? width / 2 - 25 : 175 + 40
         this.closeIcon.positionY = height ? height / 2 - 25 : 145 + 20
         break
       case PromptStyles.LIGHTSLANTED:
         this.texture = lightTheme
-        setSection(promptBackground, resources.backgrounds.promptSlantedBackground)
+        setSection(this.background, resources.backgrounds.promptSlantedBackground)
         setSection(this.closeIcon, resources.icons.closeD)
         this.closeIcon.positionX = width ? width / 2 - 25 : 175 + 40
         this.closeIcon.positionY = height ? height / 2 - 25 : 100 + 38
@@ -84,7 +88,7 @@ export class CustomPrompt extends Entity {
       case PromptStyles.DARKSLANTED:
         this.texture = darkTheme
         this.darkTheme = true
-        setSection(promptBackground, resources.backgrounds.promptSlantedBackground)
+        setSection(this.background, resources.backgrounds.promptSlantedBackground)
         setSection(this.closeIcon, resources.icons.closeW)
         this.closeIcon.positionX = width ? width / 2 - 25 : 175 + 40
         this.closeIcon.positionY = height ? height / 2 - 25 : 100 + 38
@@ -93,11 +97,11 @@ export class CustomPrompt extends Entity {
         this.texture = new Texture(style)
         this.closeIcon.visible = false
     }
-    promptBackground.source = this.texture
+    this.background.source = this.texture
 
-    promptBackground.width = width ? width : promptBackground.sourceWidth
-    promptBackground.height = height ? height : promptBackground.sourceHeight
-    promptBackground.visible = true
+    this.background.width = width ? width : this.background.sourceWidth
+    this.background.height = height ? height : this.background.sourceHeight
+    this.background.visible = true
 
     this.closeIcon.width = 32
     this.closeIcon.height = 32
@@ -116,7 +120,7 @@ export class CustomPrompt extends Entity {
    * Hides the prompt from view in the screen.
    */
   public hide(): void {
-    promptBackground.visible = false
+    this.background.visible = false
     this.closeIcon.visible = false
 
     for (let element of this.elements) {
@@ -127,7 +131,7 @@ export class CustomPrompt extends Entity {
    * Makes an invisible prompt visible again.
    */
   public show(): void {
-    promptBackground.visible = true
+    this.background.visible = true
     this.closeIcon.visible = true
 
     for (let element of this.elements) {
@@ -145,6 +149,7 @@ export class CustomPrompt extends Entity {
    */
   public addText(value: string, posX: number, posY: number, color?: Color4, size?: number) {
     let text = new CustomPromptText(
+      this,
       value,
       posX,
       posY,
@@ -173,6 +178,7 @@ export class CustomPrompt extends Entity {
     style?: ButtonStyles
   ) {
     let button = new CustomPromptButton(
+      this,
       this.texture,
       this.UIOpenTime,
       label,
@@ -207,6 +213,7 @@ export class CustomPrompt extends Entity {
     startChecked?: boolean
   ) {
     let checkBox = new CustomPromptCheckBox(
+      this,
       this.texture,
       this.darkTheme,
       label,
@@ -242,6 +249,7 @@ export class CustomPrompt extends Entity {
     startChecked?: boolean
   ) {
     let uiswitch = new CustomPromptSwitch(
+      this,
       this.texture,
       this.darkTheme,
       label,
@@ -277,6 +285,7 @@ export class CustomPrompt extends Entity {
     let iconTexture = new Texture(image)
 
     let icon = new CustomPromptIcon(
+      this,
       iconTexture,
       xOffset,
       yOffset,
@@ -303,6 +312,7 @@ export class CustomPrompt extends Entity {
     onChange?: (e: string) => void
   ) {
     let texBox = new CustomPromptTextBox(
+      this,
       posX,
       posY,
       placeholder ? placeholder : undefined,
@@ -322,6 +332,7 @@ export class CustomPromptButton extends Entity {
   image: UIImage
   icon: UIImage | null = null
   constructor(
+    parent: CustomPrompt,
     texture: Texture,
     UIOpenTime: number,
     label: string,
@@ -331,7 +342,7 @@ export class CustomPromptButton extends Entity {
     style?: ButtonStyles
   ) {
     super()
-    this.image = new UIImage(promptBackground, texture)
+    this.image = new UIImage(parent.background, texture)
     this.image.positionX = posX
     this.image.positionY = posY
     this.image.width = 174
@@ -479,6 +490,7 @@ export class CustomPromptCheckBox extends Entity {
   private darkTheme: boolean
   private large: boolean
   constructor(
+    parent: CustomPrompt,
     texture: Texture,
     darkTheme: boolean,
     label: string,
@@ -495,7 +507,7 @@ export class CustomPromptCheckBox extends Entity {
     this.darkTheme = darkTheme
     this.large = large ? large : false
 
-    this.image = new UIImage(promptBackground, texture)
+    this.image = new UIImage(parent.background, texture)
     this.image.positionX = posX
     this.image.positionY = posY
     this.image.width = large ? 32 : 24
@@ -597,6 +609,7 @@ export class CustomPromptSwitch extends Entity {
   private darkTheme: boolean
   private style: SwitchStyles
   constructor(
+    parent: CustomPrompt,
     texture: Texture,
     darkTheme: boolean,
     label: string,
@@ -613,7 +626,7 @@ export class CustomPromptSwitch extends Entity {
     this.darkTheme = darkTheme
     this.style = style ? style : SwitchStyles.ROUNDGREEN
 
-    this.image = new UIImage(promptBackground, texture)
+    this.image = new UIImage(parent.background, texture)
     this.image.positionX = posX
     this.image.positionY = posY
     this.image.width = 64
@@ -704,6 +717,7 @@ export class CustomPromptSwitch extends Entity {
 export class CustomPromptIcon extends Entity {
   image: UIImage
   constructor(
+    parent: CustomPrompt,
     texture: Texture,
     xOffset: number,
     yOffset: number,
@@ -713,7 +727,7 @@ export class CustomPromptIcon extends Entity {
   ) {
     super()
 
-    this.image = new UIImage(promptBackground, texture)
+    this.image = new UIImage(parent.background, texture)
 
     this.image.positionX = xOffset
     this.image.positionY = yOffset
@@ -748,6 +762,7 @@ export class CustomPromptIcon extends Entity {
 export class CustomPromptText extends Entity {
   text: UIText
   constructor(
+    parent: CustomPrompt,
     value: string,
     posX: number,
     posY: number,
@@ -757,7 +772,7 @@ export class CustomPromptText extends Entity {
   ) {
     super()
 
-    this.text = new UIText(promptBackground)
+    this.text = new UIText(parent.background)
     this.text.value = value
     this.text.positionX = posX ? posX : 0
     this.text.positionY = posY ? posY : 0
@@ -787,10 +802,16 @@ export class CustomPromptText extends Entity {
 export class CustomPromptTextBox extends Entity {
   fillInBox: UIInputText
   currentText: string = ''
-  constructor(posX: number, posY: number, placeholder?: string, onChange?: (e: string) => void) {
+  constructor(
+    parent: CustomPrompt,
+    posX: number,
+    posY: number,
+    placeholder?: string,
+    onChange?: (e: string) => void
+  ) {
     super()
 
-    this.fillInBox = new UIInputText(promptBackground)
+    this.fillInBox = new UIInputText(parent.background)
     this.fillInBox.color = Color4.Black()
     this.fillInBox.font = SFFont
     this.fillInBox.width = 312

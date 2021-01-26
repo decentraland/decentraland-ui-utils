@@ -56,7 +56,7 @@ export class CornerLabel extends Entity {
   }
 
   /**
-   * Sets the counter's value to a specific amount, regardless of what it was before.
+   * Sets the label's value to a new string.
    *
    * @param {string} newString New value for the label
    *

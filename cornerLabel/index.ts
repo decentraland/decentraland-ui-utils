@@ -40,4 +40,29 @@ export class CornerLabel extends Entity {
     this.uiText.outlineColor = Color4.Black()
     this.uiText.outlineWidth = bordersOff ? 0 : 0.1
   }
+
+  /**
+   * Hides the label from view in the screen. Its values can still be changed and read while hidden.
+   */
+  public hide(): void {
+    this.uiText.visible = false
+  }
+
+  /**
+   * Makes an label counter visible again.
+   */
+  public show(): void {
+    this.uiText.visible = true
+  }
+
+  /**
+   * Sets the counter's value to a specific amount, regardless of what it was before.
+   *
+   * @param {string} newString New value for the label
+   *
+   */
+  public set(newString: string): void {
+    this.uiText.value = newString
+    this.uiText.visible = true
+  }
 }

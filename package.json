@@ -4,7 +4,8 @@
   "description": "A collection of UI helpers to make it easier to build a Decentraland scene using the SDK.",
   "main": "index.ts",
   "scripts": {
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "build": "rollup -c --environment BUILD:production"
   },
   "repository": {
     "type": "git",
@@ -25,12 +26,20 @@
   "devDependencies": {
     "prettier": "^1.19.1",
     "semantic-release": "^16.0.1",
-    "typescript": "^3.9.3"
-  },
-  "dependencies": {
+    "typescript": "^3.9.3",
+    "rollup": "^2.35.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.29.0",
     "decentraland-ecs": "latest"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
   }
 }

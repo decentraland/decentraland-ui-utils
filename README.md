@@ -7,7 +7,7 @@ To use any of the helpers provided by the UI utils library:
 1. Install the library as an npm package. Run this command in your scene's project folder:
 
 ```
-npm i @dcl/ui-utils -B
+npm i @dcl/ui-scene-utils -B
 ```
 
 2. Run `dcl start` or `dcl build` so the dependencies are correctly installed.

@@ -7,16 +7,18 @@ To use any of the helpers provided by the UI utils library:
 1. Install the library as an npm package. Run this command in your scene's project folder:
 
 ```
-npm i @dcl/ui-utils
+npm i @dcl/ui-scene-utils -B
 ```
 
-2. Import the library into the scene's script. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
+2. Run `dcl start` or `dcl build` so the dependencies are correctly installed.
+
+3. Import the library into the scene's script. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
 ```ts
-import * as ui from '../node_modules/@dcl/ui-utils/index'
+import * as ui from 'ui-utils'
 ```
 
-3. In your TypeScript file, write `ui`. and let the suggestions of your IDE show the available helpers.
+4. In your TypeScript file, write `ui`. and let the suggestions of your IDE show the available helpers.
 
 ## Text Announcement
 

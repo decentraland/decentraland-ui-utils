@@ -1,5 +1,9 @@
 {
-  "include": ["."],
-  "exclude": ["node_modules"],
-  "extends": "./node_modules/decentraland-ecs/types/tsconfig.json"
-}
+	"include": ["src"],
+	"compilerOptions": {
+	  "module": "ESNext",
+	  "sourceMap": true,
+	  "declaration": true
+	},
+	"extends": "./node_modules/decentraland-ecs/types/tsconfig.json"
+  }

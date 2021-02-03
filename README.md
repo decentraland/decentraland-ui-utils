@@ -116,11 +116,11 @@ let health = new ui.UIBar(0.8)
 When instancing a new bar you can pass the following parameters:
 
 - `value`: Starting value of the bar, from 0 to 1. With 1 the bar is full, with 0 it's empty.
-- `xOffset`: Offset on X away from the bottom-left corner
-- `yOffset`: Offset on Y away from the bottom-left corner
-- `fillColor`: Color of the bar filling, red by default
+- `xOffset`: Offset on X away from the bottom-left corner.
+- `yOffset`: Offset on Y away from the bottom-left corner.
+- `fillColor`: Color of the bar filling, red by default.
 - `style`: Margin style of the bar, from a list of different predetermined options in different colors and shapes. It takes a value from the `BarStyles` enum.
-- `scale`: Multiplier to alter the size of the bar proportionally. A scale of 1 = 128 x 32 pixels
+- `scale`: Multiplier to alter the size of the bar proportionally. A scale of 1 = 128 x 32 pixels.
 
 ```ts
 let health = new ui.UIBar(1, -30, 130, Color4.Red(), BarStyles.ROUNDSILVER, 1)
@@ -128,7 +128,7 @@ let health = new ui.UIBar(1, -30, 130, Color4.Red(), BarStyles.ROUNDSILVER, 1)
 
 Once a `UIBar` object is instanced, you can call the following functions on it:
 
-- `read`: Returns the current value of the counter
+- `read`: Returns the current value of the counter.
 - `increase`: Increases the number by a given amount. If no parameters are passed, it raises the value by 0.1.
 - `decrease`: Secreases the number by a given amount. If no parameters are passed, it lowers the value by 0.1.
 - `set`: Sets the bar to a given value, no matter what the previous value was.
@@ -146,9 +146,9 @@ myEntiy.addComponent(new OnPointerDown(e => {
 
 To display an icon of on the bottom-left corner of the screen you can create one of the following:
 
-- `SmallIcon`: by default 32x32 pixels in size
-- `MediumIcon`: by default 64x64 pixels in size
-- `LargeIcon`: by default 128x128 pixels in size
+- `SmallIcon`: by default 32x32 pixels in size.
+- `MediumIcon`: by default 64x64 pixels in size.
+- `LargeIcon`: by default 128x128 pixels in size.
 
 ```ts
 let healthIcon = new ui.MediumIcon('images/heart64.png')
@@ -158,11 +158,11 @@ let healthIcon = new ui.MediumIcon('images/heart64.png')
 
 When instancing a new icon you can pass the following parameters:
 
-- `image`: Path to the image file
-- `xOffset`: Offset on X, relative to the bottom-right corner
-- `yOffset`: Offset on Y, relative to the bottom-right corner
-- `width`: Image width on screen in pixels
-- `height`: Image height on screen in pixels
+- `image`: Path to the image file.
+- `xOffset`: Offset on X, relative to the bottom-right corner.
+- `yOffset`: Offset on Y, relative to the bottom-right corner.
+- `width`: Image width on screen in pixels.
+- `height`: Image height on screen in pixels.
 - `section`: Use only a section of the image file, useful when arranging multiple icons into an image atlas. This field takes an `ImageSection` object, specifying `sourceWidth` and `sourceHeight`, and optionally also `sourceLeft` and `sourceTop`.
 
 ```ts
@@ -183,9 +183,9 @@ loading = new ui.LoadingIcon(3)
 When instancing a new loading icon, you can pass the following parameters:
 
 - `duration`: seconds to display the image onscreen. If not set, or set to 0, it keeps the icon on till you hide it.
-- `xOffset`: Offset on X, relative to the center of the screen
-- `yOffset`: Offset on Y, relative to the center of the screen
-- `scale`: Multiplier to alter the size of the icon proportionally. A scale of 1 = 48 x 64 pixels
+- `xOffset`: Offset on X, relative to the center of the screen.
+- `yOffset`: Offset on Y, relative to the center of the screen.
+- `scale`: Multiplier to alter the size of the icon proportionally. A scale of 1 = 48 x 64 pixels.
 
 ```ts
 loading = new ui.LoadingIcon(3, 0, 40, 0.5)
@@ -203,14 +203,14 @@ let largeImage = new ui.CenterImage('images/Burn.png')
 
 When instancing a new large image, you can pass the following parameters:
 
-- `image`: Path to image file
+- `image`: Path to image file.
 - `duration`: Seconds to display the image onscreen, 3 seconds by default. -1 keeps it on till you hide it.
 - `startHidden`: If true, the image starts invisible till you run its `show()` function. Large images may flash white for a second if created and shown at the same time. By deferring the creation you avoid this artifact.
-- `xOffset`: Offset on X, relative to the center of the screen
-- `yOffset`: Offset on Y, relative to the center of the screen
+- `xOffset`: Offset on X, relative to the center of the screen.
+- `yOffset`: Offset on Y, relative to the center of the screen.
 
-* `width`: Image width on screen in pixels, 512 by default
-* `height`: Image height on screen in pixels, 512 by default
+* `width`: Image width on screen in pixels, 512 by default.
+* `height`: Image height on screen in pixels, 512 by default.
 * `section`: Use only a section of the image file, useful when arranging multiple images into an image atlas. This field takes an `ImageSection` object, specifying `sourceWidth` and `sourceHeight`, and optionally also `sourceLeft` and `sourceTop`.
 
 ```ts
@@ -225,8 +225,8 @@ gameOver.show()
 
 Once a `CenterImage` object is instanced, you can call the following functions on it:
 
-- `show`: Shows the image
-- `hide`: Hides the image
+- `show`: Shows the image.
+- `hide`: Hides the image.
 
 ## Predefined prompt windows
 
@@ -265,9 +265,9 @@ Displays a prompt window with a custom message, a title, and two buttons that pe
 When instancing a new Option Prompt, you can pass the following parameters:
 
 - `title`: Header in bold letters at the top of the window
-- `instructions`: Smaller print instructions
-- `onAccept`: Function that gets executed if player clicks accept
-- `onReject`: Function that gets executed if player clicks reject
+- `instructions`: Smaller print instructions.
+- `onAccept`: Function that gets executed if player clicks accept.
+- `onReject`: Function that gets executed if player clicks reject.
 - `acceptLabel`: String to go in the accept button
 - `rejectLabel`: String to go in the reject button
 - `useDarkTheme`: Switch the style of the window to the dark theme.
@@ -345,8 +345,8 @@ Once you instanced a `CustomPrompt` object, you can add elements to it by callin
 
 You can also call the following functions on it:
 
-- `hide`: Hides the window
-- `show`: Shows the window if previously closed
+- `hide`: Hides the window.
+- `show`: Shows the window if previously closed.
 
 Access all of the UI elements that make up the prompt UI by calling the `elements` property of the prompt object.
 
@@ -360,7 +360,7 @@ let myText = prompt.addText('Hello World', 0, 100)
 
 The `addText()` function can take the following parameters:
 
-- `value`: Text to show
+- `value`: Text to show.
 - `posX`: Offset on X from the center of the window.
 - `posY`: Offset on Y from the center of the window.
 - `color`: Text color.
@@ -493,11 +493,11 @@ let myIcon = prompt.addIcon(`images/icon.png`, -50, 0, 64, 64)
 
 The `addIcon` function can take the following parameters:
 
-- `image`: Path to the image file
-- `xOffset`: Offset on X, relative to the window's center
-- `yOffset`: Offset on Y, relative to the window's center
-- `width`: Image width on screen in pixels
-- `height`: Image height on screen in pixels
+- `image`: Path to the image file.
+- `xOffset`: Offset on X, relative to the window's center.
+- `yOffset`: Offset on Y, relative to the window's center.
+- `width`: Image width on screen in pixels.
+- `height`: Image height on screen in pixels.
 - `section`: Use only a section of the image file, useful when arranging multiple icons into an image atlas. This field takes an `ImageSection` object, specifying `sourceWidth` and `sourceHeight`, and optionally also `sourceLeft` and `sourceTop`.
 
 The `addIcon()` function returns a `CustomPromptIcon` object, that you can then reference to change its values. This object also has the following functions that can be called any time:
@@ -515,8 +515,8 @@ let myInput = prompt.addTextBox(`images/icon.png`, 0, 30)
 
 The `addTextBox` function can take the following parameters:
 
-- `posX`: Offset on X, relative to the window's center
-- `posY`: Offset on Y, relative to the window's center
+- `posX`: Offset on X, relative to the window's center.
+- `posY`: Offset on Y, relative to the window's center.
 - `placeholder`: Text to display in the input box before the player interacts with it.
 - `onChange`: Function that gets executed every time the player edits the content on the input box, once for each character changed.
 

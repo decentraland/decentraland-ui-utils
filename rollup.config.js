@@ -37,7 +37,7 @@ export default {
       name: 'ui-utils',
       sourcemap: true,
       amd: {
-        id: 'ui-utils'
+        id: '@dcl/ui-scene-utils'
       }
     }
   ]

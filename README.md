@@ -123,7 +123,7 @@ When instancing a new bar you can pass the following parameters:
 - `scale`: Multiplier to alter the size of the bar proportionally. A scale of 1 = 128 x 32 pixels.
 
 ```ts
-let health = new ui.UIBar(1, -30, 130, Color4.Red(), BarStyles.ROUNDSILVER, 1)
+let health = new ui.UIBar(1, -30, 130, Color4.Red(), ui.BarStyles.ROUNDSILVER, 1)
 ```
 
 Once a `UIBar` object is instanced, you can call the following functions on it:
@@ -327,7 +327,7 @@ Custom prompt windows let you arrange as many elements as you want into a window
 First create a new `CustomPrompt` object.
 
 ```ts
-let prompt = new ui.CustomPrompt(PromptStyles.DARKSLANTED)
+let prompt = new ui.CustomPrompt(ui.PromptStyles.DARKSLANTED)
 ```
 
 <img src="screenshots/customPrompt1.png" width="400">
@@ -384,7 +384,7 @@ let myButton = prompt.addButton(
     log('Yes')
     prompt.close()
   },
-  ButtonStyles.E
+  ui.ButtonStyles.E
 )
 ```
 
@@ -458,7 +458,8 @@ let mySwitch = prompt.addSwitch(
   },
   () => {
     log('switch deactivated')
-  }
+  },
+  ui.SwitchStyles.SQUAREGREEN
 )
 ```
 
@@ -532,7 +533,7 @@ You can access the last edited value on the textbox by fetching the `currentText
 Here's a full example of a custom UI:
 
 ```ts
-let prompt = new ui.CustomPrompt(PromptStyles.DARKSLANTED)
+let prompt = new ui.CustomPrompt(ui.PromptStyles.DARKSLANTED)
 prompt.addText('What will you do?', 0, 130, Color4.Red(), 30)
 prompt.addText("It's an important decision", 0, 100)
 
@@ -546,7 +547,7 @@ let button1 = prompt.addButton(
     log('Yes')
     prompt.close()
   },
-  ButtonStyles.E
+  ui.ButtonStyles.E
 )
 
 let button2 = prompt.addButton(
@@ -557,7 +558,7 @@ let button2 = prompt.addButton(
     log('No')
     prompt.close()
   },
-  ButtonStyles.F
+  ui.ButtonStyles.F
 )
 ```
 

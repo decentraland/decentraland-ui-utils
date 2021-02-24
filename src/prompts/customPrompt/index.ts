@@ -46,6 +46,10 @@ export class CustomPrompt extends Entity {
     this.background.hAlign = 'center'
     this.background.vAlign = 'center'
 
+    if (!style) {
+      style = PromptStyles.LIGHT
+    }
+
     switch (style) {
       case PromptStyles.LIGHT:
         this.texture = lightTheme

@@ -11,7 +11,7 @@ import { LoadingIcon } from './loading/index'
 import { canvas, SFFont, SFHeavyFont, lightTheme, darkTheme } from './utils/default-ui-components'
 import { ImageSection, PromptStyles, BarStyles, ButtonStyles, SwitchStyles } from './utils/types'
 
-export default {
+export {
   displayAnnouncement,
   hideAnnouncements,
   UICounter,

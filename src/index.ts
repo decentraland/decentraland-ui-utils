@@ -9,7 +9,8 @@ import { CustomPrompt } from './prompts/customPrompt/index'
 import { CornerLabel } from './cornerLabel/index'
 import { LoadingIcon } from './loading/index'
 import { canvas, SFFont, SFHeavyFont, lightTheme, darkTheme } from './utils/default-ui-components'
-import { ImageSection, PromptStyles, BarStyles, ButtonStyles, SwitchStyles } from './utils/types'
+import { PromptStyles, BarStyles, ButtonStyles, SwitchStyles } from './utils/types'
+import { UISearchBox, UISelectBox, SearchBoxOption } from './search/index'
 
 export {
   displayAnnouncement,
@@ -34,5 +35,8 @@ export {
   PromptStyles,
   BarStyles,
   ButtonStyles,
-  SwitchStyles
+  SwitchStyles,
+  UISearchBox,
+  UISelectBox,
+  SearchBoxOption
 }

@@ -1,2 +1,2 @@
-export * from './UISearchBox'
+export * from './UISearchPrompt'
 export * from './UISelectBox'

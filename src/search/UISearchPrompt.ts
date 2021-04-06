@@ -2,11 +2,11 @@ import { lightTheme } from "../utils/default-ui-components"
 import { deepMerge, RecursivePartial } from "./commons/shared"
 import { UIBase } from "./commons/UIBase"
 import { UIPoweredInputText } from "./UIPoweredInputText"
-import { UISearchBoxOption } from "./UISearchBoxOption"
+import { UISearchPromptOption } from "./UISearchPromptOption"
 
-export class UISearchBox extends UIBase<UIContainerRect> {
+export class UISearchPrompt extends UIBase<UIContainerRect> {
 
-  public static readonly DEFAULTS: UISearchBoxConfig = {
+  public static readonly DEFAULTS: UISearchPromptConfig = {
     borderColor: Color4.FromInts(232, 236, 253, 255),
     backgroundColor: Color4.White(),
     borderSize: 2,
@@ -35,28 +35,28 @@ export class UISearchBox extends UIBase<UIContainerRect> {
     }
   }
 
-  private readonly config: UISearchBoxConfig
+  private readonly config: UISearchPromptConfig
   private readonly inputText: UIPoweredInputText
   private readonly insideContainer: UIContainerRect
   private readonly errorMessage: UIText
-  private readonly uiOptions: UISearchBoxOption[] = []
-  private options: {[ id: string ]: SearchBoxOption} = {}
+  private readonly uiOptions: UISearchPromptOption[] = []
+  private options: {[ id: string ]: SearchPromptOption} = {}
   private defaultOptions: string[] | undefined
 
   constructor(
     parent: UIShape,
-    initialOptions: {
-      options: SearchBoxOption[],
-      searchDefaultOptionIds?: string[],
+    searchItems: {
+      items: SearchPromptOption[],
+      dropdownDefaultItemIds?: string[],
     },
-    initialConfig: UISearchBoxInitialProperties,
-    private readonly onSuccessfulSelection: (selected: SearchBoxOption) => void) {
+    initialConfig: UISearchPromtInitialProperties,
+    private readonly onSuccessfulSelection: (selected: SearchPromptOption) => void) {
     super(new UIContainerRect(parent), {
       ...initialConfig
     })
 
     const { visible, opacity, hAlign, vAlign, positionX, positionY, ...otherConfig } = initialConfig
-    this.config = deepMerge(UISearchBox.DEFAULTS, otherConfig)
+    this.config = deepMerge(UISearchPrompt.DEFAULTS, otherConfig)
 
     this.setProperties({
       width: this.config.width,
@@ -64,7 +64,7 @@ export class UISearchBox extends UIBase<UIContainerRect> {
       color: this.config.borderColor,
     })
 
-    this.setOptions(initialOptions.options, initialOptions.searchDefaultOptionIds)
+    this.setItems(searchItems.items, searchItems.dropdownDefaultItemIds)
 
     const insideContainer = new UIContainerRect(this.shape)
     insideContainer.color = this.config.backgroundColor
@@ -99,7 +99,7 @@ export class UISearchBox extends UIBase<UIContainerRect> {
           this.showDefaultOptions()
         } else {
           const textToSearch = value.toLowerCase()
-          const result: SearchBoxOption[] = []
+          const result: SearchPromptOption[] = []
           for (const optionId in this.options) {
             const option = this.options[optionId]
             if (option.searchBy!.toLowerCase().indexOf(textToSearch) >= 0) {
@@ -120,7 +120,7 @@ export class UISearchBox extends UIBase<UIContainerRect> {
     this.inputText = inputText
 
     for (let i = 0; i < this.config.options.maxVisibleOptions; i++) {
-      const newOption = new UISearchBoxOption(insideContainer, {
+      const newOption = new UISearchPromptOption(insideContainer, {
         ...this.config.options,
         height: this.config.initialHeight,
         positionY: -this.config.initialHeight - this.config.initialHeight * i,
@@ -172,16 +172,16 @@ export class UISearchBox extends UIBase<UIContainerRect> {
   /**
    * Sets all options available on the search box
    */
-  public setOptions(options: SearchBoxOption[], defaults?: string[]) {
+  public setItems(options: SearchPromptOption[], dropdownDefaults?: string[]) {
     this.options = options.reduce((acc, curr) => {
       curr.searchBy = curr.searchBy ?? (typeof curr.visualText === 'string' ? curr.visualText : ('text' in curr.visualText ? curr.visualText.text : curr.visualText.topLeft))
       acc[curr.id] = curr;
       return acc
-    }, { } as {[ id: string ]: SearchBoxOption});
-    if (defaults) {
-      this.setDefaults(defaults)
+    }, { } as {[ id: string ]: SearchPromptOption});
+    if (dropdownDefaults) {
+      this.setDropdownDefaults(dropdownDefaults)
     } else {
-      this.defaultOptions = defaults
+      this.defaultOptions = dropdownDefaults
     }
     this.hideAllOptions()
   }
@@ -189,7 +189,7 @@ export class UISearchBox extends UIBase<UIContainerRect> {
   /**
    * Sets the options with the given ids as the ones that will be shown when there is no text on the search box
    */
-  public setDefaults(defaults: string[]) {
+  public setDropdownDefaults(defaults: string[]) {
     for (const optionId of defaults) {
       if (!(optionId in this.options)) {
         error(`Couldn't find an option with id '${optionId}'. Will not set new defaults`)
@@ -200,7 +200,7 @@ export class UISearchBox extends UIBase<UIContainerRect> {
   }
 
   private showDefaultOptions() {
-    let options: SearchBoxOption[]
+    let options: SearchPromptOption[]
     if (this.defaultOptions) {
       options = this.defaultOptions.map(id => this.options[id]).slice(0, this.config.options.maxVisibleOptions)
     } else {
@@ -216,10 +216,10 @@ export class UISearchBox extends UIBase<UIContainerRect> {
     this.showOptions(options)
   }
 
-  private showOptions(options: SearchBoxOption[]) {
+  private showOptions(options: SearchPromptOption[]) {
     this.resizeHeight(this.config.initialHeight * options.length + this.config.borderSize * 2)
     options.forEach((option, index) => {
-      const uiOption: UISearchBoxOption = this.uiOptions[index]
+      const uiOption: UISearchPromptOption = this.uiOptions[index]
       uiOption.setOption(option, () => {
         this.onSuccessfulSelection(option)
         this.setProperties({ visible: false })
@@ -245,11 +245,11 @@ export class UISearchBox extends UIBase<UIContainerRect> {
   }
 }
 
-export type SearchBoxOption = {
+export type SearchPromptOption = {
   id: string,
   // If not set, then we will search for the top or topLeft text
   searchBy?: string
-  visualText: SearchBoxOptionText,
+  visualText: SearchPromptOptionText,
   image?: {
     src: string,
     sourceWidth: number
@@ -257,7 +257,7 @@ export type SearchBoxOption = {
   }
 }
 
-export type UISearchBoxConfig = {
+export type UISearchPromptConfig = {
   borderColor: Color4
   backgroundColor: Color4
   borderSize: number
@@ -286,9 +286,9 @@ export type UISearchBoxConfig = {
   }
 }
 
-export type UISearchBoxInitialProperties = RecursivePartial<Pick<UIContainerRect, 'visible' | 'opacity' | 'hAlign' | 'vAlign' | 'positionX' | 'positionY'> & UISearchBoxConfig>
+export type UISearchPromtInitialProperties = RecursivePartial<Pick<UIContainerRect, 'visible' | 'opacity' | 'hAlign' | 'vAlign' | 'positionX' | 'positionY'> & UISearchPromptConfig>
 
-type SearchBoxOptionText =
+type SearchPromptOptionText =
   string |
   { text: string, subText: string } |
   { topLeft: string, topRight: string, bottomLeft: string, bottomRight: string }

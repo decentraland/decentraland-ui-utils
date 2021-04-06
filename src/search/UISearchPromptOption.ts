@@ -1,10 +1,10 @@
 import { InitialUIProperties, UIBase } from "./commons/UIBase"
 import { UIClickableContainerRect } from "./UIClickableContainerRect"
-import { SearchBoxOption } from "./UISearchBox"
+import { SearchPromptOption as SearchPromptOption } from "./UISearchPrompt"
 
-export class UISearchBoxOption extends UIBase<UIContainerRect> {
+export class UISearchPromptOption extends UIBase<UIContainerRect> {
 
-  private static readonly DEFAULTS: UISearchBoxOptionConfig = {
+  private static readonly DEFAULTS: UISearchPromptOptionConfig = {
     topFontSize: 14,
     bottomFontSize: 14,
     imageSize: 36,
@@ -12,7 +12,7 @@ export class UISearchBoxOption extends UIBase<UIContainerRect> {
     bottomTextColor: Color4.FromInts(117, 120, 181, 255),
   }
 
-  private readonly config: UISearchBoxOptionConfig
+  private readonly config: UISearchPromptOptionConfig
   private readonly image: UIImage
   private readonly topRightText: UIText
   private readonly topLeftText: UIText
@@ -28,7 +28,7 @@ export class UISearchBoxOption extends UIBase<UIContainerRect> {
       ...initialProperties
     })
 
-    this.config = { ...UISearchBoxOption.DEFAULTS, ...initialProperties }
+    this.config = { ...UISearchPromptOption.DEFAULTS, ...initialProperties }
 
     const clickableContainer = new UIClickableContainerRect(this.shape, {
       width: '100%',
@@ -91,7 +91,7 @@ export class UISearchBoxOption extends UIBase<UIContainerRect> {
     this.bottomRightText = bottomRightText
   }
 
-  public setOption(option: SearchBoxOption, onClick?: () => void) {
+  public setOption(option: SearchPromptOption, onClick?: () => void) {
     this.image.visible = false
     this.topRightText.visible = false
     this.bottomLeftText.visible = false
@@ -153,9 +153,9 @@ export class UISearchBoxOption extends UIBase<UIContainerRect> {
 
 }
 
-type InitialProperties = InitialUIProperties<UIContainerRect> & UISearchBoxOptionConfig
+type InitialProperties = InitialUIProperties<UIContainerRect> & UISearchPromptOptionConfig
 
-type UISearchBoxOptionConfig = {
+type UISearchPromptOptionConfig = {
   topFontSize: number,
   bottomFontSize: number,
   imageSize: number,

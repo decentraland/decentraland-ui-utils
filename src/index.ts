@@ -10,7 +10,7 @@ import { CornerLabel } from './cornerLabel/index'
 import { LoadingIcon } from './loading/index'
 import { canvas, SFFont, SFHeavyFont, lightTheme, darkTheme } from './utils/default-ui-components'
 import { PromptStyles, BarStyles, ButtonStyles, SwitchStyles } from './utils/types'
-import { UISearchBox, UISelectBox, SearchBoxOption } from './search/index'
+import { UISearchPrompt, UISelectBox, SearchPromptOption, UISearchPromptConfig } from './search/index'
 
 export {
   displayAnnouncement,
@@ -36,7 +36,8 @@ export {
   BarStyles,
   ButtonStyles,
   SwitchStyles,
-  UISearchBox,
+  UISearchPrompt,
   UISelectBox,
-  SearchBoxOption
+  SearchPromptOption,
+  UISearchPromptConfig
 }

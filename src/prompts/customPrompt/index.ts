@@ -27,8 +27,8 @@ export class CustomPrompt extends Entity {
   )[] = []
   texture: Texture = lightTheme
   darkTheme: boolean = false
-  background: UIImage = new UIImage(canvas, lightTheme)
-  closeIcon: UIImage = new UIImage(this.background, this.texture)
+  background: UIImage
+  closeIcon: UIImage
   UIOpenTime: number = 0
   canvas: UICanvas = canvas
 
@@ -45,6 +45,8 @@ export class CustomPrompt extends Entity {
     this.background = new UIImage(canvas, lightTheme)
     this.background.hAlign = 'center'
     this.background.vAlign = 'center'
+
+    this.closeIcon = new UIImage(this.background, this.texture)
 
     if (!style) {
       style = PromptStyles.LIGHT

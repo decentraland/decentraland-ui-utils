@@ -382,7 +382,7 @@ let myButton = prompt.addButton(
   -30,
   () => {
     log('Yes')
-    prompt.close()
+    prompt.hide()
   },
   ui.ButtonStyles.E
 )
@@ -545,7 +545,7 @@ let button1 = prompt.addButton(
   -30,
   () => {
     log('Yes')
-    prompt.close()
+    prompt.hide()
   },
   ui.ButtonStyles.E
 )
@@ -556,7 +556,7 @@ let button2 = prompt.addButton(
   -90,
   () => {
     log('No')
-    prompt.close()
+    prompt.hide()
   },
   ui.ButtonStyles.F
 )

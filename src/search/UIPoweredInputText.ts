@@ -6,9 +6,6 @@ import { InitialUIProperties, UIBase } from './commons/UIBase'
 export class UIPoweredInputText extends UIBase<UIInputText> {
   private static readonly DEFAULT_WAIT_TIME = 650
   private readonly placeholder: string
-  private readonly placeholderColor: Color4
-  private readonly background: Color4
-  private readonly color: Color4
   private inputValue: string = ''
   private isInputFocused: boolean = false
 
@@ -16,7 +13,6 @@ export class UIPoweredInputText extends UIBase<UIInputText> {
     super(new UIInputText(parent), {
       ...initialProperties,
       placeholder: initialProperties?.placeholder ?? initialProperties?.value,
-      placeholderColor: initialProperties?.placeholderColor ?? initialProperties?.color,
       onFocus: new OnFocus(() => {
         this.isInputFocused = true
         initialProperties?.onFocus?.()
@@ -33,11 +29,8 @@ export class UIPoweredInputText extends UIBase<UIInputText> {
       onChanged: new OnChanged(({ value }) => {
         if (this.shape.visible) {
           this.inputValue = value
-          if (value === this.placeholder) {
-            this.shape.placeholderColor = this.placeholderColor
-          } else {
+          if (value !== this.placeholder) {
             if (value === '') {
-              this.shape.placeholderColor = this.color
               this.shape.placeholder = ''
             }
             if (this.isInputFocused || value === '') {
@@ -66,8 +59,6 @@ export class UIPoweredInputText extends UIBase<UIInputText> {
       })
     })
     this.placeholder = this.shape.placeholder
-    this.color = this.shape.color
-    this.placeholderColor = this.shape.placeholderColor
     this.inputValue = initialProperties?.value ?? initialProperties?.placeholder ?? ''
     this.isInputFocused = false
   }

@@ -40,7 +40,7 @@ export class UISearchPrompt extends UIBase<UIContainerRect> {
   private readonly insideContainer: UIContainerRect
   private readonly errorMessage: UIText
   private readonly uiOptions: UISearchPromptOption[] = []
-  private options: {[ id: string ]: SearchPromptOption} = {}
+  private options: { [id: string]: SearchPromptOption } = {}
   private defaultOptions: string[] | undefined
 
   constructor(
@@ -79,10 +79,8 @@ export class UISearchPrompt extends UIBase<UIContainerRect> {
       width: '92%',
       fontSize: this.config.search.fontSize,
       placeholder: this.config.search.placeholder.defaultText,
-      placeholderColor: this.config.search.placeholder.textColor,
       color: this.config.search.textColor,
       focusedBackground: Color4.Clear(),
-      background: Color4.Clear(),
       height: this.config.initialHeight * 0.95,
       onBlur: () => this.close(),
       onTextSubmit: () => {
@@ -177,7 +175,7 @@ export class UISearchPrompt extends UIBase<UIContainerRect> {
       curr.searchBy = curr.searchBy ?? (typeof curr.visualText === 'string' ? curr.visualText : ('text' in curr.visualText ? curr.visualText.text : curr.visualText.topLeft))
       acc[curr.id] = curr;
       return acc
-    }, { } as {[ id: string ]: SearchPromptOption});
+    }, {} as { [id: string]: SearchPromptOption });
     if (dropdownDefaults) {
       this.setDropdownDefaults(dropdownDefaults)
     } else {

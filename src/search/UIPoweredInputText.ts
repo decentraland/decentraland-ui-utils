@@ -1,13 +1,13 @@
-import { InitialUIProperties, UIBase } from "./commons/UIBase"
+import { InitialUIProperties, UIBase } from './commons/UIBase'
 
 /**
  * This is a UIInputText, but wrapped on a simpler interface
  */
 export class UIPoweredInputText extends UIBase<UIInputText> {
-
   private static readonly DEFAULT_WAIT_TIME = 650
   private readonly placeholder: string
   private readonly placeholderColor: Color4
+  private readonly background: Color4
   private readonly color: Color4
   private inputValue: string = ''
   private isInputFocused: boolean = false
@@ -43,15 +43,15 @@ export class UIPoweredInputText extends UIBase<UIInputText> {
             if (this.isInputFocused || value === '') {
               const waitTime = initialProperties?.waitTime ?? UIPoweredInputText.DEFAULT_WAIT_TIME
               //@ts-ignore
-              setTimeout(() => { // We are adding a waiting time, so if someone is writing a long text, we don't report the event on each key press
+              setTimeout(() => {
+                // We are adding a waiting time, so if someone is writing a long text, we don't report the event on each key press
                 if (this.inputValue === value) {
                   initialProperties?.onChanged?.(value)
                 }
-              }, waitTime, )
+              }, waitTime)
             }
           }
         }
-
       }),
       onTextSubmit: new OnTextSubmit(({ text }) => {
         const value = text.substr(0, text.length - 1) // We need to remove the last char, that is a return line
@@ -61,14 +61,14 @@ export class UIPoweredInputText extends UIBase<UIInputText> {
         } else {
           // If there is no callback set, just re-set the current value. We need to add a timeout, so that the event finished before starting the following one
           //@ts-ignore
-          setTimeout(() => this.shape.placeholder = value, 0)
+          setTimeout(() => (this.shape.placeholder = value), 0)
         }
       })
     })
     this.placeholder = this.shape.placeholder
     this.color = this.shape.color
     this.placeholderColor = this.shape.placeholderColor
-    this.inputValue = initialProperties?.value ?? (initialProperties?.placeholder ?? '')
+    this.inputValue = initialProperties?.value ?? initialProperties?.placeholder ?? ''
     this.isInputFocused = false
   }
 
@@ -105,11 +105,14 @@ export class UIPoweredInputText extends UIBase<UIInputText> {
   }
 }
 
-type InitialProperties = Omit<InitialUIProperties<UIInputText>, 'onFocus' | 'onBlur' | 'onChanged' | 'onTextSubmit'> & {
+type InitialProperties = Omit<
+  InitialUIProperties<UIInputText>,
+  'onFocus' | 'onBlur' | 'onChanged' | 'onTextSubmit'
+> & {
   waitTime?: number // delay in ms that we wait before the user stopped changing the text, so that we consider it finally stopped changing,
-  onFocus?: Callback,
-  onBlur?: (defaultedToPlaceholder: boolean) => void,
-  onChanged?: StringCallback,
+  onFocus?: Callback
+  onBlur?: (defaultedToPlaceholder: boolean) => void
+  onChanged?: StringCallback
   onTextSubmit?: StringCallback
 }
 type Callback = () => void

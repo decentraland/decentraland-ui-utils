@@ -32,8 +32,8 @@ export class OptionPrompt extends Entity {
   closeIcon: UIImage
   onAccept: () => void
   onReject: null | (() => void)
-  EButtonAction: () => false | Subscription[]
-  FButtonAction: () => false | Subscription[]
+  EButtonAction: () => void | Subscription[]
+  FButtonAction: () => void | Subscription[]
   UIOpenTime: number
   canvas: UICanvas = canvas
   background: UIImage = promptBackground
@@ -214,7 +214,7 @@ export class OptionPrompt extends Entity {
       this.onAccept()
     }
 
-    this.close()
+    this.hide()
   }
 
   /**
@@ -225,7 +225,7 @@ export class OptionPrompt extends Entity {
       this.onReject()
     }
 
-    this.close()
+    this.hide()
   }
 
   /**
@@ -241,6 +241,8 @@ export class OptionPrompt extends Entity {
     this.buttonFLabel.visible = false
     this.buttonEIcon.visible = false
     this.buttonFIcon.visible = false
+    Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
+    Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.SECONDARY, this.FButtonAction)
   }
 
   /**
@@ -256,5 +258,7 @@ export class OptionPrompt extends Entity {
     this.buttonFLabel.visible = true
     this.buttonEIcon.visible = true
     this.buttonFIcon.visible = true
+    Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, this.EButtonAction)
+    Input.instance.subscribe('BUTTON_DOWN', ActionButton.SECONDARY, false, this.FButtonAction)
   }
 }

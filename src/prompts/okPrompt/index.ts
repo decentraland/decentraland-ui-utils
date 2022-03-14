@@ -23,7 +23,7 @@ export class OkPrompt extends Entity {
   icon: UIImage
   closeIcon: UIImage
   onAccept: null | (() => void)
-  EButtonAction: () => false | Subscription[]
+  EButtonAction: () => void | Subscription[]
   UIOpenTime: number
   canvas: UICanvas = canvas
   background: UIImage = promptBackground
@@ -129,7 +129,6 @@ export class OkPrompt extends Entity {
     this.button.visible = false
     this.text.visible = false
     this.buttonLabel.visible = false
-    //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
   /**
@@ -140,7 +139,7 @@ export class OkPrompt extends Entity {
       this.onAccept()
     }
 
-    this.close()
+    this.hide()
   }
 
   /**
@@ -152,6 +151,7 @@ export class OkPrompt extends Entity {
     this.button.visible = false
     this.text.visible = false
     this.buttonLabel.visible = false
+    Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
   /**
@@ -163,5 +163,6 @@ export class OkPrompt extends Entity {
     this.button.visible = true
     this.text.visible = true
     this.buttonLabel.visible = true
+    Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, this.EButtonAction)
   }
 }

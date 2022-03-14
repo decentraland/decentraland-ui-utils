@@ -1,15 +1,14 @@
-import { InitialUIProperties, UIBase } from "./commons/UIBase"
-import { UIClickableContainerRect } from "./UIClickableContainerRect"
-import { SearchPromptOption as SearchPromptOption } from "./UISearchPrompt"
+import { InitialUIProperties, UIBase } from './commons/UIBase'
+import { UIClickableContainerRect } from './UIClickableContainerRect'
+import { SearchPromptOption } from './UISearchPrompt'
 
 export class UISearchPromptOption extends UIBase<UIContainerRect> {
-
   private static readonly DEFAULTS: UISearchPromptOptionConfig = {
     topFontSize: 14,
     bottomFontSize: 14,
     imageSize: 36,
     topTextColor: Color4.FromInts(14, 16, 60, 255),
-    bottomTextColor: Color4.FromInts(117, 120, 181, 255),
+    bottomTextColor: Color4.FromInts(117, 120, 181, 255)
   }
 
   private readonly config: UISearchPromptOptionConfig
@@ -37,7 +36,12 @@ export class UISearchPromptOption extends UIBase<UIContainerRect> {
     })
     this.clickableContainer = clickableContainer
 
-    const image = new UIImage(clickableContainer.shape, new Texture('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='))
+    const image = new UIImage(
+      clickableContainer.shape,
+      new Texture(
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+      )
+    )
     image.width = image.height = this.config.imageSize
     image.hAlign = 'left'
     image.positionX = 10
@@ -108,7 +112,7 @@ export class UISearchPromptOption extends UIBase<UIContainerRect> {
 
     if (typeof option.visualText === 'string') {
       this.topLeftText.value = option.visualText
-      this.topLeftText.vAlign = this.topLeftText.vTextAlign  = 'center'
+      this.topLeftText.vAlign = this.topLeftText.vTextAlign = 'center'
       this.topLeftText.positionY = 0
     } else if ('text' in option.visualText) {
       this.topLeftText.vAlign = this.topLeftText.vTextAlign = 'top'
@@ -150,15 +154,17 @@ export class UISearchPromptOption extends UIBase<UIContainerRect> {
   public performClick() {
     this.clickableContainer.performClick()
   }
-
 }
 
-type InitialProperties = InitialUIProperties<UIContainerRect> & UISearchPromptOptionConfig
+type InitialProperties = InitialUIProperties<UIContainerRect> &
+  UISearchPromptOptionConfig & { placeholderColor?: Color4 }
 
 type UISearchPromptOptionConfig = {
-  topFontSize: number,
-  bottomFontSize: number,
-  imageSize: number,
-  topTextColor: Color4,
-  bottomTextColor: Color4,
+  topFontSize: number
+  bottomFontSize: number
+  imageSize: number
+  topTextColor: Color4
+  bottomTextColor: Color4
+  background?: Color4
+  placeholderColor?: Color4
 }

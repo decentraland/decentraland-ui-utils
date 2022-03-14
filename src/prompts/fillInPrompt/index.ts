@@ -25,7 +25,7 @@ export class FillInPrompt extends Entity {
   icon: UIImage
   closeIcon: UIImage
   onAccept: (e: string) => void
-  EButtonAction: () => false | Subscription[]
+  EButtonAction: () => void | Subscription[]
   fillInBox: UIInputText
   UIOpenTime: number
   canvas: UICanvas = canvas
@@ -155,7 +155,6 @@ export class FillInPrompt extends Entity {
     this.text.visible = false
     this.buttonLabel.visible = false
     this.fillInBox.visible = false
-    //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
   /**
@@ -164,7 +163,7 @@ export class FillInPrompt extends Entity {
   public accept(submittedText: string): void {
     this.onAccept(submittedText)
 
-    this.close()
+    this.hide()
     //Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
@@ -178,6 +177,7 @@ export class FillInPrompt extends Entity {
     this.text.visible = false
     this.buttonLabel.visible = false
     this.fillInBox.visible = false
+    Input.instance.unsubscribe('BUTTON_DOWN', ActionButton.PRIMARY, this.EButtonAction)
   }
 
   /**
@@ -190,5 +190,6 @@ export class FillInPrompt extends Entity {
     this.text.visible = true
     this.buttonLabel.visible = true
     this.fillInBox.visible = true
+    Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, this.EButtonAction)
   }
 }

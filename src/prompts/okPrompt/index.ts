@@ -1,7 +1,6 @@
 import {
   darkTheme,
   lightTheme,
-  promptBackground,
   SFFont,
   canvas
 } from '../../utils/default-ui-components'
@@ -26,7 +25,7 @@ export class OkPrompt extends Entity {
   EButtonAction: () => void | Subscription[]
   UIOpenTime: number
   canvas: UICanvas = canvas
-  background: UIImage = promptBackground
+  background: UIImage
   constructor(
     instructions: string,
     onAccept?: () => void,
@@ -37,20 +36,24 @@ export class OkPrompt extends Entity {
 
     this.UIOpenTime = +Date.now()
 
+    this.background = new UIImage(canvas, lightTheme)
+    this.background.hAlign = 'center'
+    this.background.vAlign = 'center'
+
     this.onAccept = onAccept ? onAccept : null
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
 
-    promptBackground.source = uiTheme
-    promptBackground.width = 400
-    promptBackground.height = 250
-    promptBackground.positionY = 0
+    this.background.source = uiTheme
+    this.background.width = 400
+    this.background.height = 250
+    this.background.positionY = 0
 
-    setSection(promptBackground, resources.backgrounds.promptBackground)
+    setSection(this.background, resources.backgrounds.promptBackground)
 
-    promptBackground.visible = true
+    this.background.visible = true
 
-    this.closeIcon = new UIImage(promptBackground, uiTheme)
+    this.closeIcon = new UIImage(this.background, uiTheme)
     this.closeIcon.positionX = 175
     this.closeIcon.positionY = 100
     this.closeIcon.width = 32
@@ -65,7 +68,7 @@ export class OkPrompt extends Entity {
       this.close()
     })
 
-    this.text = new UIText(promptBackground)
+    this.text = new UIText(this.background)
 
     this.text.value = instructions //splitTextIntoLines(instructions,30,3)
 
@@ -83,7 +86,7 @@ export class OkPrompt extends Entity {
     this.text.hTextAlign = 'center'
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
 
-    this.button = new UIImage(promptBackground, uiTheme)
+    this.button = new UIImage(this.background, uiTheme)
     this.button.positionX = 0
     this.button.positionY = -60
     this.button.width = 174
@@ -124,7 +127,7 @@ export class OkPrompt extends Entity {
    * Hides the prompt from view in the screen.
    */
   public close(): void {
-    promptBackground.visible = false
+    this.background.visible = false
     this.closeIcon.visible = false
     this.button.visible = false
     this.text.visible = false
@@ -146,7 +149,7 @@ export class OkPrompt extends Entity {
    * Hides the prompt from view in the screen.
    */
   public hide(): void {
-    promptBackground.visible = false
+    this.background.visible = false
     this.closeIcon.visible = false
     this.button.visible = false
     this.text.visible = false
@@ -158,7 +161,7 @@ export class OkPrompt extends Entity {
    * Makes an invisible prompt visible again.
    */
   public show(): void {
-    promptBackground.visible = true
+    this.background.visible = true
     this.closeIcon.visible = true
     this.button.visible = true
     this.text.visible = true

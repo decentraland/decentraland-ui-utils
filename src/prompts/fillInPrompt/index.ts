@@ -1,7 +1,6 @@
 import {
   darkTheme,
   lightTheme,
-  promptBackground,
   SFFont,
   SFHeavyFont,
   canvas
@@ -29,7 +28,7 @@ export class FillInPrompt extends Entity {
   fillInBox: UIInputText
   UIOpenTime: number
   canvas: UICanvas = canvas
-  background: UIImage = promptBackground
+  background: UIImage
   constructor(
     title: string,
     onAccept: (e: string) => void,
@@ -41,19 +40,23 @@ export class FillInPrompt extends Entity {
 
     this.UIOpenTime = +Date.now()
 
+    this.background = new UIImage(canvas, lightTheme)
+    this.background.hAlign = 'center'
+    this.background.vAlign = 'center'
+
     this.onAccept = onAccept
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
 
-    promptBackground.source = uiTheme
-    promptBackground.width = 400
-    promptBackground.height = 250
+    this.background.source = uiTheme
+    this.background.width = 400
+    this.background.height = 250
 
-    setSection(promptBackground, resources.backgrounds.promptBackground)
+    setSection(this.background, resources.backgrounds.promptBackground)
 
-    promptBackground.visible = true
+    this.background.visible = true
 
-    this.text = new UIText(promptBackground)
+    this.text = new UIText(this.background)
 
     this.text.value = title //splitTextIntoLines(instructions,30,3)
 
@@ -71,7 +74,7 @@ export class FillInPrompt extends Entity {
     this.text.hTextAlign = 'center'
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
 
-    this.closeIcon = new UIImage(promptBackground, uiTheme)
+    this.closeIcon = new UIImage(this.background, uiTheme)
     this.closeIcon.positionX = 175
     this.closeIcon.positionY = 100
     this.closeIcon.width = 32
@@ -85,7 +88,7 @@ export class FillInPrompt extends Entity {
       this.hide()
     })
 
-    this.button = new UIImage(promptBackground, uiTheme)
+    this.button = new UIImage(this.background, uiTheme)
     this.button.positionX = 0
     this.button.positionY = -60
     this.button.width = 174
@@ -111,7 +114,7 @@ export class FillInPrompt extends Entity {
     this.buttonLabel.color = Color4.White()
     this.buttonLabel.isPointerBlocker = false
 
-    this.fillInBox = new UIInputText(promptBackground)
+    this.fillInBox = new UIInputText(this.background)
     this.fillInBox.color = Color4.Black()
     this.fillInBox.font = SFFont
     this.fillInBox.width = 312
@@ -149,7 +152,7 @@ export class FillInPrompt extends Entity {
    * Hides the prompt from view in the screen.
    */
   public close(): void {
-    promptBackground.visible = false
+    this.background.visible = false
     this.closeIcon.visible = false
     this.button.visible = false
     this.text.visible = false
@@ -171,7 +174,7 @@ export class FillInPrompt extends Entity {
    * Hides the prompt from view in the screen.
    */
   public hide(): void {
-    promptBackground.visible = false
+    this.background.visible = false
     this.closeIcon.visible = false
     this.button.visible = false
     this.text.visible = false
@@ -184,7 +187,7 @@ export class FillInPrompt extends Entity {
    * Makes an invisible prompt visible again.
    */
   public show(): void {
-    promptBackground.visible = true
+    this.background.visible = true
     this.closeIcon.visible = true
     this.button.visible = true
     this.text.visible = true

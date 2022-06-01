@@ -1,7 +1,6 @@
 import {
   darkTheme,
   lightTheme,
-  promptBackground,
   SFFont,
   SFHeavyFont,
   canvas
@@ -36,7 +35,7 @@ export class OptionPrompt extends Entity {
   FButtonAction: () => void | Subscription[]
   UIOpenTime: number
   canvas: UICanvas = canvas
-  background: UIImage = promptBackground
+  background: UIImage
   constructor(
     title: string,
     instructions: string,
@@ -50,20 +49,24 @@ export class OptionPrompt extends Entity {
 
     this.UIOpenTime = +Date.now()
 
+    this.background = new UIImage(canvas, lightTheme)
+    this.background.hAlign = 'center'
+    this.background.vAlign = 'center'
+
     this.onAccept = onAccept
     this.onReject = onReject ? onReject : null
 
     let uiTheme = useDarkTheme ? darkTheme : lightTheme
 
-    promptBackground.source = uiTheme
-    promptBackground.width = 480
-    promptBackground.height = 384
+    this.background.source = uiTheme
+    this.background.width = 480
+    this.background.height = 384
 
-    setSection(promptBackground, resources.backgrounds.promptLargeBackground)
+    setSection(this.background, resources.backgrounds.promptLargeBackground)
 
-    promptBackground.visible = true
+    this.background.visible = true
 
-    this.closeIcon = new UIImage(promptBackground, uiTheme)
+    this.closeIcon = new UIImage(this.background, uiTheme)
     this.closeIcon.positionX = 175 + 40
     this.closeIcon.positionY = 100 + 64
     this.closeIcon.width = 32
@@ -77,7 +80,7 @@ export class OptionPrompt extends Entity {
       this.close()
     })
 
-    this.title = new UIText(promptBackground)
+    this.title = new UIText(this.background)
 
     this.title.value = title
 
@@ -95,7 +98,7 @@ export class OptionPrompt extends Entity {
     this.title.hTextAlign = 'center'
     this.title.color = useDarkTheme ? Color4.White() : Color4.Black()
 
-    this.text = new UIText(promptBackground)
+    this.text = new UIText(this.background)
 
     this.text.value = instructions
 
@@ -113,7 +116,7 @@ export class OptionPrompt extends Entity {
     this.text.hTextAlign = 'center'
     this.text.color = useDarkTheme ? Color4.White() : Color4.Black()
 
-    this.buttonE = new UIImage(promptBackground, uiTheme)
+    this.buttonE = new UIImage(this.background, uiTheme)
     this.buttonE.positionX = -100
     this.buttonE.positionY = -120
     this.buttonE.width = 174
@@ -149,7 +152,7 @@ export class OptionPrompt extends Entity {
       }
     })
 
-    this.buttonF = new UIImage(promptBackground, uiTheme)
+    this.buttonF = new UIImage(this.background, uiTheme)
     this.buttonF.positionX = 100
     this.buttonF.positionY = -120
     this.buttonF.width = 174
@@ -195,7 +198,7 @@ export class OptionPrompt extends Entity {
    * Hides the prompt from view in the screen.
    */
   public close(): void {
-    promptBackground.visible = false
+    this.background.visible = false
     this.closeIcon.visible = false
     this.buttonE.visible = false
     this.buttonF.visible = false
@@ -232,7 +235,7 @@ export class OptionPrompt extends Entity {
    * Hides the prompt from view in the screen.
    */
   public hide(): void {
-    promptBackground.visible = false
+    this.background.visible = false
     this.closeIcon.visible = false
     this.buttonE.visible = false
     this.buttonF.visible = false
@@ -249,7 +252,7 @@ export class OptionPrompt extends Entity {
    * Makes an invisible prompt visible again.
    */
   public show(): void {
-    promptBackground.visible = true
+    this.background.visible = true
     this.closeIcon.visible = true
     this.buttonE.visible = true
     this.buttonF.visible = true

@@ -34,13 +34,12 @@ This function can take the following parameters:
 
 - `value`: String to display
 - `duration`: Time to keep the text visible (in seconds). Default: 3 seconds. If set to -1, the announcement will remain on screen till it's hidden.
-- `silent`: By default the `displayAnnouncement` function plays a notification sound when the text appears. If this flag is true, the sound is avoided.
 - `color`: Text color, as a _Color4_, default: yellow.
 - `size`: Font size, default: 50
 - `bordersOff`: The text has a thin black margin unless this field is set to _true_.
 
 ```ts
-ui.displayAnnouncement('Ouch!', 5, true, Color4.Red(), 50, true)
+ui.displayAnnouncement('Ouch!', 5, Color4.Red(), 50, true)
 ```
 
 To hide any open announcements, you can call `hideAnnouncements()`.

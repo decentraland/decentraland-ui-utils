@@ -331,12 +331,13 @@ let prompt = new ui.CustomPrompt(ui.PromptStyles.DARKSLANTED)
 
 <img src="screenshots/customPrompt1.png" width="400">
 
-When instancing a new loading icon, you can pass the following parameters:
+When instancing a new CustomPrompt, you can pass the following parameters:
 
 - `style`: Pick from a few predefined options, some of them using the dark theme, others the light theme. You can also provide a string with a path to a custom image to use as a background instead.
 - `width`: Background width on screen in pixels. The default size depends on the theme used.
 - `height`: Background height on screen in pixels. The default size depends on the theme used.
 - `startHidden`: If true, image starts invisible to load in the background till calling the `show()` function of the prompt object.
+- `onClose`: If provided, a callback function that fires when the prompt is closed via the (X) button.
 
 > Note: Stretching the background images away from their default values may lead to blurry corners.
 

@@ -36,7 +36,8 @@ export class CustomPrompt extends Entity {
     style?: PromptStyles | string,
     width?: number,
     height?: number,
-    startHidden?: boolean
+    startHidden?: boolean,
+    onClose?: () => void
   ) {
     super()
 
@@ -114,6 +115,8 @@ export class CustomPrompt extends Entity {
     this.closeIcon.source = this.texture
 
     this.closeIcon.onClick = new OnClick(() => {
+      //Optional onClose callback
+      onClose?.()
       this.hide()
     })
 

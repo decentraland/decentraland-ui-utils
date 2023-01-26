@@ -115,9 +115,9 @@ export class CustomPrompt extends Entity {
     this.closeIcon.source = this.texture
 
     this.closeIcon.onClick = new OnClick(() => {
-      this.hide()
       //Optional onClose callback
       onClose?.()
+      this.hide()
     })
 
     if (startHidden) {
